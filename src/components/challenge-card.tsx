@@ -1,9 +1,11 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Progress } from '@/components/ui/progress'
 import { Button } from './ui/button'
 
 type ChallengeCardProps = {
+  id: string
   title: string
   description: string
   progress: number
@@ -11,6 +13,7 @@ type ChallengeCardProps = {
 }
 
 export function ChallengeCard({
+  id,
   title,
   description,
   progress,
@@ -33,9 +36,11 @@ export function ChallengeCard({
           <span className="text-gray-500 text-xs">36/365</span>
         </div>
         <div className="flex py-2 w-full">
-          <Button variant="default">
-            <span className="text-xs">Ver Desafio</span>
-          </Button>
+          <Link href={`/challenge/${id}`}>
+            <Button variant="default">
+              <span className="text-xs">Ver Desafio</span>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

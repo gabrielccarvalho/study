@@ -36,6 +36,7 @@ export default async function Home() {
 
           <div className="flex flex-row py-4 px-4 gap-8 flex-wrap justify-center md:justify-normal">
             <ChallengeCard
+              id="eagles-3afd5112-7750-42c1-a5c4-b230bb6b9c29"
               title="Águias"
               description="Estude mais que todos!"
               progress={10}
