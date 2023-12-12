@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Progress } from '@/components/ui/progress'
 import { PlusIcon } from 'lucide-react'
+import { ChallengeCard } from '@/components/challenge-card'
 
 export default function Profile() {
   return (
@@ -115,30 +116,12 @@ export default function Profile() {
           <Separator />
 
           <div className="flex flex-row py-4 px-4 gap-8 flex-wrap justify-center md:justify-normal">
-            <div className="flex flex-col border borrder-border shadow-sm rounded-md w-72">
-              <Image
-                src="/eagle.jpeg"
-                alt="Challenge Image"
-                width={300}
-                height={300}
-                className="rounded-t-md"
-              />
-              <div className="flex flex-col p-2">
-                <span className="font-bold text-lg">Águias</span>
-                <span className="text-gray-500 text-sm">
-                  Estude mais que todos
-                </span>
-                <div className="flex flex-col pt-4 items-end gap-1">
-                  <Progress value={10} />
-                  <span className="text-gray-500 text-xs">36/365</span>
-                </div>
-                <div className="flex py-2 w-full">
-                  <Button variant="default">
-                    <span className="text-xs">Ver Desafio</span>
-                  </Button>
-                </div>
-              </div>
-            </div>
+            <ChallengeCard
+              title="Águias"
+              description="Estude mais que todos!"
+              progress={10}
+              href="/eagle.jpeg"
+            />
 
             <div className="flex flex-col border-dashed border shadow-sm rounded-md w-72 items-center justify-center group hover:border-muted-foreground/80 hover:cursor-pointer">
               <PlusIcon
