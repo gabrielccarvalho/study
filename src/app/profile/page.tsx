@@ -1,113 +1,33 @@
 import Image from 'next/image'
-
+import { currentUser } from '@clerk/nextjs'
 import { Separator } from '@/components/ui/separator'
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetClose,
-} from '@/components/ui/sheet'
-import { Label } from '@/components/ui/label'
 import { Nav } from '@/components/nav'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { PlusIcon } from 'lucide-react'
 import { ChallengeCard } from '@/components/challenge-card'
 
-export default function Profile() {
+export default async function Profile() {
+  const user = await currentUser()
+
+  if (!user) {
+    return <></>
+  }
   return (
     <>
       <Nav />
       <main className="flex flex-col flex-1 items-center gap-2">
         <div className="flex flex-col gap-2 items-center w-full bg-gradient-to-b from-indigo-500 to-white py-4">
           <Image
-            src="https://github.com/gabrielccarvalho.png"
+            src={user.imageUrl}
             alt="User Image"
             width={150}
             height={150}
             className="rounded-full"
           />
-          <span className="font-semibold text-lg">Gabriel Carvalho</span>
-        </div>
-
-        <div className="flex flex-col w-full px-4 py-2 max-w-7xl mx-auto">
-          <h2 className="font-bold text-2xl py-2">Perfil</h2>
-          <Separator />
-          <span className="text-gray-500 text-sm py-2">
-            Aqui você pode editar seus dados
+          <span className="font-semibold text-lg">
+            {user.firstName
+              ? `${user.firstName} ${user.lastName}`
+              : user.username}
           </span>
-          <div className="flex flex-col py-4 items-start gap-2 max-w-sm">
-            <div>
-              <Label htmlFor="name" className="text-right">
-                Nome
-              </Label>
-              <Input id="name" value="Gabriel Carvalho" disabled />
-            </div>
-            <div>
-              <Label htmlFor="username" className="text-right">
-                Username
-              </Label>
-              <Input id="username" value="@gabrielccarvalho" disabled />
-            </div>
-          </div>
-
-          <Sheet>
-            <SheetTrigger asChild>
-              <div className="w-12">
-                <Button variant="default">Editar</Button>
-              </div>
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader>
-                <SheetTitle>Edite seu Perfil</SheetTitle>
-                <SheetDescription>
-                  Faça as alterações que desejar. Ao terminar, clique em Salvar
-                </SheetDescription>
-              </SheetHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Nome
-                  </Label>
-                  <Input
-                    id="name"
-                    value="Gabriel Carvalho"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="username" className="text-right">
-                    Username
-                  </Label>
-                  <Input
-                    id="username"
-                    value="@gabrielccarvalho"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="password" className="text-right">
-                    Senha
-                  </Label>
-                  <Input
-                    id="password"
-                    type="password"
-                    value="teste123"
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Salvar</Button>
-                </SheetClose>
-              </SheetFooter>
-            </SheetContent>
-          </Sheet>
         </div>
 
         <div className="flex flex-col w-full px-4 py-2 max-w-7xl mx-auto">
