@@ -2,8 +2,7 @@ import Image from 'next/image'
 import { currentUser } from '@clerk/nextjs'
 import { Separator } from '@/components/ui/separator'
 import { Nav } from '@/components/nav'
-import { PlusIcon } from 'lucide-react'
-import { ChallengeCard } from '@/components/challenge-card'
+import { ChallengeList } from '@/components/challenge-card-list'
 
 export default async function Home() {
   const user = await currentUser()
@@ -11,6 +10,7 @@ export default async function Home() {
   if (!user) {
     return <></>
   }
+
   return (
     <>
       <Nav />
@@ -35,20 +35,7 @@ export default async function Home() {
           <Separator />
 
           <div className="flex flex-row flex-wrap justify-center gap-8 px-4 py-4 md:justify-normal">
-            <ChallengeCard
-              id="7arfQzeqx6TVXWiWEXrd"
-              title="Águias"
-              description="Estude mais que todos!"
-              progress={10}
-              href="/eagle.jpeg"
-            />
-
-            <div className="flex flex-col items-center justify-center border border-dashed rounded-md shadow-sm w-72 group hover:border-muted-foreground/80 hover:cursor-pointer">
-              <PlusIcon
-                className="w-16 h-16 text-muted-foreground/40 group-hover:text-muted-foreground/80"
-                strokeWidth={1.2}
-              />
-            </div>
+            <ChallengeList />
           </div>
         </div>
       </main>

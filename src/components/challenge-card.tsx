@@ -1,41 +1,54 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
 
 import { Progress } from '@/components/ui/progress'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useChallenge } from '@/context/challenge-context'
 
-type ChallengeCardProps = {
-  id: string
-  title: string
-  description: string
-  progress: number
-  href: string
-}
+export function ChallengeCard({ id }: { id: string }) {
+  const { challenges } = useChallenge()
 
-export function ChallengeCard({
-  id,
-  title,
-  description,
-  progress,
-  href,
-}: ChallengeCardProps) {
+  const challenge = challenges[0]
+
+  if (!challenge) {
+    return (
+      <div className="flex flex-col border rounded-md shadow-sm borrder-border w-72">
+        <Skeleton className="h-48 rounded-b-none w-72 bg-muted-foreground" />
+        <div className="flex flex-col p-2">
+          <Skeleton className="w-20 h-5 my-1 bg-muted-foreground" />
+          <Skeleton className="w-32 h-3 mt-1 bg-muted-foreground" />
+          <div className="flex flex-col items-end gap-1 pt-4">
+            <Skeleton className="w-full h-2 bg-muted-foreground" />
+            <Skeleton className="w-12 h-3 bg-muted-foreground" />
+          </div>
+          <div className="flex w-full py-2">
+            <Skeleton className="w-24 h-9 bg-muted-foreground" />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex flex-col border borrder-border shadow-sm rounded-md w-72">
+    <div className="flex flex-col border rounded-md shadow-sm borrder-border w-72">
       <Image
-        src={href}
+        src={challenge.thumbnail}
         alt="Challenge Image"
         width={300}
         height={300}
         className="rounded-t-md"
       />
       <div className="flex flex-col p-2">
-        <span className="font-bold text-lg">{title}</span>
-        <span className="text-gray-500 text-sm">{description}</span>
-        <div className="flex flex-col pt-4 items-end gap-1">
-          <Progress value={progress} />
-          <span className="text-gray-500 text-xs">36/365</span>
+        <span className="text-lg font-bold">{challenge.title}</span>
+        <span className="text-sm text-gray-500">{challenge.description}</span>
+        <div className="flex flex-col items-end gap-1 pt-4">
+          <Progress value={10} />
+          <span className="text-xs text-gray-500">36/365</span>
         </div>
-        <div className="flex py-2 w-full">
+        <div className="flex w-full py-2">
           <Link href={`/challenge/${id}`}>
             <Button variant="default">
               <span className="text-xs">Ver Desafio</span>

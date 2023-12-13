@@ -1,11 +1,11 @@
-import { UserButton } from '@clerk/nextjs'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { Skeleton } from './ui/skeleton'
+import { UserButton } from '@clerk/nextjs'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export async function Nav() {
   return (
-    <div className="flex flex-row items-center justify-between flex-1 px-3 py-1 shadow-md">
+    <div className="flex flex-row items-center justify-between flex-1 h-12 px-3 py-1 shadow-md">
       <Link href="/">
         <span className="text-lg font-semibold">study</span>
       </Link>
