@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { differenceInDays } from 'date-fns'
 
 import { Progress } from '@/components/ui/progress'
 import { Button } from '@/components/ui/button'
@@ -33,18 +32,6 @@ export function ChallengeCard({ id }: { id: string }) {
     )
   }
 
-  const duration = differenceInDays(
-    new Date(challenge.end_date.seconds * 1000),
-    new Date(challenge.start_date.seconds * 1000),
-  )
-
-  const daysIntoChallenge = differenceInDays(
-    new Date(),
-    new Date(challenge.start_date.seconds * 1000),
-  )
-
-  const progress = Math.round((daysIntoChallenge / duration) * 100)
-
   return (
     <div className="flex flex-col border rounded-md shadow-sm borrder-border w-72">
       <Image
@@ -58,9 +45,9 @@ export function ChallengeCard({ id }: { id: string }) {
         <span className="text-lg font-bold">{challenge.title}</span>
         <span className="text-sm text-gray-500">{challenge.description}</span>
         <div className="flex flex-col items-end gap-1 pt-4">
-          <Progress value={progress} />
+          <Progress value={challenge.progress} />
           <span className="text-xs text-gray-500">
-            {daysIntoChallenge}/{duration}
+            {challenge.daysIntoChallenge}/{challenge.duration}
           </span>
         </div>
         <div className="flex w-full py-2">

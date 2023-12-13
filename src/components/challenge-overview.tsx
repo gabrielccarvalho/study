@@ -6,13 +6,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Calendar } from 'lucide-react'
 import { Separator } from './ui/separator'
 import { useChallenge } from '@/context/challenge-context'
+import { useUser } from '@clerk/nextjs'
 
 export function ChallengeOverview({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
+  const { user } = useUser()
+
   const challenge = challenges.find((challenge) => challenge?.id === id)
 
-  if (!challenge) {
+  if (!challenge || !user) {
     return (
       <main className="flex flex-col items-center flex-1">
         <div className="flex flex-col items-center justify-center w-full overflow-hidden max-h-96">
@@ -44,11 +47,23 @@ export function ChallengeOverview({ id }: { id: string }) {
           </div>
         </div>
         <Separator />
-        {/* <Skeleton className="w-24 h-6 mb-1 bg-muted-foreground" />
-        <Skeleton className="w-16 h-4 mt-1 bg-muted-foreground" /> */}
       </main>
     )
   }
+
+  const userPoints = challenge.leaderBoard.find(
+    (item: { user_id: string; duration: number }) => item.user_id === user.id,
+  ).duration
+
+  const leaderPoints = challenge.leaderBoard.find(
+    (item: { duration: number }) =>
+      item.duration ===
+      Math.max(
+        ...challenge.leaderBoard.map(
+          (item: { duration: number }) => item.duration,
+        ),
+      ),
+  )
 
   return (
     <main className="flex flex-col items-center flex-1">
@@ -63,22 +78,22 @@ export function ChallengeOverview({ id }: { id: string }) {
       <div className="flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto">
         <div className="flex flex-row items-center gap-2">
           <Avatar>
-            <AvatarImage src="https://github.com/gabrielccarvalho.png" />
+            <AvatarImage src={leaderPoints.avatar} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-between">
-            <span className="text-xs font-thin">1542</span>
+            <span className="text-xs font-thin">{leaderPoints.duration}</span>
             <span className="text-xs font-thin">Líder</span>
           </div>
         </div>
 
         <div className="flex flex-row items-center gap-2">
           <Avatar>
-            <AvatarImage src="https://github.com/gabrielccarvalho.png" />
+            <AvatarImage src={user.imageUrl} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-between">
-            <span className="text-xs font-thin">1542</span>
+            <span className="text-xs font-thin">{userPoints}</span>
             <span className="text-xs font-thin">Você</span>
           </div>
         </div>
@@ -86,14 +101,14 @@ export function ChallengeOverview({ id }: { id: string }) {
         <div className="flex flex-row items-center gap-2">
           <Calendar className="w-6 h-6 text-gray-500" />
           <div className="flex flex-col justify-between">
-            <span className="text-xs font-thin">330</span>
+            <span className="text-xs font-thin">
+              {challenge.duration - challenge.daysIntoChallenge}
+            </span>
             <span className="text-xs font-thin">dias restantes</span>
           </div>
         </div>
       </div>
       <Separator />
-      {/* <h1 className="text-2xl font-bold">{challenge.title}</h1>
-      <span className="font-thin text-md">{challenge.description}</span> */}
     </main>
   )
 }
