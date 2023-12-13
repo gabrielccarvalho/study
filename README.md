@@ -22,6 +22,19 @@
     pnpm run dev
    ```
 
-## Media
+# Technologies
+- Language: Typescript
+- Enviroment: ReactJS
+- Framework: NextJS
+- Authentication: Clerk
+- Database: Firebase
 
-![preview](/public/screenshot.png)
+# Media
+
+### Main page
+> Here will be displayed your basic info (avatar, name and challenges you participate). You can also create or join challenges from here.
+   ![preview](/public/mock_1.png)
+
+### Challenges page
+> Here is the challenge details page, where you can find for each challege you participate, the leaderboard and also all the events for that challenge.
+   ![preview](/public/mock_2.png)
