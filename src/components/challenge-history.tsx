@@ -61,9 +61,19 @@ export function ChallengeHistory({ id }: { id: string }) {
 
   const groupedEvents = challenge.events.reduce(
     (acc: { [x: string]: EventType[] }, event: EventType) => {
-      const eventDate = format(new Date(event.date.seconds * 1000), 'eee', {
+      const weekDay = format(new Date(event.date.seconds * 1000), 'eee', {
         locale: ptBR,
       })
+
+      const monthDay = format(
+        new Date(event.date.seconds * 1000),
+        "dd 'de' LLLL",
+        {
+          locale: ptBR,
+        },
+      )
+
+      const eventDate = `${weekDay}, ${monthDay}`
 
       if (!acc[eventDate]) {
         acc[eventDate] = []
