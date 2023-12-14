@@ -43,13 +43,13 @@ export function ChallengeHistory({ id }: { id: string }) {
       {Object.entries(groupedEvents).map(([date, events]: [string, any]) => (
         <div
           key={date}
-          className="flex flex-col w-full max-w-xl gap-2 mx-auto my-2"
+          className="flex flex-col w-full max-w-lg gap-2 mx-auto my-2"
         >
           <h3 className="font-semibold text-md">{date}</h3>
           {events.map((event: EventType) => (
             <div
               key={event.id}
-              className="flex flex-col items-center justify-between w-full max-w-md px-4 py-1 mx-auto bg-white rounded-md shadow-sm"
+              className="flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto bg-white rounded-md shadow-sm"
             >
               <div className="flex flex-row items-center justify-between w-full p-1">
                 <div className="flex flex-row gap-2">
