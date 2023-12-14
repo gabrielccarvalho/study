@@ -33,14 +33,16 @@ export function ChallengeCard({ id }: { id: string }) {
   }
 
   return (
-    <div className="flex flex-col border rounded-md shadow-sm borrder-border w-72">
-      <Image
-        src={challenge.thumbnail}
-        alt="Challenge Image"
-        width={300}
-        height={300}
-        className="rounded-t-md"
-      />
+    <div className="flex flex-col overflow-hidden border rounded-md shadow-sm border-border w-72">
+      <div className="flex items-center justify-center overflow-hidden max-h-48 roundend-t-md">
+        <Image
+          src={challenge.thumbnail}
+          alt="Challenge Image"
+          width={300}
+          height={300}
+          className="rounded-t-md"
+        />
+      </div>
       <div className="flex flex-col p-2">
         <span className="text-lg font-bold">{challenge.title}</span>
         <span className="text-sm text-gray-500">{challenge.description}</span>

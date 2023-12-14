@@ -20,6 +20,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'eagles.org',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
     ],
   },
 }

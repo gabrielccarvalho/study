@@ -1,15 +1,25 @@
 import { Nav } from '@/components/nav'
 import { ChallengeOverviewHeader } from '@/components/challenge-overview'
-// import { ChallengeEventList } from '@/components/challenge-event-list'
 import { ChallengeHistory } from '@/components/challenge-history'
+import { EventOverview } from '@/components/event-overview'
 
 export default function Challenge({ params }: { params: { slug: string[] } }) {
+  const id = params.slug[0]
+  const event = params.slug[2]
+
   return (
     <main className="flex flex-col h-screen">
-      <Nav />
-      <ChallengeOverviewHeader id={params.slug[0]} />
-      {/* <ChallengeEventList id={params.slug[0]} /> */}
-      <ChallengeHistory id={params.slug[0]} />
+      {event ? (
+        <main className="flex flex-col flex-1 bg-gray-200">
+          <EventOverview id={id} event={event} />
+        </main>
+      ) : (
+        <>
+          <Nav />
+          <ChallengeOverviewHeader id={id} />
+          <ChallengeHistory id={id} />
+        </>
+      )}
     </main>
   )
 }
