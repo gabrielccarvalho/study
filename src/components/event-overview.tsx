@@ -1,14 +1,16 @@
 'use client'
 
 import Image from 'next/image'
-import { useChallenge } from '@/context/challenge-context'
-import { ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
+import { format, formatDistance } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+import { ChevronLeft } from 'lucide-react'
+import { useUser } from '@clerk/nextjs'
+
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import { format } from 'date-fns'
-import { useUser } from '@clerk/nextjs'
-import { Input } from './ui/input'
+import { useChallenge } from '@/context/challenge-context'
+import { Input } from '@/components/ui/input'
 
 export function EventOverview({ id, event }: { id: string; event: string }) {
   const { challenges } = useChallenge()
@@ -67,6 +69,42 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
           </div>
         </div>
       </div>
+      {currentEvent.comments.map(
+        (comment: {
+          id: string
+          user_image: string | undefined
+          username: string
+          content: string
+          created_at: { seconds: number }
+        }) => {
+          return (
+            <div
+              key={comment.id}
+              className="flex flex-row w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md"
+            >
+              <Avatar className="w-7 h-7">
+                <AvatarImage src={comment.user_image} />
+                <AvatarFallback>
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col justify-between">
+                <span className="text-sm font-semibold">
+                  {comment.username}
+                </span>
+                <span className="text-sm font-light">{comment.content}</span>
+                <span className="mt-2 text-xs font-thin">
+                  {formatDistance(
+                    new Date(comment.created_at.seconds * 1000),
+                    new Date(),
+                    { addSuffix: true, locale: ptBR },
+                  )}
+                </span>
+              </div>
+            </div>
+          )
+        },
+      )}
       <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md">
         <Avatar className="w-7 h-7">
           <AvatarImage src={user.imageUrl} />
