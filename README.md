@@ -40,3 +40,7 @@ You only need to create an account / log in with social media, create a 'Challen
 ### Event overview page
 > Here is the overview for each event recorded on a challenge, where you can find more details about it (image, duration) and also add comments!
    ![preview](/public/mock_3.png)
+
+# Disclaimer ⚠️
+This project is still under development and it was created for study pourposes, so it will suffer constant changes and probably break changes very often.
+Do not use it as a production-ready software!
