@@ -8,28 +8,32 @@ import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 
+function LoadingSkeleton() {
+  return (
+    <div className="flex flex-col border rounded-md shadow-sm borrder-border w-72">
+      <Skeleton className="h-48 rounded-b-none w-72 bg-muted-foreground" />
+      <div className="flex flex-col p-2">
+        <Skeleton className="w-20 h-5 my-1 bg-muted-foreground" />
+        <Skeleton className="w-32 h-3 mt-1 bg-muted-foreground" />
+        <div className="flex flex-col items-end gap-1 pt-4">
+          <Skeleton className="w-full h-2 bg-muted-foreground" />
+          <Skeleton className="w-12 h-3 bg-muted-foreground" />
+        </div>
+        <div className="flex w-full py-2">
+          <Skeleton className="w-24 h-9 bg-muted-foreground" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function ChallengeCard({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
   const challenge = challenges.find((challenge) => challenge?.id === id)
 
   if (!challenge) {
-    return (
-      <div className="flex flex-col border rounded-md shadow-sm borrder-border w-72">
-        <Skeleton className="h-48 rounded-b-none w-72 bg-muted-foreground" />
-        <div className="flex flex-col p-2">
-          <Skeleton className="w-20 h-5 my-1 bg-muted-foreground" />
-          <Skeleton className="w-32 h-3 mt-1 bg-muted-foreground" />
-          <div className="flex flex-col items-end gap-1 pt-4">
-            <Skeleton className="w-full h-2 bg-muted-foreground" />
-            <Skeleton className="w-12 h-3 bg-muted-foreground" />
-          </div>
-          <div className="flex w-full py-2">
-            <Skeleton className="w-24 h-9 bg-muted-foreground" />
-          </div>
-        </div>
-      </div>
-    )
+    return <LoadingSkeleton />
   }
 
   return (

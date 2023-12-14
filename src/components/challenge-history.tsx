@@ -5,6 +5,7 @@ import { useChallenge } from '@/context/challenge-context'
 import { format } from 'date-fns'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { BookOpen } from 'lucide-react'
+import { Skeleton } from './ui/skeleton'
 
 type EventType = {
   id: string
@@ -15,13 +16,46 @@ type EventType = {
   username: string
 }
 
+function LoadingSkeleton() {
+  return (
+    <div className="flex flex-col w-full max-w-lg gap-2 mx-auto my-2">
+      <Skeleton className="w-20 h-5" />
+      {Array.from({ length: 4 }).map((_, index) => (
+        <div
+          key={index}
+          className="flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto rounded-md shadow-sm bg-muted"
+        >
+          <div className="flex flex-row items-center justify-between w-full p-1">
+            <div className="flex flex-row gap-2">
+              <Skeleton className="w-12 h-12 rounded-full" />
+              <div className="flex flex-col justify-around">
+                <Skeleton className="w-16 h-4" />
+                <Skeleton className="w-32 h-3" />
+              </div>
+            </div>
+            <div className="flex flex-row self-end">
+              <Skeleton className="w-8 h-4" />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export function ChallengeHistory({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
   const challenge = challenges.find((challenge) => challenge?.id === id)
 
   if (!challenge) {
-    return null
+    return (
+      <main className="flex flex-col flex-1 p-4 bg-gray-200">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <LoadingSkeleton key={index} />
+        ))}
+      </main>
+    )
   }
 
   const groupedEvents = challenge.events.reduce(

@@ -9,9 +9,7 @@ export function ChallengeEventList({ id }: { id: string }) {
 
   const challenge = challenges.find((challenge) => challenge?.id === id)
 
-  if (!challenge) {
-    return null
-  }
+  if (!challenge) return
 
   return (
     <main className="flex flex-col items-center flex-1">

@@ -67,7 +67,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center w-full max-w-md gap-2 p-3 mx-auto mt-2 bg-white rounded-md shadow-md">
+      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md">
         <Avatar className="w-7 h-7">
           <AvatarImage src={user.imageUrl} />
           <AvatarFallback>
