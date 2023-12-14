@@ -6,6 +6,7 @@ import { format } from 'date-fns'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { BookOpen } from 'lucide-react'
 import { Skeleton } from './ui/skeleton'
+import ptBR from 'date-fns/locale/pt-BR'
 
 type EventType = {
   id: string
@@ -60,7 +61,9 @@ export function ChallengeHistory({ id }: { id: string }) {
 
   const groupedEvents = challenge.events.reduce(
     (acc: { [x: string]: EventType[] }, event: EventType) => {
-      const eventDate = format(new Date(event.date.seconds * 1000), 'eeee')
+      const eventDate = format(new Date(event.date.seconds * 1000), 'eee', {
+        locale: ptBR,
+      })
 
       if (!acc[eventDate]) {
         acc[eventDate] = []
@@ -114,7 +117,10 @@ export function ChallengeHistory({ id }: { id: string }) {
                   </div>
                   <div className="flex flex-row self-end">
                     <span className="text-xs font-thin">
-                      {format(new Date(event.date.seconds * 1000), 'hh:mm')}
+                      {format(
+                        new Date(event.date.seconds * 1000),
+                        "hh:mm aaaaa'm",
+                      )}
                     </span>
                   </div>
                 </div>
