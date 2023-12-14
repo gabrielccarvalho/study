@@ -1,10 +1,12 @@
 # Study
 
 ## Description
-- This is a project to track the time you spend studying daily and compete with your friends.
-- You can track the time of each study-related activity and try to get to the top of the leaderboard.
+This application was built as an alternative to platforms like 'GymRats' to track in a gamified way your progress
+in your studies. <br />
+To achieve that I've used NextJS, with Firebase and Clerk.
 
 ## Installation
+Installing and running the project is pretty straight forward:
 
 1. Clone the repository
    ```bash
@@ -17,17 +19,13 @@
     pnpm install
    ```
 
-3. Run the project 😁
+3. Run the project
    ```bash
     pnpm run dev
    ```
 
-# Technologies
-- Language: Typescript
-- Enviroment: ReactJS
-- Framework: NextJS
-- Authentication: Clerk
-- Database: Firebase
+## How to use it
+You only need to create an account / log in with social media, create a 'Challenge' and invite friends to join.
 
 # Media
 
