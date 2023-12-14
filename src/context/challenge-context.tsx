@@ -37,31 +37,33 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
         const progress = Math.round((daysIntoChallenge / duration) * 100)
 
-        const leaderBoard = doc
-          .data()
-          .events.reduce(
-            (
-              acc: { user_id: string; duration: number; avatar: string }[],
-              event: { user: string; duration: number; user_image: string },
-            ) => {
-              const existingUser = acc.find(
-                (item) => item.user_id === event.user,
-              )
-
-              if (existingUser) {
-                existingUser.duration += event.duration
-              } else {
-                acc.push({
-                  user_id: event.user,
-                  duration: event.duration,
-                  avatar: event.user_image,
-                })
-              }
-
-              return acc
+        const leaderBoard = doc.data().events.reduce(
+          (
+            acc: { user_id: string; duration: number; avatar: string }[],
+            event: {
+              user: string
+              duration: number
+              user_image: string
+              username: string
             },
-            [],
-          )
+          ) => {
+            const existingUser = acc.find((item) => item.user_id === event.user)
+
+            if (existingUser) {
+              existingUser.duration += event.duration
+            } else {
+              acc.push({
+                user_id: event.user,
+                duration: event.duration,
+                avatar: event.user_image,
+                username: event.username,
+              })
+            }
+
+            return acc
+          },
+          [],
+        )
         setChallenges([
           {
             ...doc.data(),

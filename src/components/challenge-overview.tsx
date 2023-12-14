@@ -3,12 +3,12 @@
 import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Calendar } from 'lucide-react'
+import { Calendar, UserRound } from 'lucide-react'
 import { Separator } from './ui/separator'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
 
-export function ChallengeOverview({ id }: { id: string }) {
+export function ChallengeOverviewHeader({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
   const { user } = useUser()
@@ -17,7 +17,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 
   if (!challenge || !user) {
     return (
-      <main className="flex flex-col items-center flex-1">
+      <main className="flex flex-col items-center">
         <div className="flex flex-col items-center justify-center w-full overflow-hidden max-h-96">
           <Skeleton className="w-full mb-2 rounded-none bg-muted-foreground aspect-[16/9]" />
         </div>
@@ -66,7 +66,7 @@ export function ChallengeOverview({ id }: { id: string }) {
   )
 
   return (
-    <main className="flex flex-col items-center flex-1">
+    <main className="flex flex-col items-center">
       <div className="flex flex-col items-center justify-center w-full overflow-hidden max-h-96">
         <Image
           src={challenge.thumbnail}
@@ -79,7 +79,11 @@ export function ChallengeOverview({ id }: { id: string }) {
         <div className="flex flex-row items-center gap-2">
           <Avatar>
             <AvatarImage src={leaderPoints.avatar} />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>
+              <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500">
+                <UserRound className="w-6 h-6 text-white" />
+              </div>
+            </AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-between">
             <span className="text-xs font-thin">{leaderPoints.duration}</span>
@@ -90,7 +94,11 @@ export function ChallengeOverview({ id }: { id: string }) {
         <div className="flex flex-row items-center gap-2">
           <Avatar>
             <AvatarImage src={user.imageUrl} />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback>
+              <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500">
+                <UserRound className="w-6 h-6 text-white" />
+              </div>
+            </AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-between">
             <span className="text-xs font-thin">{userPoints}</span>
