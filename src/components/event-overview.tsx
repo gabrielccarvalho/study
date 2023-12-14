@@ -46,9 +46,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
                   <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
                 </AvatarFallback>
               </Avatar>
-              <span className="ml-2 text-sm font-thin">
-                {currentEvent.username}
-              </span>
+              <span className="ml-2 text-md">{currentEvent.username}</span>
             </div>
             <span className="text-sm font-thin">
               {format(
@@ -59,11 +57,11 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
           </div>
           <Separator className="my-1" />
           <div className="flex flex-col">
-            <span className="font-semibold text-md">{currentEvent.title}</span>
-            <span className="text-sm font-thin">
+            <span className="text-lg font-semibold">{currentEvent.title}</span>
+            <span className="font-thin text-md">
               {currentEvent.description}
             </span>
-            <span className="mt-4 text-xs font-thin">
+            <span className="mt-2 text-xs font-thin">
               Ativo por {currentEvent.duration} minutos
             </span>
           </div>

@@ -90,8 +90,8 @@ export function ChallengeOverviewHeader({ id }: { id: string }) {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-between">
-            <span className="text-xs font-thin">{leaderPoints.duration}</span>
-            <span className="text-xs font-thin">Líder</span>
+            <span className="text-sm">{leaderPoints.duration}</span>
+            <span className="text-xs">Líder</span>
           </div>
         </div>
 
@@ -105,18 +105,18 @@ export function ChallengeOverviewHeader({ id }: { id: string }) {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col justify-between">
-            <span className="text-xs font-thin">{userPoints}</span>
-            <span className="text-xs font-thin">Você</span>
+            <span className="text-xs">{userPoints}</span>
+            <span className="text-xs">Você</span>
           </div>
         </div>
 
         <div className="flex flex-row items-center gap-2">
           <Calendar className="w-6 h-6 text-gray-500" />
           <div className="flex flex-col justify-between">
-            <span className="text-xs font-thin">
+            <span className="text-xs">
               {challenge.duration - challenge.daysIntoChallenge}
             </span>
-            <span className="text-xs font-thin">dias restantes</span>
+            <span className="text-xs">dias restantes</span>
           </div>
         </div>
       </div>

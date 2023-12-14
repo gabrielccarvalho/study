@@ -104,8 +104,10 @@ export function ChallengeHistory({ id }: { id: string }) {
                       </Avatar>
                     </div>
                     <div className="flex flex-col justify-between">
-                      <span className="text-sm font-normal">{event.title}</span>
-                      <span className="text-xs font-normal">
+                      <span className="font-semibold text-md">
+                        {event.title}
+                      </span>
+                      <span className="text-sm font-light">
                         {event.username}
                       </span>
                     </div>
