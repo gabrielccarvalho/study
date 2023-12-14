@@ -39,7 +39,12 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
         const leaderBoard = doc.data().events.reduce(
           (
-            acc: { user_id: string; duration: number; avatar: string }[],
+            acc: {
+              user_id: string
+              duration: number
+              avatar: string
+              username: string
+            }[],
             event: {
               user: string
               duration: number
