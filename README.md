@@ -36,3 +36,7 @@ You only need to create an account / log in with social media, create a 'Challen
 ### Challenges page
 > Here is the challenge details page, where you can find for each challege you participate, the leaderboard and also all the events for that challenge.
    ![preview](/public/mock_2.png)
+
+### Event overview page
+> Here is the overview for each event recorded on a challenge, where you can find more details about it (image, duration) and also add comments!
+   ![preview](/public/mock_3.png)
