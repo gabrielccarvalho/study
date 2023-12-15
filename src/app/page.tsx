@@ -14,7 +14,7 @@ export default async function Home() {
   return (
     <>
       <Nav />
-      <main className="flex flex-col items-center flex-1 gap-2">
+      <main className="flex flex-col flex-1 gap-2">
         <div className="flex flex-col items-center w-full gap-2 py-4 bg-gradient-to-b from-indigo-500 to-white">
           <Image
             src={user.imageUrl}
