@@ -41,12 +41,12 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center">
               <Avatar className="w-8 h-8">
-                <AvatarImage src={currentEvent.user_image} />
+                <AvatarImage src={currentEvent.user.avatar} />
                 <AvatarFallback>
                   <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
                 </AvatarFallback>
               </Avatar>
-              <span className="ml-2 text-md">{currentEvent.username}</span>
+              <span className="ml-2 text-md">{currentEvent.user.username}</span>
             </div>
             <span className="text-sm font-thin">
               {format(
@@ -71,8 +71,10 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
         currentEvent.comments.map(
           (comment: {
             id: string
-            user_image: string | undefined
-            username: string
+            user: {
+              avatar: string
+              username: string
+            }
             content: string
             created_at: { seconds: number }
           }) => {
@@ -82,14 +84,14 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
                 className="flex flex-row w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md"
               >
                 <Avatar className="w-7 h-7">
-                  <AvatarImage src={comment.user_image} />
+                  <AvatarImage src={comment.user.avatar} />
                   <AvatarFallback>
                     <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col justify-between">
                   <span className="text-sm font-semibold">
-                    {comment.username}
+                    {comment.user.username}
                   </span>
                   <span className="text-sm font-light">{comment.content}</span>
                   <span className="mt-2 text-xs font-thin">

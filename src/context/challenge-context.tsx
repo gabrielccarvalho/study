@@ -1,24 +1,29 @@
 'use client'
 
 import { firebaseApp } from '@/lib/firebase-config'
+import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
 import {
   DocumentData,
+  arrayUnion,
   collection,
   doc,
   getDocs,
   getFirestore,
-  setDoc,
+  updateDoc,
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const ChallengeContext = createContext({
   challenges: [] as (DocumentData | undefined)[],
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  addEvent: (data: any) => {},
 })
 
 const db = getFirestore(firebaseApp)
 
 export function ChallengeProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useUser()
   const [challenges, setChallenges] = useState<DocumentData[]>([])
 
   useEffect(() => {
@@ -40,28 +45,36 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
         const leaderBoard = doc.data().events.reduce(
           (
             acc: {
-              user_id: string
               duration: number
-              avatar: string
-              username: string
+              user: {
+                id: string
+                username: string
+                avatar: string
+              }
             }[],
             event: {
-              user: string
+              user: {
+                id: string
+                username: string
+                avatar: string
+              }
               duration: number
-              user_image: string
-              username: string
             },
           ) => {
-            const existingUser = acc.find((item) => item.user_id === event.user)
+            const existingUser = acc.find(
+              (item) => item.user.id === event.user.id,
+            )
 
             if (existingUser) {
               existingUser.duration += event.duration
             } else {
               acc.push({
-                user_id: event.user,
+                user: {
+                  id: event.user.id,
+                  username: event.user.username,
+                  avatar: event.user.avatar,
+                },
                 duration: event.duration,
-                avatar: event.user_image,
-                username: event.username,
               })
             }
 
@@ -89,17 +102,55 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     signInWithClerk()
   }, [])
 
+  async function addEvent(data: {
+    title: string
+    description: string
+    duration: string
+    challenge: string
+  }) {
+    let result = null
+    let error = null
+
+    const { title, description, duration, challenge } = data
+
+    try {
+      result = await updateDoc(
+        doc(db, 'challenges', challenge),
+        'events',
+        arrayUnion({
+          title,
+          description,
+          duration: Number(duration),
+          comments: [],
+          date: new Date(),
+          id: crypto.randomUUID(),
+          image: 'https://i.imgur.com/mrVXxLU.png',
+          user: {
+            id: user?.id,
+            username: user?.username,
+            avatar: user?.imageUrl,
+          },
+        }),
+      )
+    } catch (e) {
+      error = e
+    }
+
+    return { result, error }
+  }
+
   return (
-    <ChallengeContext.Provider value={{ challenges }}>
+    <ChallengeContext.Provider value={{ challenges, addEvent }}>
       {children}
     </ChallengeContext.Provider>
   )
 }
 
 export function useChallenge() {
-  const { challenges } = useContext(ChallengeContext)
+  const { challenges, addEvent } = useContext(ChallengeContext)
 
   return {
     challenges,
+    addEvent,
   }
 }

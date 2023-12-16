@@ -56,7 +56,8 @@ export function ChallengeOverviewHeader({ id }: { id: string }) {
   }
 
   const userChallengeData = challenge.leaderBoard.find(
-    (item: { user_id: string; duration: number }) => item.user_id === user.id,
+    (item: { user: { id: string }; duration: number }) =>
+      item.user.id === user.id,
   )
 
   const userPoints = userChallengeData?.duration || 0
@@ -86,7 +87,7 @@ export function ChallengeOverviewHeader({ id }: { id: string }) {
       <div className="flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto">
         <div className="flex flex-row items-center gap-2">
           <Avatar>
-            <AvatarImage src={leaderChallengeData?.avatar} />
+            <AvatarImage src={leaderChallengeData?.user?.avatar} />
             <AvatarFallback>
               <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500">
                 <UserRound className="w-6 h-6 text-white" />

@@ -13,8 +13,11 @@ type EventType = {
   image: string
   title: string
   date: { seconds: number }
-  user_image: string
-  username: string
+  user: {
+    id: string
+    username: string
+    avatar: string
+  }
 }
 
 function LoadingSkeleton() {
@@ -129,7 +132,7 @@ export function ChallengeHistory({ id }: { id: string }) {
                         </AvatarFallback>
                       </Avatar>
                       <Avatar className="absolute bottom-0 right-0 w-5 h-5">
-                        <AvatarImage src={event.user_image} />
+                        <AvatarImage src={event.user.avatar} />
                         <AvatarFallback>
                           <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
                         </AvatarFallback>
@@ -140,7 +143,7 @@ export function ChallengeHistory({ id }: { id: string }) {
                         {event.title}
                       </span>
                       <span className="text-sm font-light">
-                        {event.username}
+                        {event.user.username}
                       </span>
                     </div>
                   </div>

@@ -14,7 +14,12 @@ export function ChallengeList() {
   return (
     <>
       {challenges
-        .filter((challenge) => challenge?.members.includes(user.id))
+        .filter(
+          (challenge) =>
+            challenge?.members.find(
+              (member: { id: string }) => member.id === user.id,
+            ),
+        )
         .map((challenge) => {
           if (!challenge) return null
 
