@@ -59,7 +59,11 @@ export function ChallengeHistory({ id }: { id: string }) {
     )
   }
 
-  const groupedEvents = challenge.events.reduce(
+  if (!challenge.events) {
+    return <div></div>
+  }
+
+  const events = challenge.events.reduce(
     (acc: { [x: string]: EventType[] }, event: EventType) => {
       const weekDay = format(new Date(event.date.seconds * 1000), 'eee', {
         locale: ptBR,
@@ -86,10 +90,25 @@ export function ChallengeHistory({ id }: { id: string }) {
     {},
   )
 
+  const eventsLength = Object.entries(events).map((evt) => evt).length
+
+  if (eventsLength === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center flex-1">
+        <span className="text-xl font-bold">
+          Ainda não há eventos registrados nesse desafio
+        </span>
+        <span className="max-w-xs text-sm font-light text-center">
+          Adicione um evento clicando no botão de adicionar no canto inferior
+          direito!
+        </span>
+      </div>
+    )
+  }
+
   return (
     <main className="flex flex-col flex-1 p-4 bg-gray-200">
-      {/* TODO: Fix type of event */}
-      {Object.entries(groupedEvents).map(([date, events]: [string, any]) => (
+      {Object.entries(events).map(([date, events]: [string, any]) => (
         <div
           key={date}
           className="flex flex-col w-full max-w-lg gap-2 mx-auto my-2"

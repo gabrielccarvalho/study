@@ -5,7 +5,7 @@ import { Nunito_Sans } from 'next/font/google'
 import { ChallengeProvider } from '@/context/challenge-context'
 import '@/styles/globals.css'
 import { AddButton } from '@/components/add-button'
-import { Nav } from '@/components/nav'
+import { Toaster } from '@/components/ui/toaster'
 
 const NunitoSans = Nunito_Sans({
   weight: ['200', '400', '600', '700', '900'],
@@ -30,6 +30,7 @@ export default function RootLayout({
           <body className={NunitoSans.className}>
             {children}
             <AddButton />
+            <Toaster />
           </body>
         </html>
       </ChallengeProvider>

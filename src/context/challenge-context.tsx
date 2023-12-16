@@ -5,15 +5,15 @@ import { differenceInDays } from 'date-fns'
 import {
   DocumentData,
   collection,
+  doc,
   getDocs,
   getFirestore,
+  setDoc,
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const ChallengeContext = createContext({
   challenges: [] as (DocumentData | undefined)[],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  // update: () => {},
 })
 
 const db = getFirestore(firebaseApp)
@@ -69,7 +69,9 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
           },
           [],
         )
-        setChallenges([
+
+        setChallenges((challenges) => [
+          ...challenges,
           {
             ...doc.data(),
             id: doc.id,
