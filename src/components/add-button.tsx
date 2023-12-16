@@ -22,7 +22,7 @@ export function AddButton() {
           <DialogTitle>Adicionar um evento</DialogTitle>
           <DialogDescription>
             Adicione uma sessão de estudos a um desafio! Clique em Salvar quando
-            tiver termiado.
+            tiver terminado.
           </DialogDescription>
           <AddEventForm />
         </DialogHeader>
