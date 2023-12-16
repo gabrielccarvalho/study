@@ -108,35 +108,63 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     duration: string
     challenge: string
   }) {
-    let result = null
-    let error = null
-
     const { title, description, duration, challenge } = data
 
-    try {
-      result = await updateDoc(
-        doc(db, 'challenges', challenge),
-        'events',
-        arrayUnion({
-          title,
-          description,
-          duration: Number(duration),
-          comments: [],
-          date: new Date(),
-          id: crypto.randomUUID(),
-          image: 'https://i.imgur.com/mrVXxLU.png',
-          user: {
-            id: user?.id,
-            username: user?.username,
-            avatar: user?.imageUrl,
-          },
-        }),
-      )
-    } catch (e) {
-      error = e
-    }
+    const randomId = crypto.randomUUID()
+    const date = new Date()
 
-    return { result, error }
+    await updateDoc(
+      doc(db, 'challenges', challenge),
+      'events',
+      arrayUnion({
+        title,
+        description,
+        duration: Number(duration),
+        comments: [],
+        date,
+        id: randomId,
+        image: 'https://i.imgur.com/mrVXxLU.png',
+        user: {
+          id: user?.id,
+          username: user?.username,
+          avatar: user?.imageUrl,
+        },
+      }),
+    )
+    // Add event to local state for immediate feedback
+    setChallenges((challenges) => {
+      const challengeIndex = challenges.findIndex(
+        (challenge) => challenge.id === data.challenge,
+      )
+
+      const updatedChallenge = {
+        ...challenges[challengeIndex],
+        events: [
+          ...challenges[challengeIndex].events,
+          {
+            title,
+            description,
+            duration: Number(duration),
+            comments: [],
+            date: {
+              seconds: date.getTime() / 1000,
+            },
+            id: randomId,
+            image: 'https://i.imgur.com/mrVXxLU.png',
+            user: {
+              id: user?.id,
+              username: user?.username,
+              avatar: user?.imageUrl,
+            },
+          },
+        ],
+      }
+
+      const updatedChallenges = [...challenges]
+      updatedChallenges[challengeIndex] = updatedChallenge
+
+      return updatedChallenges
+    })
   }
 
   return (

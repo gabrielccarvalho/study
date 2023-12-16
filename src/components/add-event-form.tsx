@@ -18,9 +18,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { useChallenge } from '@/context/challenge-context'
+import { useEffect } from 'react'
 
 const formSchema = z.object({
   title: z.string(),
@@ -47,6 +47,16 @@ export function AddEventForm() {
     })
   }
 
+  useEffect(() => {
+    if (Object.values(form.formState.errors).length > 0) {
+      toast({
+        title: 'Falha ao adicionar estudo!',
+        description: `Seu estudo não pode ser computado`,
+        variant: 'destructive',
+      })
+    }
+  }, [form.formState.errors, toast])
+
   const challengesInfo = challenges.map((challenge) => {
     if (!challenge) return {}
     return {
@@ -58,6 +68,7 @@ export function AddEventForm() {
   return (
     <Form {...form}>
       <form
+        id="add-event-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-2"
       >
@@ -123,10 +134,6 @@ export function AddEventForm() {
             </FormItem>
           )}
         />
-
-        <Button type="submit" className="mt-2">
-          Salvar
-        </Button>
       </form>
     </Form>
   )
