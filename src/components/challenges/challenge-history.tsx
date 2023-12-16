@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { useChallenge } from '@/context/challenge-context'
 import { format } from 'date-fns'
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { BookOpen } from 'lucide-react'
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from '../ui/skeleton'
 import ptBR from 'date-fns/locale/pt-BR'
 
 type EventType = {

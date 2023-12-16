@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { currentUser } from '@clerk/nextjs'
 import { Separator } from '@/components/ui/separator'
 import { Nav } from '@/components/nav'
-import { ChallengeList } from '@/components/challenge-card-list'
+import { ChallengeList } from '@/components/challenges/challenge-card-list'
 
 export default async function Home() {
   const user = await currentUser()

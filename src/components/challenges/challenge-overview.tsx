@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Calendar, UserRound } from 'lucide-react'
-import { Separator } from './ui/separator'
+import { Separator } from '../ui/separator'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
 

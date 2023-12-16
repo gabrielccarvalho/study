@@ -1,7 +1,7 @@
 import { Nav } from '@/components/nav'
-import { ChallengeOverviewHeader } from '@/components/challenge-overview'
-import { ChallengeHistory } from '@/components/challenge-history'
-import { EventOverview } from '@/components/event-overview'
+import { ChallengeOverviewHeader } from '@/components/challenges/challenge-overview'
+import { ChallengeHistory } from '@/components/challenges/challenge-history'
+import { EventOverview } from '@/components/events/event-overview'
 
 export default function Challenge({ params }: { params: { slug: string[] } }) {
   const id = params.slug[0]
