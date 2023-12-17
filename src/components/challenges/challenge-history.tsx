@@ -97,7 +97,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 
   if (eventsLength === 0) {
     return (
-      <div className="flex flex-col items-center justify-center flex-1">
+      <div className="flex flex-col items-center justify-center flex-1 bg-gray-200">
         <span className="text-xl font-bold">
           Ainda não há eventos registrados nesse desafio
         </span>
