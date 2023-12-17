@@ -16,8 +16,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const ChallengeContext = createContext({
   challenges: [] as (DocumentData | undefined)[],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  addEvent: (data: any) => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  addEvent: (_data: any) => {},
 })
 
 const db = getFirestore(firebaseApp)
@@ -107,8 +107,9 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     description: string
     duration: string
     challenge: string
+    imageUrl: string
   }) {
-    const { title, description, duration, challenge } = data
+    const { title, description, duration, challenge, imageUrl } = data
 
     const randomId = crypto.randomUUID()
     const date = new Date()
@@ -123,7 +124,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
         comments: [],
         date,
         id: randomId,
-        image: 'https://i.imgur.com/mrVXxLU.png',
+        image: imageUrl,
         user: {
           id: user?.id,
           username: user?.username,
@@ -150,7 +151,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
               seconds: date.getTime() / 1000,
             },
             id: randomId,
-            image: 'https://i.imgur.com/mrVXxLU.png',
+            image: imageUrl,
             user: {
               id: user?.id,
               username: user?.username,

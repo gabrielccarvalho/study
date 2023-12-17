@@ -20,25 +20,49 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { useChallenge } from '@/context/challenge-context'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const formSchema = z.object({
   title: z.string(),
   description: z.string(),
   duration: z.string(),
   challenge: z.string(),
+  file: z.any(),
 })
 
 export function AddEventForm() {
   const { toast } = useToast()
+  const [file, setFile] = useState<File | null>(null)
   const { challenges, addEvent } = useChallenge()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    addEvent(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!file) return
+
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      addEvent({
+        title: values.title,
+        description: values.description,
+        duration: parseInt(values.duration),
+        challenge: values.challenge,
+        imageUrl: data.image,
+      })
+    } catch (error) {
+      console.error(error)
+    }
 
     toast({
       title: 'Estudo adicionado!',
@@ -106,6 +130,28 @@ export function AddEventForm() {
               <FormLabel>Duração do estudo</FormLabel>
               <FormControl>
                 <Input placeholder="60" type="number" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Imagem</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/png, image/jpeg, image/jpg"
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e)
+                    if (!e.target.files) return
+                    setFile(e.target.files[0])
+                  }}
+                />
               </FormControl>
             </FormItem>
           )}
