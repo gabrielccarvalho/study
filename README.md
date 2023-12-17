@@ -3,7 +3,12 @@
 ## Description
 This application was built as an alternative to platforms like 'GymRats' to track in a gamified way your progress
 in your studies. <br />
-To achieve that I've used NextJS, with Firebase and Clerk.
+Tech that I've used:
+- NextJS
+- shadcn/ui
+- Firebase
+- Clerk
+- Amazon S3
 
 ## Installation
 Installing and running the project is pretty straight forward:
