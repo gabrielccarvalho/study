@@ -15,7 +15,7 @@ const NunitoSans = Nunito_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Study Rats',
+  title: 'study',
   description: 'Study with your friends!',
 }
 
