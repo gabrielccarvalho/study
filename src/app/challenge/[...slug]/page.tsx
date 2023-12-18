@@ -1,5 +1,5 @@
 import { Nav } from '@/components/nav'
-import { ChallengeOverviewHeader } from '@/components/challenges/challenge-overview'
+import { ChallengeOverview } from '@/components/challenges/challenge-overview'
 import { ChallengeHistory } from '@/components/challenges/challenge-history'
 import { EventOverview } from '@/components/events/event-overview'
 
@@ -16,7 +16,7 @@ export default function Challenge({ params }: { params: { slug: string[] } }) {
       ) : (
         <>
           <Nav />
-          <ChallengeOverviewHeader id={id} />
+          <ChallengeOverview id={id} />
           <ChallengeHistory id={id} />
         </>
       )}

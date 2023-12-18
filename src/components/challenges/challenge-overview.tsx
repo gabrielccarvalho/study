@@ -44,7 +44,7 @@ function LoadingSkeleton() {
   )
 }
 
-export function ChallengeOverviewHeader({ id }: { id: string }) {
+export function ChallengeOverview({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
   const { user } = useUser()
