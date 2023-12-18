@@ -24,6 +24,7 @@ const ChallengeContext = createContext({
   addEvent: (_data: any) => {},
   addComment: (_data: any) => {},
   addChallenge: (_data: any) => {},
+  joinChallenge: (_data: any) => {},
 })
 
 const db = getFirestore(firebaseApp)
@@ -339,9 +340,31 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     ])
   }
 
+  async function joinChallenge(challengeId: string) {
+    await updateDoc(doc(db, 'challenges', challengeId), {
+      members: arrayUnion(user?.id),
+    })
+
+    setChallenges((challenges) => {
+      const challengeIndex = challenges.findIndex(
+        (challenge) => challenge.id === challengeId,
+      )
+
+      const updatedChallenge = {
+        ...challenges[challengeIndex],
+        members: [...challenges[challengeIndex].members, user?.id],
+      }
+
+      const updatedChallenges = [...challenges]
+      updatedChallenges[challengeIndex] = updatedChallenge
+
+      return updatedChallenges
+    })
+  }
+
   return (
     <ChallengeContext.Provider
-      value={{ challenges, addEvent, addComment, addChallenge }}
+      value={{ challenges, addEvent, addComment, addChallenge, joinChallenge }}
     >
       {children}
     </ChallengeContext.Provider>
@@ -349,7 +372,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useChallenge() {
-  const { challenges, addEvent, addComment, addChallenge } =
+  const { challenges, addEvent, addComment, addChallenge, joinChallenge } =
     useContext(ChallengeContext)
 
   return {
@@ -357,5 +380,6 @@ export function useChallenge() {
     addEvent,
     addComment,
     addChallenge,
+    joinChallenge,
   }
 }

@@ -92,7 +92,7 @@ export function AddChallengeForm() {
   return (
     <Form {...form}>
       <form
-        id="add-event-form"
+        id="add-challenge-form"
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-2"
       >
