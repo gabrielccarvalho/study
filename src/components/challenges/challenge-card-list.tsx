@@ -16,9 +16,7 @@ export function ChallengeList() {
       {challenges
         .filter(
           (challenge) =>
-            challenge?.members.find(
-              (member: { id: string }) => member.id === user.id,
-            ),
+            challenge?.members.find((member: string) => member === user.id),
         )
         .map((challenge) => {
           if (!challenge) return null
