@@ -54,7 +54,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 
   if (!challenge) {
     return (
-      <main className="flex flex-col flex-1 p-4 bg-gray-200">
+      <main className="flex flex-col flex-1 p-4">
         {Array.from({ length: 5 }).map((_, index) => (
           <LoadingSkeleton key={index} />
         ))}
@@ -110,7 +110,7 @@ export function ChallengeHistory({ id }: { id: string }) {
   }
 
   return (
-    <main className="flex flex-col flex-1 p-4 bg-gray-200">
+    <main className="flex flex-col flex-1 p-4">
       {Object.entries(events).map(([date, events]: [string, any]) => (
         <div
           key={date}
@@ -119,7 +119,7 @@ export function ChallengeHistory({ id }: { id: string }) {
           <h3 className="font-semibold text-md">{date}</h3>
           {events.map((event: EventType) => (
             <Link key={event.id} href={`/challenge/${id}/event/${event.id}`}>
-              <div className="flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto bg-white rounded-md shadow-sm">
+              <div className="flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto border rounded-md shadow-md bg-muted border-muted-foreground/10">
                 <div className="flex flex-row items-center justify-between w-full p-1">
                   <div className="flex flex-row gap-2">
                     <div className="relative">

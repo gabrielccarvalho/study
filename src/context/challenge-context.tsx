@@ -18,7 +18,7 @@ import {
 import { createContext, useContext, useEffect, useState } from 'react'
 
 const ChallengeContext = createContext({
-  challenges: [] as (DocumentData | undefined)[],
+  challenges: [] as DocumentData[],
   addEvent: (_data: any) => {},
   addComment: (_data: any) => {},
 })

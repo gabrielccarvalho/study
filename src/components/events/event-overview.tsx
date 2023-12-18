@@ -30,7 +30,7 @@ function LoadingSkeleton() {
       <ChevronLeft className="w-8 h-8" />
       <div className="flex flex-col items-center w-full max-w-md mx-auto mt-2">
         <Skeleton className="w-[450px] h-[450px] shadow-md rounded-b-none" />
-        <div className="flex flex-col w-full max-w-md px-4 py-2 bg-white rounded-b-md">
+        <div className="flex flex-col w-full max-w-md px-4 py-2 bg-muted rounded-b-md">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center">
               <Skeleton className="w-8 h-8 rounded-full" />
@@ -46,7 +46,7 @@ function LoadingSkeleton() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md">
+      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 rounded-md shadow-md bg-muted">
         <Skeleton className="w-8 h-8 rounded-full" />
         <div className="flex justify-between flex-1 gap-2">
           <div className="flex flex-col flex-1 gap-1">
@@ -57,7 +57,7 @@ function LoadingSkeleton() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md">
+      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 rounded-md shadow-md bg-muted">
         <Skeleton className="w-8 h-8 rounded-full" />
         <div className="flex justify-between flex-1 gap-2">
           <div className="flex flex-1">
@@ -120,7 +120,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
           height={500}
           className="shadow-md rounded-t-md"
         />
-        <div className="flex flex-col w-full max-w-md px-4 py-2 bg-white rounded-b-md">
+        <div className="flex flex-col w-full max-w-md px-4 py-2 border border-t-0 shadow-lg bg-muted rounded-b-md border-muted-foreground/10">
           <div className="flex flex-row items-center justify-between">
             <div className="flex flex-row items-center">
               <Avatar className="w-8 h-8">
@@ -164,7 +164,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
             return (
               <div
                 key={comment.id}
-                className="flex flex-row w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md"
+                className="flex flex-row w-full max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md bg-muted border-muted-foreground/10"
               >
                 <Avatar className="w-7 h-7">
                   <AvatarImage src={comment.user.avatar} />
@@ -189,7 +189,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
             )
           },
         )}
-      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 bg-white rounded-md shadow-md">
+      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md bg-muted border-muted-foreground/10">
         <Avatar className="w-7 h-7">
           <AvatarImage src={user.imageUrl} />
           <AvatarFallback>
@@ -207,7 +207,11 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
               render={({ field }) => (
                 <FormItem className="flex flex-1">
                   <FormControl>
-                    <Input placeholder="adicione um comentario" {...field} />
+                    <Input
+                      placeholder="adicione um comentario"
+                      {...field}
+                      className="border-muted-foreground/20"
+                    />
                   </FormControl>
                 </FormItem>
               )}

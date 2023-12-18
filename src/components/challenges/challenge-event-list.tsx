@@ -31,7 +31,7 @@ export function ChallengeEventList({ id }: { id: string }) {
             return (
               <div
                 key={item.user_id}
-                className="flex flex-col justify-between w-full max-w-md p-1 mx-auto bg-white rounded-md shadow-sm"
+                className="flex flex-col justify-between w-full max-w-md p-1 mx-auto border rounded-md shadow-sm bg-muted border-muted-foreground/10"
               >
                 <div className="flex flex-col items-center justify-between w-full">
                   <div className="flex flex-row items-center justify-between w-full gap-3 pb-2 border-b">

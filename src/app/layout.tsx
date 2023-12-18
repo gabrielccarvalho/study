@@ -6,6 +6,7 @@ import { ChallengeProvider } from '@/context/challenge-context'
 import '@/styles/globals.css'
 import { AddButton } from '@/components/add-button'
 import { Toaster } from '@/components/ui/toaster'
+import { ThemeProvider } from '@/components/theme-provider'
 
 const NunitoSans = Nunito_Sans({
   weight: ['200', '400', '600', '700', '900'],
@@ -28,9 +29,16 @@ export default function RootLayout({
       <ChallengeProvider>
         <html lang="en">
           <body className={NunitoSans.className}>
-            {children}
-            <AddButton />
-            <Toaster />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <AddButton />
+              <Toaster />
+            </ThemeProvider>
           </body>
         </html>
       </ChallengeProvider>

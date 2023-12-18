@@ -1,18 +1,16 @@
 import Link from 'next/link'
-import { Suspense } from 'react'
 import { UserButton } from '@clerk/nextjs'
-import { Skeleton } from '@/components/ui/skeleton'
+import { ModeToggle } from './mode-toggle'
 
-export async function Nav() {
+export function Nav() {
   return (
-    <div className="flex flex-row items-center justify-between h-12 px-3 py-1 shadow-md">
+    <div className="flex flex-row items-center justify-between h-12 px-3 py-1 border-b shadow-md">
       <Link href="/">
         <span className="text-lg font-semibold">study</span>
       </Link>
       <div className="flex flex-row items-center gap-2">
-        <Suspense fallback={<Skeleton className="w-12 h-12 rounded-full" />}>
-          <UserButton afterSignOutUrl="/" />
-        </Suspense>
+        <ModeToggle />
+        <UserButton afterSignOutUrl="/" />
       </div>
     </div>
   )

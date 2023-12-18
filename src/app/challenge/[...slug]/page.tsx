@@ -10,7 +10,7 @@ export default function Challenge({ params }: { params: { slug: string[] } }) {
   return (
     <main className="flex flex-col h-screen">
       {event ? (
-        <main className="flex flex-col flex-1 bg-gray-200">
+        <main className="flex flex-col flex-1">
           <EventOverview id={id} event={event} />
         </main>
       ) : (
