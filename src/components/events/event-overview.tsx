@@ -108,11 +108,11 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
   }
 
   return (
-    <main className="flex flex-col flex-1 w-full max-w-4xl p-4 mx-auto">
+    <main className="flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto">
       <Link href={`/challenge/${id}`} className="sticky top-16">
         <ChevronLeft className="w-8 h-8" />
       </Link>
-      <div className="flex flex-col items-center w-full max-w-md mx-auto mt-2">
+      <div className="flex flex-col items-center w-3/4 max-w-md mx-auto mt-2 md:w-full">
         <Image
           src={currentEvent.image}
           alt="event image"
@@ -164,7 +164,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
             return (
               <div
                 key={comment.id}
-                className="flex flex-row w-full max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md bg-muted border-muted-foreground/10"
+                className="flex flex-row w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10"
               >
                 <Avatar className="w-7 h-7">
                   <AvatarImage src={comment.user.avatar} />
@@ -189,7 +189,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
             )
           },
         )}
-      <div className="flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md bg-muted border-muted-foreground/10">
+      <div className="flex flex-row justify-center w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10">
         <Avatar className="w-7 h-7">
           <AvatarImage src={user.imageUrl} />
           <AvatarFallback>

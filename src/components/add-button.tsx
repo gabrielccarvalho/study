@@ -16,8 +16,8 @@ export function AddButton() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="fixed flex items-center justify-center w-12 h-12 rounded-full right-10 bottom-10 bg-primary hover:cursor-pointer hover:bg-primary/80">
-          <PlusIcon className="w-6 h-6 text-primary-foreground" />
+        <div className="fixed flex items-center justify-center w-10 h-10 rounded-full md:w-12 md:h-12 right-6 bottom-16 md:right-10 md:bottom-10 bg-primary hover:cursor-pointer hover:bg-primary/80">
+          <PlusIcon className="w-4 h-4 md:w-6 md:h-6 text-primary-foreground" />
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

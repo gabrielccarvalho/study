@@ -8,7 +8,7 @@ import { Skeleton } from './ui/skeleton'
 
 function LoadingSkeleton() {
   return (
-    <div className="flex flex-col items-center w-full max-w-sm py-4 my-6 ml-6 rounded-md">
+    <div className="flex flex-col items-center w-full p-4 m-0 rounded-md md:py-4 md:my-6 md:ml-6 md:max-w-sm max-w-none">
       <div className="flex flex-col items-center w-full p-4 border rounded-md shadow-lg border-muted-foreground/15">
         <Skeleton className="w-32 h-32 rounded-full" />
         <div className="flex flex-col items-center mt-2">
@@ -58,7 +58,7 @@ export function UserCard() {
   })
 
   return (
-    <div className="flex flex-col items-center w-full max-w-sm py-4 my-6 ml-6 rounded-md">
+    <div className="flex flex-col items-center w-full p-4 m-0 rounded-md md:py-4 md:my-6 md:ml-6 md:max-w-sm max-w-none">
       <div className="flex flex-col items-center w-full p-4 border rounded-md shadow-lg border-muted-foreground/15">
         <Image
           src={user.imageUrl}

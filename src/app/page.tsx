@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 h-screen">
       <Nav />
-      <main className="flex flex-row flex-1 gap-2">
+      <main className="flex flex-col flex-1 gap-2 md:flex-row">
         <UserCard />
 
         <div className="flex flex-col flex-1 px-4 py-2">
