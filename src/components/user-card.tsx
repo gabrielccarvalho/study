@@ -80,15 +80,27 @@ export function UserCard() {
         <h2 className="text-xl font-semibold">Seu progresso</h2>
         <Separator className="my-2" />
         <div className="flex flex-col w-full gap-2">
-          {userProgressOnEachChallenge.map((challenge) => (
-            <div
-              key={challenge.challenge}
-              className="flex flex-row items-center justify-between w-full"
-            >
-              <span className="text-sm">{challenge.challenge}</span>
-              <span className="text-sm">{challenge.progress} minutos</span>
+          {userProgressOnEachChallenge.length > 0 ? (
+            userProgressOnEachChallenge.map((challenge) => (
+              <div
+                key={challenge.challenge}
+                className="flex flex-row items-center justify-between w-full"
+              >
+                <span className="text-sm">{challenge.challenge}</span>
+                <span className="text-sm">{challenge.progress} minutos</span>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center flex-1 gap-1">
+              <span className="text-sm">
+                Você ainda não iniciou um desafio!
+              </span>
+              <span className="text-xs text-center text-muted-foreground">
+                Clique no botão + no canto inferior direito para criar um
+                desafio ou se juntar a um.
+              </span>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

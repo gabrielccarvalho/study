@@ -1,7 +1,6 @@
 'use client'
 
 import { useChallenge } from '@/context/challenge-context'
-import { PlusIcon } from 'lucide-react'
 import { ChallengeCard } from './challenge-card'
 import { useUser } from '@clerk/nextjs'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -36,6 +35,20 @@ export function ChallengeList() {
           <LoadingSkeleton key={index} />
         ))}
       </>
+    )
+  }
+
+  if (
+    challenges.filter((challenge) => challenge.members.includes(user.id))
+      .length === 0
+  ) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-32">
+        <h2 className="text-xl font-semibold">Você não tem desafios!</h2>
+        <p className="text-sm text-center text-muted-foreground">
+          Clique no botão de adicionar para criar um novo desafio!
+        </p>
+      </div>
     )
   }
 
