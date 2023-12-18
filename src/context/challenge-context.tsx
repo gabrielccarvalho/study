@@ -4,10 +4,12 @@
 'use client'
 
 import { firebaseApp } from '@/lib/firebase-config'
+import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
 import {
   DocumentData,
+  addDoc,
   arrayUnion,
   collection,
   doc,
@@ -21,6 +23,7 @@ const ChallengeContext = createContext({
   challenges: [] as DocumentData[],
   addEvent: (_data: any) => {},
   addComment: (_data: any) => {},
+  addChallenge: (_data: any) => {},
 })
 
 const db = getFirestore(firebaseApp)
@@ -236,19 +239,123 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
+  async function addChallenge(data: {
+    id: string
+    title: string
+    description: string
+    thumbnail: string
+    startDate: Date
+    endDate: Date
+    events: Event[]
+    members: string[]
+  }) {
+    const {
+      id,
+      title,
+      description,
+      thumbnail,
+      startDate,
+      endDate,
+      events,
+      members,
+    } = data
+
+    const duration = differenceInDays(new Date(endDate), new Date(startDate))
+
+    const daysIntoChallenge = differenceInDays(new Date(), new Date(startDate))
+
+    const progress = Math.round((daysIntoChallenge / duration) * 100)
+
+    const leaderBoard = events.reduce(
+      (
+        acc: {
+          duration: number
+          user: {
+            id: string
+            username: string
+            avatar: string
+          }
+        }[],
+        event: {
+          user: {
+            id: string
+            username: string
+            avatar: string
+          }
+          duration: number
+        },
+      ) => {
+        const existingUser = acc.find((item) => item.user.id === event.user.id)
+
+        if (existingUser) {
+          existingUser.duration += event.duration
+        } else {
+          acc.push({
+            user: {
+              id: event.user.id,
+              username: event.user.username,
+              avatar: event.user.avatar,
+            },
+            duration: event.duration,
+          })
+        }
+
+        return acc
+      },
+      [],
+    )
+
+    await addDoc(collection(db, 'challenges'), {
+      id,
+      title,
+      description,
+      thumbnail,
+      start_date: startDate,
+      end_date: endDate,
+      events,
+      members,
+    })
+
+    setChallenges((challenges) => [
+      ...challenges,
+      {
+        id,
+        title,
+        description,
+        thumbnail,
+        start_date: {
+          seconds: startDate.getTime() / 1000,
+        },
+        end_date: {
+          seconds: endDate.getTime() / 1000,
+        },
+        events,
+        members,
+        progress,
+        daysIntoChallenge,
+        duration,
+        leaderBoard,
+      },
+    ])
+  }
+
   return (
-    <ChallengeContext.Provider value={{ challenges, addEvent, addComment }}>
+    <ChallengeContext.Provider
+      value={{ challenges, addEvent, addComment, addChallenge }}
+    >
       {children}
     </ChallengeContext.Provider>
   )
 }
 
 export function useChallenge() {
-  const { challenges, addEvent, addComment } = useContext(ChallengeContext)
+  const { challenges, addEvent, addComment, addChallenge } =
+    useContext(ChallengeContext)
 
   return {
     challenges,
     addEvent,
     addComment,
+    addChallenge,
   }
 }

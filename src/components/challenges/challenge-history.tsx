@@ -62,10 +62,6 @@ export function ChallengeHistory({ id }: { id: string }) {
     )
   }
 
-  if (!challenge.events) {
-    return <div></div>
-  }
-
   const events = challenge.events.reduce(
     (acc: { [x: string]: EventType[] }, event: EventType) => {
       const weekDay = format(new Date(event.date.seconds * 1000), 'eee', {
@@ -97,7 +93,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 
   if (eventsLength === 0) {
     return (
-      <div className="flex flex-col items-center justify-center flex-1 bg-gray-200">
+      <div className="flex flex-col items-center justify-center flex-1">
         <span className="text-xl font-bold">
           Ainda não há eventos registrados nesse desafio
         </span>
