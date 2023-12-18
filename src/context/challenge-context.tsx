@@ -240,7 +240,6 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function addChallenge(data: {
-    id: string
     title: string
     description: string
     thumbnail: string
@@ -250,7 +249,6 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     members: string[]
   }) {
     const {
-      id,
       title,
       description,
       thumbnail,
@@ -305,8 +303,10 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
       [],
     )
 
+    const randomUUID = crypto.randomUUID()
+
     await addDoc(collection(db, 'challenges'), {
-      id,
+      id: randomUUID,
       title,
       description,
       thumbnail,
@@ -319,7 +319,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     setChallenges((challenges) => [
       ...challenges,
       {
-        id,
+        id: randomUUID,
         title,
         description,
         thumbnail,

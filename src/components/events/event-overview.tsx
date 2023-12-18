@@ -77,9 +77,6 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      content: '',
-    },
   })
 
   const challenge = challenges.find((challenge) => challenge?.id === id)
