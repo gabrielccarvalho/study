@@ -26,7 +26,7 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeList() {
-  const { challenges, addChallenge } = useChallenge()
+  const { challenges } = useChallenge()
   const { user } = useUser()
 
   if (!user) {
@@ -47,31 +47,8 @@ export function ChallengeList() {
             challenge?.members.find((member: string) => member === user.id),
         )
         .map((challenge) => {
-          if (!challenge) return null
-
           return <ChallengeCard key={challenge.id} id={challenge.id} />
         })}
-      <div
-        className="flex flex-col items-center justify-center border border-dashed rounded-md shadow-sm w-72 group hover:border-muted-foreground/80 hover:cursor-pointer"
-        onClick={() =>
-          addChallenge({
-            id: 'cde7ef5e-8845-4285-a7ac-8fe7bf702fad',
-            title: 'Criei um novo haha',
-            description: 'novo desafio criado pelo app',
-            startDate: new Date(),
-            endDate: new Date('2024-01-12'),
-            thumbnail:
-              'https://study-image-storage.s3.sa-east-1.amazonaws.com/download-1702916066981.jpg',
-            events: [],
-            members: [user?.id],
-          })
-        }
-      >
-        <PlusIcon
-          className="w-16 h-16 text-muted-foreground/40 group-hover:text-muted-foreground/80"
-          strokeWidth={1.2}
-        />
-      </div>
     </>
   )
 }
