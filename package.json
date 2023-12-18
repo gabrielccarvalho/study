@@ -1,6 +1,12 @@
 {
-  "name": "study-rats",
-  "version": "0.1.0",
+  "name": "study.app",
+  "author": {
+    "name": "Gabriel Carvalho",
+    "email": "caampos22@gmail.com",
+    "url": "https://gabrielcampos.com.br"
+  },
+  "license": "MIT",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
