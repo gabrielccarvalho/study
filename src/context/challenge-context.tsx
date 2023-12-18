@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { firebaseApp } from '@/lib/firebase-config'
@@ -16,8 +19,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const ChallengeContext = createContext({
   challenges: [] as (DocumentData | undefined)[],
-  // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   addEvent: (_data: any) => {},
+  addComment: (_data: any) => {},
 })
 
 const db = getFirestore(firebaseApp)
@@ -27,7 +30,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
   const [challenges, setChallenges] = useState<DocumentData[]>([])
 
   useEffect(() => {
-    async function signInWithClerk() {
+    async function fetchChallenges() {
       const snapshot = await getDocs(collection(db, 'challenges'))
       snapshot.docs.map((doc) => {
         const duration = differenceInDays(
@@ -99,7 +102,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
       })
     }
 
-    signInWithClerk()
+    fetchChallenges()
   }, [])
 
   async function addEvent(data: {
@@ -168,18 +171,84 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
+  async function addComment(data: {
+    content: string
+    challengeId: string
+    eventId: string
+  }) {
+    const { content, challengeId, eventId } = data
+    const now = new Date()
+
+    const randomId = crypto.randomUUID()
+
+    // Add comment to local state for immediate feedback
+    setChallenges((challenges) => {
+      const challengeIndex = challenges.findIndex(
+        (challenge) => challenge.id === challengeId,
+      )
+
+      const eventIndex = challenges[challengeIndex].events.findIndex(
+        (event: { id: string }) => event.id === eventId,
+      )
+
+      const updatedEvent = {
+        ...challenges[challengeIndex].events[eventIndex],
+        comments: [
+          ...challenges[challengeIndex].events[eventIndex].comments,
+          {
+            content,
+            id: randomId,
+            created_at: {
+              seconds: now.getTime() / 1000,
+            },
+            user: {
+              id: user?.id,
+              username: user?.username,
+              avatar: user?.imageUrl,
+            },
+          },
+        ],
+      }
+
+      const updatedEvents = [...challenges[challengeIndex].events]
+      updatedEvents[eventIndex] = updatedEvent
+
+      const updatedChallenge = {
+        ...challenges[challengeIndex],
+        events: updatedEvents,
+      }
+
+      // Add comment to firestore
+      async function addCommentToFirestore() {
+        await updateDoc(
+          doc(db, 'challenges', challengeId),
+          'events',
+          updatedEvents,
+        )
+      }
+
+      const updatedChallenges = [...challenges]
+      updatedChallenges[challengeIndex] = updatedChallenge
+
+      addCommentToFirestore()
+
+      return updatedChallenges
+    })
+  }
+
   return (
-    <ChallengeContext.Provider value={{ challenges, addEvent }}>
+    <ChallengeContext.Provider value={{ challenges, addEvent, addComment }}>
       {children}
     </ChallengeContext.Provider>
   )
 }
 
 export function useChallenge() {
-  const { challenges, addEvent } = useContext(ChallengeContext)
+  const { challenges, addEvent, addComment } = useContext(ChallengeContext)
 
   return {
     challenges,
     addEvent,
+    addComment,
   }
 }

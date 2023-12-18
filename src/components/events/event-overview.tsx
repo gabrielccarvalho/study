@@ -12,9 +12,27 @@ import { Separator } from '@/components/ui/separator'
 import { useChallenge } from '@/context/challenge-context'
 import { Input } from '@/components/ui/input'
 
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Button } from '@/components/ui/button'
+import { toast } from '../ui/use-toast'
+
+const formSchema = z.object({
+  content: z.string(),
+})
+
 export function EventOverview({ id, event }: { id: string; event: string }) {
-  const { challenges } = useChallenge()
+  const { challenges, addComment } = useChallenge()
   const { user } = useUser()
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      content: '',
+    },
+  })
 
   const challenge = challenges.find((challenge) => challenge?.id === id)
 
@@ -23,6 +41,21 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
   const currentEvent = challenge.events.find(
     (evt: Record<string, unknown>) => evt.id === event,
   )
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    addComment({
+      challengeId: id,
+      eventId: event,
+      content: values.content,
+    })
+
+    form.reset()
+
+    toast({
+      title: 'Comentario enviado!',
+      variant: 'success',
+    })
+  }
 
   return (
     <main className="flex flex-col flex-1 w-full max-w-4xl p-4 mx-auto">
@@ -113,7 +146,26 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
             <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
           </AvatarFallback>
         </Avatar>
-        <Input placeholder="adicione um comentário" />
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex justify-between flex-1 gap-2"
+          >
+            <FormField
+              control={form.control}
+              name="content"
+              render={({ field }) => (
+                <FormItem className="flex flex-1">
+                  <FormControl>
+                    <Input placeholder="adicione um comentario" {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit">Enviar</Button>
+          </form>
+        </Form>
       </div>
     </main>
   )
