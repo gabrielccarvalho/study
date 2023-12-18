@@ -109,7 +109,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
   return (
     <main className="flex flex-col flex-1 w-full max-w-4xl p-4 mx-auto">
-      <Link href={`/challenge/${id}`}>
+      <Link href={`/challenge/${id}`} className="sticky top-16">
         <ChevronLeft className="w-8 h-8" />
       </Link>
       <div className="flex flex-col items-center w-full max-w-md mx-auto mt-2">
