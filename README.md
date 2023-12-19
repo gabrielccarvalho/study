@@ -99,7 +99,7 @@
 ### Example
 
 ```TypeScript
-   const Challenge = {
+   const challenge = {
       id: '4d734fe4-b80a-4586-817a-977b3f311f3e',
       title: 'Challenge #01',
       description: 'Quick description of the challenge',
@@ -131,7 +131,7 @@
 ### Example
 
 ```TypeScript
-   const Challenge = {
+   const event = {
       id: '4d734fe4-b80a-4586-817a-977b3f311f3e',
       title: 'A nice study',
       description: 'Quick study on server components',
