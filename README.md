@@ -9,11 +9,11 @@
 > This platform was built to be an incentive for myself to study. Adding dopamine into the process.
 
 # 👨🏽‍💻 Tech that I've used:
-- NextJS 14: The client side is fully build with nextjs using app router to ensure we have a great user experience using react's server components and a great SEO.
-- Shadcn/ui: An amazing ui kit to speed up the process of developing the MVP.
-- Firebase: A great way to keep all the project data in a safe enviroment without great costs and ensure, together with the Next's app router, that we don't need immediately an back-end.
-- Clerk: A platform to manage all the authentication process in the safest and easiest way.
-- Amazon S3: Used the bucket to store all the images the user can upload inside the application.
+- [NextJS](https://nextjs.org/): The client side is fully build with nextjs using app router to ensure we have a great user experience using react's server components and a great SEO.
+- [shadcn/ui](https://ui.shadcn.com/): An amazing ui kit to speed up the process of developing the MVP.
+- [Firebase](https://console.firebase.google.com/): A great way to keep all the project data in a safe enviroment without great costs and ensure, together with the Next's app router, that we don't need immediately an back-end.
+- [Clerk](https://clerk.com/): A platform to manage all the authentication process in the safest and easiest way.
+- [Amazon S3](https://aws.amazon.com/s3/): Used the bucket to store all the images the user can upload inside the application.
 
 # 🔧 Installation
 > To install and run the project you will need to follow this steps:
