@@ -33,35 +33,35 @@
 
 # Screens
 
-## Home screen:
+### Home screen:
 > Here will be listed all the challenges you participate, with a sidebar with your user's basic info and your progress on each challege,
 > ![home page](/public/mock_home.png)
 
-## Challenge screen:
+### Challenge screen:
 > Here will be displayed all the events (studies) the specific challenge members had uploaded. Listed and sorted by date, with the time it happened.
 
 > Also, we have a small leaderboard with the challenge's current leader, your points and the days remaining on that challenge
 > ![challenge page](/public/mock_challenge.png)
 
-## Event screen:
+### Event screen:
 > Here will be displayed the details of an event. With the date it occured, the duration and some informations (image, title and description).
 
 > On this page, you can also add comments and share your thoughts on the event!
 > ![event page](/public/mock_event.png)
 
-# Functionalities
+# 👩🏽‍🚀 Functionalities
 > Over the button on the bottom-right corner, you can add a challenge, an event and join a challenge.
 
-## Add Event:
+### Add Event:
 > ![add event](/public/mock_add_event.png)
 
-## Add Challenge:
+### Add Challenge:
 > ![add challenge](/public/mock_add_challenge.png)
 
-## Join Challenge:
+### Join Challenge:
 > ![join challenge](/public/mock_join_challenge.png)
 
-# Schemas
+# 🗺️ Schemas
 > We have 3 different entities on this project, `User`, `Challenge` and `Event`
 
 ## User:
