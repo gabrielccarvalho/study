@@ -1,10 +1,10 @@
 # Study
 > An app to gamify your study time and compete with friends.
 
-### 📝 Description
+# 📝 Description
 > This platform was built to be an incentive for myself to study. Adding dopamine into the process.
 
-### 👨🏽‍💻 Tech that I've used:
+# 👨🏽‍💻 Tech that I've used:
 - NextJS 14: The client side is fully build with nextjs using app router to ensure we have a great user experience using react's server components and a great SEO.
 - Shadcn/ui: An amazing ui kit to speed up the process of developing the MVP.
 - Firebase: A great way to keep all the project data in a safe enviroment without great costs and ensure, together with the Next's app router, that we don't need immediately an back-end.
