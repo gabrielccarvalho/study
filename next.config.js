@@ -14,15 +14,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'github.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'img.clerk.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.imgur.com',
       },
       {
         protocol: 'https',

@@ -1,17 +1,18 @@
 # Study
+> An app to gamify your study time and compete with friends.
 
-## Description
-This application was built as an alternative to platforms like 'GymRats' to track in a gamified way your progress
-in your studies. <br />
-Tech that I've used:
-- NextJS
-- shadcn/ui
-- Firebase
-- Clerk
-- Amazon S3
+### 📝 Description
+> This platform was built to be an incentive for myself to study. Adding dopamine into the process.
 
-## Installation
-Installing and running the project is pretty straight forward:
+### 👨🏽‍💻 Tech that I've used:
+- NextJS 14: The client side is fully build with nextjs using app router to ensure we have a great user experience using react's server components and a great SEO.
+- Shadcn/ui: An amazing ui kit to speed up the process of developing the MVP.
+- Firebase: A great way to keep all the project data in a safe enviroment without great costs and ensure, together with the Next's app router, that we don't need immediately an back-end.
+- Clerk: A platform to manage all the authentication process in the safest and easiest way.
+- Amazon S3: Used the bucket to store all the images the user can upload inside the application.
+
+# 🔧 Installation
+> To install and run the project you will need to follow this steps:
 
 1. Clone the repository
    ```bash
@@ -23,29 +24,155 @@ Installing and running the project is pretty straight forward:
    ```bash
     pnpm install
    ```
+3. Replace the `.env.local` file accordingly with the `.env.example` file.
 
 3. Run the project
    ```bash
     pnpm run dev
    ```
 
-## How to use it
-You only need to create an account / log in with social media, create a 'Challenge' and invite friends to join.
+# Screens
 
-# Media
+## Home screen:
+> Here will be listed all the challenges you participate, with a sidebar with your user's basic info and your progress on each challege,
+> ![home page](/public/mock_home.png)
 
-### Main page
-> Here will be displayed your basic info (avatar, name and challenges you participate). You can also create or join challenges from here.
-   ![preview](/public/mock_1.png)
+## Challenge screen:
+> Here will be displayed all the events (studies) the specific challenge members had uploaded. Listed and sorted by date, with the time it happened.
 
-### Challenges page
-> Here is the challenge details page, where you can find for each challege you participate, the leaderboard and also all the events for that challenge.
-   ![preview](/public/mock_2.png)
+> Also, we have a small leaderboard with the challenge's current leader, your points and the days remaining on that challenge
+> ![challenge page](/public/mock_challenge.png)
 
-### Event overview page
-> Here is the overview for each event recorded on a challenge, where you can find more details about it (image, duration) and also add comments!
-   ![preview](/public/mock_3.png)
+## Event screen:
+> Here will be displayed the details of an event. With the date it occured, the duration and some informations (image, title and description).
+
+> On this page, you can also add comments and share your thoughts on the event!
+> ![event page](/public/mock_event.png)
+
+# Functionalities
+> Over the button on the bottom-right corner, you can add a challenge, an event and join a challenge.
+
+## Add Event:
+> ![add event](/public/mock_add_event.png)
+
+## Add Challenge:
+> ![add challenge](/public/mock_add_challenge.png)
+
+## Join Challenge:
+> ![join challenge](/public/mock_join_challenge.png)
+
+# Schemas
+> We have 3 different entities on this project, `User`, `Challenge` and `Event`
+
+## User:
+
+| Fields      | Type       | Description
+| :---------- | :--------- | :----------------
+| id          | `string`   | An uuid string.
+| username    | `string`   | A text string with the user's username.
+| avatar      | `string`   | An URL to the user image (stored and managed by clerk).
+
+### Example
+
+```TypeScript
+   const user = {
+      id: '4d734fe4-b80a-4586-817a-977b3f311f3e',
+      username: 'gabrielccarvalho',
+      avatar: 'https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvdXBsb2FkZWQvaW1nXzJaU01UOVhmYlExWVpoWDdNVGNka09UVGczdCJ9'
+   }
+```
+
+## Challenge:
+
+| Fields      | Type       | Description
+| :---------- | :--------- | :----------------
+| id          | `string`   | An uuid string.
+| title       | `string`   | A text string with the challenge's title.
+| description | `string`   | A text string with the challenge's description.
+| thumbnail   | `string`   | An URL to the challenge image (stored in the Amazon S3 bucket).
+| start_date  | `Date`     | The starting date of the challenge.
+| end_date    | `Date`     | The deadline of the challenge.
+| members     | `string[]` | An array of users id that are on the challenge.
+| events      | `Event[]`  | An array of events on this challenge.
+
+
+### Example
+
+```TypeScript
+   const Challenge = {
+      id: '4d734fe4-b80a-4586-817a-977b3f311f3e',
+      title: 'Challenge #01',
+      description: 'Quick description of the challenge',
+      thumbnail: '',
+      start_date: new Date('2023-01-01'),
+      end_date: new Date('2023-31-12'),
+      members: ['user_2ZjsdKSdH423Ksas'],
+      events: [
+         { ... },
+         { ... },
+      ],
+   }
+```
+
+## Event:
+
+| Fields      | Type       | Description
+| :---------- | :--------- | :----------------
+| id          | `string`   | An uuid string.
+| title       | `string`   | A text string with the event's title.
+| description | `string`   | A text string with the event's description.
+| image       | `string`   | An URL to the event image (stored in the Amazon S3 bucket).
+| date        | `Date`     | The date of posting the event.
+| duration    | `number`   | The duration in minutes of the event.
+| User        | `User`     | An User object.
+| comments    | `Comment[]`| An array of comments on this event.
+
+
+### Example
+
+```TypeScript
+   const Challenge = {
+      id: '4d734fe4-b80a-4586-817a-977b3f311f3e',
+      title: 'A nice study',
+      description: 'Quick study on server components',
+      image: '',
+      date: new Date(),
+      duration: 60,
+      User: {
+         ...User
+      },
+      comments: [
+         {
+            id: '147abb22-5add-48f5-a8ee-3791d8bd7a3c'
+            content: 'haha its a comment!',
+            created_at: new Date(),
+            user: {
+               ...User
+            }
+         }
+      ]
+   }
+```
+
+# Contribution
+If you wish to contribute to this project, please follow the steps below:
+
+1. Fork the repository.
+
+2. Create a new branch:
+   ```bash
+      git checkout -b my-feature
+   ```
+
+3. Make the necessary changes and commit your code.
+
+4. Push to the branch:
+   ```bash
+      git push origin my-feature
+   ```
+
+5. Open a pull request on the original repository.
 
 # Disclaimer ⚠️
-This project is still under development and it was created for study pourposes, so it will suffer constant changes and probably break changes very often.
+> This project is still under development and it was created for study pourposes, so it will suffer constant changes and probably break changes very often.
 Do not use it as a production-ready software!
