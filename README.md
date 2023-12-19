@@ -1,4 +1,8 @@
-# Study
+<h1 align="center">Study</h1>
+<p align="center">
+   <img src='https://study-image-storage.s3.sa-east-1.amazonaws.com/logo-1702954994027.png' alt='image' style='self-center' />
+</p>
+
 > An app to gamify your study time and compete with friends.
 
 # 📝 Description
