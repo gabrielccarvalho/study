@@ -6,7 +6,7 @@ import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
 import { Calendar, UserRound } from 'lucide-react'
 import Image from 'next/image'
-import { Separator } from '../ui/separator'
+import { Separator } from '.@/components/ui/separator'
 
 function LoadingSkeleton() {
 	return (

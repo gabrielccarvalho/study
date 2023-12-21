@@ -1,10 +1,10 @@
 'use client'
 
+import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
 import Image from 'next/image'
-import { Separator } from './ui/separator'
-import { Skeleton } from './ui/skeleton'
 
 function LoadingSkeleton() {
 	return (

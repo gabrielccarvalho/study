@@ -6,8 +6,8 @@ import { format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { Skeleton } from '../ui/skeleton'
+import { Avatar, AvatarFallback, AvatarImage } from '.@/components/ui/avatar'
+import { Skeleton } from '.@/components/ui/skeleton'
 
 function LoadingSkeleton() {
 	return (

@@ -18,8 +18,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Skeleton } from '../ui/skeleton'
-import { toast } from '../ui/use-toast'
+import { Skeleton } from '.@/components/ui/skeleton'
+import { toast } from '.@/components/ui/use-toast'
 
 const formSchema = z.object({
 	content: z.string(),

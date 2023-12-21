@@ -16,6 +16,7 @@ import {
 	FormItem,
 	FormLabel,
 } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
 	Popover,
 	PopoverContent,
@@ -26,7 +27,6 @@ import { useChallenge } from '@/context/challenge-context'
 import { cn } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
-import { Input } from './ui/input'
 
 const formSchema = z.object({
 	title: z.string(),
