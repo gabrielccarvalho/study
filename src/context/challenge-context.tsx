@@ -6,79 +6,79 @@ import { Challenge, Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
 import {
-  addDoc,
-  arrayUnion,
-  collection,
-  doc,
-  getDocs,
-  getFirestore,
-  updateDoc,
+	addDoc,
+	arrayUnion,
+	collection,
+	doc,
+	getDocs,
+	getFirestore,
+	updateDoc,
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useState } from 'react'
 
 type addEventType = {
-  title: string
-  description: string
-  duration: number
-  challenge: string
-  imageUrl: string
+	title: string
+	description: string
+	duration: number
+	challenge: string
+	imageUrl: string
 }
 
 type addCommentType = {
-  content: string
-  challengeId: string
-  eventId: string
+	content: string
+	challengeId: string
+	eventId: string
 }
 
 type addChallengeType = {
-  title: string
-  description: string
-  thumbnail: string
-  startDate: Date
-  endDate: Date
-  events: Event[]
-  members: string[]
+	title: string
+	description: string
+	thumbnail: string
+	startDate: Date
+	endDate: Date
+	events: Event[]
+	members: string[]
 }
 
 type joinChallengeType = {
-  challengeId: string
+	challengeId: string
 }
 
 const ChallengeContext = createContext({
-  challenges: [] as Challenge[],
-  addEvent: (_data: addEventType) =>
-    [] as unknown as Promise<Challenge[] | void>,
-  addComment: (_data: addCommentType) =>
-    [] as unknown as Promise<Challenge[] | void>,
-  addChallenge: (_data: addChallengeType) =>
-    [] as unknown as Promise<Challenge[] | void>,
-  joinChallenge: (_data: joinChallengeType) =>
-    [] as unknown as Promise<Challenge[] | void>,
+	challenges: [] as Challenge[],
+	addEvent: (_data: addEventType) =>
+		[] as unknown as Promise<Challenge[] | undefined>,
+	addComment: (_data: addCommentType) =>
+		[] as unknown as Promise<Challenge[] | undefined>,
+	addChallenge: (_data: addChallengeType) =>
+		[] as unknown as Promise<Challenge[] | undefined>,
+	joinChallenge: (_data: joinChallengeType) =>
+		[] as unknown as Promise<Challenge[] | undefined>,
 })
 
 const db = getFirestore(firebaseApp)
 
 export function ChallengeProvider({ children }: { children: React.ReactNode }) {
-  const { user } = useUser()
-  const [challenges, setChallenges] = useState<Challenge[]>([])
+	const { user } = useUser()
+	const [challenges, setChallenges] = useState<Challenge[]>([])
 
-  useEffect(() => {
-    async function fetchChallenges() {
-      const snapshot = await getDocs(collection(db, 'challenges'))
-      snapshot.docs.map((doc) => {
-        const duration = differenceInDays(
-          new Date(doc.data().end_date.seconds * 1000),
-          new Date(doc.data().start_date.seconds * 1000),
-        )
+	useEffect(() => {
+		async function fetchChallenges() {
+			const snapshot = await getDocs(collection(db, 'challenges'))
+			snapshot.docs.map((doc) => {
+				const duration = differenceInDays(
+					new Date(doc.data().end_date.seconds * 1000),
+					new Date(doc.data().start_date.seconds * 1000),
+				)
 
-        const daysIntoChallenge = differenceInDays(
-          new Date(),
-          new Date(doc.data().start_date.seconds * 1000),
-        )
+				const daysIntoChallenge = differenceInDays(
+					new Date(),
+					new Date(doc.data().start_date.seconds * 1000),
+				)
 
-        const progress = Math.round((daysIntoChallenge / duration) * 100)
+				const progress = Math.round((daysIntoChallenge / duration) * 100)
 
-        const leaderBoard = doc.data().events.reduce(
+				const leaderBoard = doc.data().events.reduce(
           (
             acc: {
               duration: number
@@ -119,178 +119,186 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
           [],
         )
 
-        setChallenges((challenges) => [
-          ...challenges,
-          {
-            id: doc.id,
-            title: doc.data().title,
-            description: doc.data().description,
-            thumbnail: doc.data().thumbnail,
-            start_date: doc.data().start_date,
-            end_date: doc.data().end_date,
-            events: doc.data().events,
-            members: doc.data().members,
-            progress,
-            daysIntoChallenge,
-            duration,
-            leaderBoard,
-          },
-        ])
+				setChallenges((challenges) => [
+					...challenges,
+					{
+						id: doc.id,
+						title: doc.data().title,
+						description: doc.data().description,
+						thumbnail: doc.data().thumbnail,
+						start_date: doc.data().start_date,
+						end_date: doc.data().end_date,
+						events: doc.data().events,
+						members: doc.data().members,
+						progress,
+						daysIntoChallenge,
+						duration,
+						leaderBoard,
+					},
+				])
 
-        return 0
-      })
-    }
+				return 0
+			})
+		}
 
-    fetchChallenges()
-  }, [])
+		fetchChallenges()
+	}, [])
 
-  async function addEvent(data: addEventType): Promise<Challenge[] | void> {
-    if (!user) return
-    const { title, description, duration, challenge, imageUrl } = data
+	async function addEvent(
+		data: addEventType,
+	): Promise<Challenge[] | undefined> {
+		if (!user) return
+		const { title, description, duration, challenge, imageUrl } = data
 
-    const randomId = crypto.randomUUID()
-    const date = new Date()
+		const randomId = crypto.randomUUID()
+		const date = new Date()
 
-    await updateDoc(
-      doc(db, 'challenges', challenge),
-      'events',
-      arrayUnion({
-        title,
-        description,
-        duration,
-        comments: [],
-        date,
-        id: randomId,
-        image: imageUrl,
-        user: {
-          id: user?.id,
-          username: user?.username,
-          avatar: user?.imageUrl,
-        },
-      }),
-    )
-    // Add event to local state for immediate feedback
-    setChallenges((challenges) => {
-      const challengeIndex = challenges.findIndex(
-        (challenge) => challenge.id === data.challenge,
-      )
+		await updateDoc(
+			doc(db, 'challenges', challenge),
+			'events',
+			arrayUnion({
+				title,
+				description,
+				duration,
+				comments: [],
+				date,
+				id: randomId,
+				image: imageUrl,
+				user: {
+					id: user?.id,
+					username: user?.username,
+					avatar: user?.imageUrl,
+				},
+			}),
+		)
+		// Add event to local state for immediate feedback
+		setChallenges((challenges) => {
+			const challengeIndex = challenges.findIndex(
+				(challenge) => challenge.id === data.challenge,
+			)
 
-      const updatedChallenge = {
-        ...challenges[challengeIndex],
-        events: [
-          ...challenges[challengeIndex].events,
-          {
-            title,
-            description,
-            duration: Number(duration),
-            comments: [],
-            date: {
-              seconds: date.getTime() / 1000,
-              nanoseconds: 0,
-            },
-            id: randomId,
-            image: imageUrl,
-            user: {
-              id: user.id,
-              username: user.username,
-              avatar: user.imageUrl,
-            },
-          },
-        ],
-      }
+			const updatedChallenge = {
+				...challenges[challengeIndex],
+				events: [
+					...challenges[challengeIndex].events,
+					{
+						title,
+						description,
+						duration: Number(duration),
+						comments: [],
+						date: {
+							seconds: date.getTime() / 1000,
+							nanoseconds: 0,
+						},
+						id: randomId,
+						image: imageUrl,
+						user: {
+							id: user.id,
+							username: user.username,
+							avatar: user.imageUrl,
+						},
+					},
+				],
+			}
 
-      const updatedChallenges = [...challenges]
-      updatedChallenges[challengeIndex] = updatedChallenge
+			const updatedChallenges = [...challenges]
+			updatedChallenges[challengeIndex] = updatedChallenge
 
-      return updatedChallenges
-    })
-  }
+			return updatedChallenges
+		})
 
-  async function addComment(data: addCommentType): Promise<Challenge[] | void> {
-    if (!user) return
+		return undefined
+	}
 
-    const { content, challengeId, eventId } = data
-    const now = new Date()
+	async function addComment(
+		data: addCommentType,
+	): Promise<Challenge[] | undefined> {
+		if (!user) return
 
-    const randomId = crypto.randomUUID()
+		const { content, challengeId, eventId } = data
+		const now = new Date()
 
-    // Add comment to local state for immediate feedback
-    setChallenges((challenges) => {
-      const challengeIndex = challenges.findIndex(
-        (challenge) => challenge.id === challengeId,
-      )
+		const randomId = crypto.randomUUID()
 
-      const eventIndex = challenges[challengeIndex].events.findIndex(
-        (event) => event.id === eventId,
-      )
+		// Add comment to local state for immediate feedback
+		setChallenges((challenges) => {
+			const challengeIndex = challenges.findIndex(
+				(challenge) => challenge.id === challengeId,
+			)
 
-      const updatedEvent = {
-        ...challenges[challengeIndex].events[eventIndex],
-        comments: [
-          ...challenges[challengeIndex].events[eventIndex].comments,
-          {
-            id: randomId,
-            content,
-            created_at: {
-              seconds: now.getTime() / 1000,
-              nanoseconds: 0,
-            },
-            user: {
-              id: user.id,
-              username: user.username,
-              avatar: user.imageUrl,
-            },
-          },
-        ],
-      }
+			const eventIndex = challenges[challengeIndex].events.findIndex(
+				(event) => event.id === eventId,
+			)
 
-      const updatedEvents = [...challenges[challengeIndex].events]
+			const updatedEvent = {
+				...challenges[challengeIndex].events[eventIndex],
+				comments: [
+					...challenges[challengeIndex].events[eventIndex].comments,
+					{
+						id: randomId,
+						content,
+						created_at: {
+							seconds: now.getTime() / 1000,
+							nanoseconds: 0,
+						},
+						user: {
+							id: user.id,
+							username: user.username,
+							avatar: user.imageUrl,
+						},
+					},
+				],
+			}
 
-      updatedEvents[eventIndex] = updatedEvent
+			const updatedEvents = [...challenges[challengeIndex].events]
 
-      const updatedChallenge = {
-        ...challenges[challengeIndex],
-        events: updatedEvents,
-      }
+			updatedEvents[eventIndex] = updatedEvent
 
-      // Add comment to firestore
-      async function addCommentToFirestore() {
-        await updateDoc(
-          doc(db, 'challenges', challengeId),
-          'events',
-          updatedEvents,
-        )
-      }
+			const updatedChallenge = {
+				...challenges[challengeIndex],
+				events: updatedEvents,
+			}
 
-      const updatedChallenges = [...challenges]
-      updatedChallenges[challengeIndex] = updatedChallenge
+			// Add comment to firestore
+			async function addCommentToFirestore() {
+				await updateDoc(
+					doc(db, 'challenges', challengeId),
+					'events',
+					updatedEvents,
+				)
+			}
 
-      addCommentToFirestore()
+			const updatedChallenges = [...challenges]
+			updatedChallenges[challengeIndex] = updatedChallenge
 
-      return updatedChallenges
-    })
-  }
+			addCommentToFirestore()
 
-  async function addChallenge(
-    data: addChallengeType,
-  ): Promise<Challenge[] | void> {
-    const {
-      title,
-      description,
-      thumbnail,
-      startDate,
-      endDate,
-      events,
-      members,
-    } = data
+			return updatedChallenges
+		})
 
-    const duration = differenceInDays(new Date(endDate), new Date(startDate))
+		return undefined
+	}
 
-    const daysIntoChallenge = differenceInDays(new Date(), new Date(startDate))
+	async function addChallenge(
+		data: addChallengeType,
+	): Promise<Challenge[] | undefined> {
+		const {
+			title,
+			description,
+			thumbnail,
+			startDate,
+			endDate,
+			events,
+			members,
+		} = data
 
-    const progress = Math.round((daysIntoChallenge / duration) * 100)
+		const duration = differenceInDays(new Date(endDate), new Date(startDate))
 
-    const leaderBoard = events.reduce(
+		const daysIntoChallenge = differenceInDays(new Date(), new Date(startDate))
+
+		const progress = Math.round((daysIntoChallenge / duration) * 100)
+
+		const leaderBoard = events.reduce(
       (
         acc: {
           duration: number
@@ -322,90 +330,94 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
       [],
     )
 
-    const randomUUID = crypto.randomUUID()
+		const randomUUID = crypto.randomUUID()
 
-    await addDoc(collection(db, 'challenges'), {
-      id: randomUUID,
-      title,
-      description,
-      thumbnail,
-      start_date: startDate,
-      end_date: endDate,
-      events,
-      members,
-    })
+		await addDoc(collection(db, 'challenges'), {
+			id: randomUUID,
+			title,
+			description,
+			thumbnail,
+			start_date: startDate,
+			end_date: endDate,
+			events,
+			members,
+		})
 
-    setChallenges((challenges) => [
-      ...challenges,
-      {
-        id: randomUUID,
-        title,
-        description,
-        thumbnail,
-        start_date: {
-          seconds: startDate.getTime() / 1000,
-          nanoseconds: 0,
-        },
-        end_date: {
-          seconds: endDate.getTime() / 1000,
-          nanoseconds: 0,
-        },
-        events,
-        members,
-        progress,
-        daysIntoChallenge,
-        duration,
-        leaderBoard,
-      },
-    ])
-  }
+		setChallenges((challenges) => [
+			...challenges,
+			{
+				id: randomUUID,
+				title,
+				description,
+				thumbnail,
+				start_date: {
+					seconds: startDate.getTime() / 1000,
+					nanoseconds: 0,
+				},
+				end_date: {
+					seconds: endDate.getTime() / 1000,
+					nanoseconds: 0,
+				},
+				events,
+				members,
+				progress,
+				daysIntoChallenge,
+				duration,
+				leaderBoard,
+			},
+		])
 
-  async function joinChallenge(
-    data: joinChallengeType,
-  ): Promise<Challenge[] | void> {
-    if (!user) return
+		return undefined
+	}
 
-    const { challengeId } = data
+	async function joinChallenge(
+		data: joinChallengeType,
+	): Promise<Challenge[] | undefined> {
+		if (!user) return
 
-    await updateDoc(doc(db, 'challenges', challengeId), {
-      members: arrayUnion(user?.id),
-    })
+		const { challengeId } = data
 
-    setChallenges((challenges) => {
-      const challengeIndex = challenges.findIndex(
-        (challenge) => challenge.id === challengeId,
-      )
+		await updateDoc(doc(db, 'challenges', challengeId), {
+			members: arrayUnion(user?.id),
+		})
 
-      const updatedChallenge = {
-        ...challenges[challengeIndex],
-        members: [...challenges[challengeIndex].members, user.id],
-      }
+		setChallenges((challenges) => {
+			const challengeIndex = challenges.findIndex(
+				(challenge) => challenge.id === challengeId,
+			)
 
-      const updatedChallenges = [...challenges]
-      updatedChallenges[challengeIndex] = updatedChallenge
+			const updatedChallenge = {
+				...challenges[challengeIndex],
+				members: [...challenges[challengeIndex].members, user.id],
+			}
 
-      return updatedChallenges
-    })
-  }
+			const updatedChallenges = [...challenges]
+			updatedChallenges[challengeIndex] = updatedChallenge
 
-  return (
-    <ChallengeContext.Provider
-      value={{ challenges, addEvent, addComment, addChallenge, joinChallenge }}
-    >
-      {children}
-    </ChallengeContext.Provider>
-  )
+			return updatedChallenges
+		})
+
+		return undefined
+	}
+
+	return (
+		<ChallengeContext.Provider
+			value={{ challenges, addEvent, addComment, addChallenge, joinChallenge }}
+		>
+			{children}
+		</ChallengeContext.Provider>
+	)
 }
 
 export function useChallenge() {
-  const { challenges, addEvent, addComment, addChallenge, joinChallenge } =
-    useContext(ChallengeContext)
+	const { challenges, addEvent, addComment, addChallenge, joinChallenge } =
+		useContext(ChallengeContext)
 
-  return {
-    challenges,
-    addEvent,
-    addComment,
-    addChallenge,
-    joinChallenge,
-  }
+	return {
+		challenges,
+		addEvent,
+		addComment,
+		addChallenge,
+		joinChallenge,
+	}
 }
