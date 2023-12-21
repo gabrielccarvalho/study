@@ -55,9 +55,8 @@ export function ChallengeList() {
   return (
     <>
       {challenges
-        .filter(
-          (challenge) =>
-            challenge?.members.find((member: string) => member === user.id),
+        .filter((challenge) =>
+          challenge.members.find((member) => member === user.id),
         )
         .map((challenge) => {
           return <ChallengeCard key={challenge.id} id={challenge.id} />

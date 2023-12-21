@@ -30,7 +30,7 @@ function LoadingSkeleton() {
 export function ChallengeCard({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
-  const challenge = challenges.find((challenge) => challenge?.id === id)
+  const challenge = challenges.find((challenge) => challenge.id === id)
 
   if (!challenge) {
     return <LoadingSkeleton />

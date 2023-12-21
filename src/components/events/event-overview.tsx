@@ -19,6 +19,7 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { toast } from '../ui/use-toast'
 import { Skeleton } from '../ui/skeleton'
+import { redirect } from 'next/navigation'
 
 const formSchema = z.object({
   content: z.string(),
@@ -89,6 +90,10 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
     (evt: Record<string, unknown>) => evt.id === event,
   )
 
+  if (!currentEvent) {
+    redirect(`/challenge/${id}`)
+  }
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     addComment({
       challengeId: id,
@@ -129,10 +134,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
               <span className="ml-2 text-md">{currentEvent.user.username}</span>
             </div>
             <span className="text-sm font-thin">
-              {format(
-                new Date(currentEvent.date.seconds * 1000),
-                "hh:mm aaaaa'm'",
-              )}
+              {format(new Date(currentEvent.date.seconds), "hh:mm aaaaa'm'")}
             </span>
           </div>
           <Separator className="my-1" />
@@ -148,44 +150,34 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
         </div>
       </div>
       {currentEvent.comments &&
-        currentEvent.comments.map(
-          (comment: {
-            id: string
-            user: {
-              avatar: string
-              username: string
-            }
-            content: string
-            created_at: { seconds: number }
-          }) => {
-            return (
-              <div
-                key={comment.id}
-                className="flex flex-row w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10"
-              >
-                <Avatar className="w-7 h-7">
-                  <AvatarImage src={comment.user.avatar} />
-                  <AvatarFallback>
-                    <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col justify-between">
-                  <span className="text-sm font-semibold">
-                    {comment.user.username}
-                  </span>
-                  <span className="text-sm font-light">{comment.content}</span>
-                  <span className="mt-2 text-xs font-thin">
-                    {formatDistance(
-                      new Date(comment.created_at.seconds * 1000),
-                      new Date(),
-                      { addSuffix: true, locale: ptBR },
-                    )}
-                  </span>
-                </div>
+        currentEvent.comments.map((comment) => {
+          return (
+            <div
+              key={comment.id}
+              className="flex flex-row w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10"
+            >
+              <Avatar className="w-7 h-7">
+                <AvatarImage src={comment.user.avatar} />
+                <AvatarFallback>
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700"></div>
+                </AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col justify-between">
+                <span className="text-sm font-semibold">
+                  {comment.user.username}
+                </span>
+                <span className="text-sm font-light">{comment.content}</span>
+                <span className="mt-2 text-xs font-thin">
+                  {formatDistance(
+                    new Date(comment.created_at.seconds * 1000),
+                    new Date(),
+                    { addSuffix: true, locale: ptBR },
+                  )}
+                </span>
               </div>
-            )
-          },
-        )}
+            </div>
+          )
+        })}
       <div className="flex flex-row justify-center w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10">
         <Avatar className="w-7 h-7">
           <AvatarImage src={user.imageUrl} />

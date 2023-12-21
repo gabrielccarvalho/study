@@ -46,7 +46,7 @@ export function AddChallengeForm() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!file) return
+    if (!file || !user) return
 
     const formData = new FormData()
     formData.append('file', file)
@@ -66,7 +66,7 @@ export function AddChallengeForm() {
         startDate: new Date(),
         endDate: new Date(values.endDate),
         events: [],
-        members: [user?.id],
+        members: [user.id],
       })
     } catch (error) {
       console.error(error)

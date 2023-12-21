@@ -44,10 +44,10 @@ export function UserCard() {
 
   const userProgressOnEachChallenge = challenges.map((challenge) => {
     const userMinutesOnChallenge = challenge.events
-      .filter((event: { user: { id: string } }) => {
+      .filter((event) => {
         return event.user.id === user.id
       })
-      .reduce((acc: number, event: { duration: number }) => {
+      .reduce((acc, event) => {
         return acc + event.duration
       }, 0)
 

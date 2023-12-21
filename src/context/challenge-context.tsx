@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { firebaseApp } from '@/lib/firebase-config'
-import { Event } from '@/utils/types'
+import { Challenge, Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
 import {
-  DocumentData,
   addDoc,
   arrayUnion,
   collection,
@@ -19,19 +16,51 @@ import {
 } from 'firebase/firestore'
 import { createContext, useContext, useEffect, useState } from 'react'
 
+type addEventType = {
+  title: string
+  description: string
+  duration: number
+  challenge: string
+  imageUrl: string
+}
+
+type addCommentType = {
+  content: string
+  challengeId: string
+  eventId: string
+}
+
+type addChallengeType = {
+  title: string
+  description: string
+  thumbnail: string
+  startDate: Date
+  endDate: Date
+  events: Event[]
+  members: string[]
+}
+
+type joinChallengeType = {
+  challengeId: string
+}
+
 const ChallengeContext = createContext({
-  challenges: [] as DocumentData[],
-  addEvent: (_data: any) => {},
-  addComment: (_data: any) => {},
-  addChallenge: (_data: any) => {},
-  joinChallenge: (_data: any) => {},
+  challenges: [] as Challenge[],
+  addEvent: (_data: addEventType) =>
+    [] as unknown as Promise<Challenge[] | void>,
+  addComment: (_data: addCommentType) =>
+    [] as unknown as Promise<Challenge[] | void>,
+  addChallenge: (_data: addChallengeType) =>
+    [] as unknown as Promise<Challenge[] | void>,
+  joinChallenge: (_data: joinChallengeType) =>
+    [] as unknown as Promise<Challenge[] | void>,
 })
 
 const db = getFirestore(firebaseApp)
 
 export function ChallengeProvider({ children }: { children: React.ReactNode }) {
   const { user } = useUser()
-  const [challenges, setChallenges] = useState<DocumentData[]>([])
+  const [challenges, setChallenges] = useState<Challenge[]>([])
 
   useEffect(() => {
     async function fetchChallenges() {
@@ -93,8 +122,14 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
         setChallenges((challenges) => [
           ...challenges,
           {
-            ...doc.data(),
             id: doc.id,
+            title: doc.data().title,
+            description: doc.data().description,
+            thumbnail: doc.data().thumbnail,
+            start_date: doc.data().start_date,
+            end_date: doc.data().end_date,
+            events: doc.data().events,
+            members: doc.data().members,
             progress,
             daysIntoChallenge,
             duration,
@@ -109,13 +144,8 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     fetchChallenges()
   }, [])
 
-  async function addEvent(data: {
-    title: string
-    description: string
-    duration: string
-    challenge: string
-    imageUrl: string
-  }) {
+  async function addEvent(data: addEventType): Promise<Challenge[] | void> {
+    if (!user) return
     const { title, description, duration, challenge, imageUrl } = data
 
     const randomId = crypto.randomUUID()
@@ -127,7 +157,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
       arrayUnion({
         title,
         description,
-        duration: Number(duration),
+        duration,
         comments: [],
         date,
         id: randomId,
@@ -156,13 +186,14 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
             comments: [],
             date: {
               seconds: date.getTime() / 1000,
+              nanoseconds: 0,
             },
             id: randomId,
             image: imageUrl,
             user: {
-              id: user?.id,
-              username: user?.username,
-              avatar: user?.imageUrl,
+              id: user.id,
+              username: user.username,
+              avatar: user.imageUrl,
             },
           },
         ],
@@ -175,11 +206,9 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
-  async function addComment(data: {
-    content: string
-    challengeId: string
-    eventId: string
-  }) {
+  async function addComment(data: addCommentType): Promise<Challenge[] | void> {
+    if (!user) return
+
     const { content, challengeId, eventId } = data
     const now = new Date()
 
@@ -192,7 +221,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
       )
 
       const eventIndex = challenges[challengeIndex].events.findIndex(
-        (event: { id: string }) => event.id === eventId,
+        (event) => event.id === eventId,
       )
 
       const updatedEvent = {
@@ -200,21 +229,23 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
         comments: [
           ...challenges[challengeIndex].events[eventIndex].comments,
           {
-            content,
             id: randomId,
+            content,
             created_at: {
               seconds: now.getTime() / 1000,
+              nanoseconds: 0,
             },
             user: {
-              id: user?.id,
-              username: user?.username,
-              avatar: user?.imageUrl,
+              id: user.id,
+              username: user.username,
+              avatar: user.imageUrl,
             },
           },
         ],
       }
 
       const updatedEvents = [...challenges[challengeIndex].events]
+
       updatedEvents[eventIndex] = updatedEvent
 
       const updatedChallenge = {
@@ -240,15 +271,9 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
-  async function addChallenge(data: {
-    title: string
-    description: string
-    thumbnail: string
-    startDate: Date
-    endDate: Date
-    events: Event[]
-    members: string[]
-  }) {
+  async function addChallenge(
+    data: addChallengeType,
+  ): Promise<Challenge[] | void> {
     const {
       title,
       description,
@@ -271,18 +296,11 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
           duration: number
           user: {
             id: string
-            username: string
+            username: string | null
             avatar: string
           }
         }[],
-        event: {
-          user: {
-            id: string
-            username: string
-            avatar: string
-          }
-          duration: number
-        },
+        event,
       ) => {
         const existingUser = acc.find((item) => item.user.id === event.user.id)
 
@@ -326,9 +344,11 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
         thumbnail,
         start_date: {
           seconds: startDate.getTime() / 1000,
+          nanoseconds: 0,
         },
         end_date: {
           seconds: endDate.getTime() / 1000,
+          nanoseconds: 0,
         },
         events,
         members,
@@ -340,7 +360,13 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
     ])
   }
 
-  async function joinChallenge(challengeId: string) {
+  async function joinChallenge(
+    data: joinChallengeType,
+  ): Promise<Challenge[] | void> {
+    if (!user) return
+
+    const { challengeId } = data
+
     await updateDoc(doc(db, 'challenges', challengeId), {
       members: arrayUnion(user?.id),
     })
@@ -352,7 +378,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
       const updatedChallenge = {
         ...challenges[challengeIndex],
-        members: [...challenges[challengeIndex].members, user?.id],
+        members: [...challenges[challengeIndex].members, user.id],
       }
 
       const updatedChallenges = [...challenges]

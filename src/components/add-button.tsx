@@ -49,7 +49,7 @@ export function AddButton() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    joinChallenge(values.id)
+    joinChallenge({ challengeId: values.id })
   }
 
   useEffect(() => {

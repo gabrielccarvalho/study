@@ -49,27 +49,22 @@ export function ChallengeOverview({ id }: { id: string }) {
 
   const { user } = useUser()
 
-  const challenge = challenges.find((challenge) => challenge?.id === id)
+  const challenge = challenges.find((challenge) => challenge.id === id)
 
   if (!challenge || !user) {
     return <LoadingSkeleton />
   }
 
   const userChallengeData = challenge.leaderBoard.find(
-    (item: { user: { id: string }; duration: number }) =>
-      item.user.id === user.id,
+    (item) => item.user.id === user.id,
   )
 
   const userPoints = userChallengeData?.duration || 0
 
   const leaderChallengeData = challenge.leaderBoard.find(
-    (item: { duration: number }) =>
+    (item) =>
       item.duration ===
-      Math.max(
-        ...challenge.leaderBoard.map(
-          (item: { duration: number }) => item.duration,
-        ),
-      ),
+      Math.max(...challenge.leaderBoard.map((item) => item.duration)),
   )
 
   const leaderPoints = leaderChallengeData?.duration || 0
@@ -87,7 +82,7 @@ export function ChallengeOverview({ id }: { id: string }) {
       <div className="flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto">
         <div className="flex flex-row items-center gap-2">
           <Avatar>
-            <AvatarImage src={leaderChallengeData?.user?.avatar} />
+            <AvatarImage src={leaderChallengeData?.user.avatar} />
             <AvatarFallback>
               <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500">
                 <UserRound className="w-6 h-6 text-white" />

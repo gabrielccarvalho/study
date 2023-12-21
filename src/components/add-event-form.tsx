@@ -53,11 +53,13 @@ export function AddEventForm() {
 
       const data = await response.json()
 
+      const { title, description, duration, challenge } = values
+
       addEvent({
-        title: values.title,
-        description: values.description,
-        duration: parseInt(values.duration),
-        challenge: values.challenge,
+        title,
+        description,
+        duration: parseInt(duration),
+        challenge,
         imageUrl: data.image,
       })
     } catch (error) {
@@ -82,7 +84,6 @@ export function AddEventForm() {
   }, [form.formState.errors, toast])
 
   const challengesInfo = challenges.map((challenge) => {
-    if (!challenge) return {}
     return {
       id: challenge.id,
       title: challenge.title,

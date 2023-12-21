@@ -7,18 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { BookOpen } from 'lucide-react'
 import { Skeleton } from '../ui/skeleton'
 import ptBR from 'date-fns/locale/pt-BR'
-
-type EventType = {
-  id: string
-  image: string
-  title: string
-  date: { seconds: number }
-  user: {
-    id: string
-    username: string
-    avatar: string
-  }
-}
+import { Event } from '@/utils/types'
 
 function LoadingSkeleton() {
   return (
@@ -50,7 +39,7 @@ function LoadingSkeleton() {
 export function ChallengeHistory({ id }: { id: string }) {
   const { challenges } = useChallenge()
 
-  const challenge = challenges.find((challenge) => challenge?.id === id)
+  const challenge = challenges.find((challenge) => challenge.id === id)
 
   if (!challenge) {
     return (
@@ -63,7 +52,7 @@ export function ChallengeHistory({ id }: { id: string }) {
   }
 
   const events = challenge.events.reduce(
-    (acc: { [x: string]: EventType[] }, event: EventType) => {
+    (acc: { [x: string]: Event[] }, event) => {
       const weekDay = format(new Date(event.date.seconds * 1000), 'eee', {
         locale: ptBR,
       })
@@ -113,13 +102,13 @@ export function ChallengeHistory({ id }: { id: string }) {
           {id}
         </span>
       </div>
-      {Object.entries(events).map(([date, events]: [string, any]) => (
+      {Object.entries(events).map(([date, events]) => (
         <div
           key={date}
           className="flex flex-col w-full max-w-lg gap-2 mx-auto my-2"
         >
           <h3 className="font-semibold text-md">{date}</h3>
-          {events.map((event: EventType) => (
+          {events.map((event) => (
             <Link key={event.id} href={`/challenge/${id}/event/${event.id}`}>
               <div className="flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto border rounded-md shadow-md bg-muted border-muted-foreground/10">
                 <div className="flex flex-row items-center justify-between w-full p-1">
