@@ -88,16 +88,20 @@
 
 ## Challenge:
 
-| Fields      | Type       | Description
-| :---------- | :--------- | :----------------
-| id          | `string`   | An uuid string.
-| title       | `string`   | A text string with the challenge's title.
-| description | `string`   | A text string with the challenge's description.
-| thumbnail   | `string`   | An URL to the challenge image (stored in the Amazon S3 bucket).
-| start_date  | `Date`     | The starting date of the challenge.
-| end_date    | `Date`     | The deadline of the challenge.
-| members     | `string[]` | An array of users id that are on the challenge.
-| events      | `Event[]`  | An array of events on this challenge.
+| Fields            | Type            | Description
+| :----------       | :---------      | :----------------
+| id                | `string`        | An uuid string.
+| title             | `string`        | A text string with the challenge's title.
+| description       | `string`        | A text string with the challenge's description.
+| thumbnail         | `string`        | An URL to the challenge image (stored in the Amazon S3 bucket).
+| start_date        | `Date`          | The starting date of the challenge.
+| end_date          | `Date`          | The deadline of the challenge.
+| members           | `string[]`      | An array of users id that are on the challenge.
+| events            | `Event[]`       | An array of events on this challenge.
+| leaderBoard       | `LeaderBoard[]` | An array of users and total durations.
+| duration          | `number`        | The duration of the challenge.
+| daysIntoChallenge | `number`        | How many days into the challenge.
+| progress          | `number`        | The progress of the challenge in percentage.
 
 
 ### Example
@@ -115,6 +119,13 @@
          { ... },
          { ... },
       ],
+      leaderBoard: {
+         user: ...User,
+         duration: 0
+      }
+      duration: 365,
+      daysIntoChallenge: 36,
+      progress: 0.10,
    }
 ```
 
