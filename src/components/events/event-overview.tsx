@@ -78,6 +78,9 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      content: '',
+    },
   })
 
   const challenge = challenges.find((challenge) => challenge?.id === id)
@@ -95,6 +98,15 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.content === '') {
+      toast({
+        title: 'Oops! Você precisa escrever algo para enviar o comentário.',
+        variant: 'destructive',
+      })
+
+      return
+    }
+
     addComment({
       challengeId: id,
       eventId: event,
