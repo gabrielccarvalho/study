@@ -5,7 +5,6 @@ import { ChallengeProvider } from '@/context/challenge-context'
 import '@/styles/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import type { Metadata } from 'next'
-// eslint-disable-next-line camelcase
 import { Nunito_Sans } from 'next/font/google'
 
 const NunitoSans = Nunito_Sans({
