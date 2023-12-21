@@ -65,6 +65,7 @@ export function UserCard() {
 					alt='user avatar'
 					width={128}
 					height={128}
+					quality={90}
 					className='rounded-full'
 				/>
 				<div className='flex flex-col items-center mt-2'>

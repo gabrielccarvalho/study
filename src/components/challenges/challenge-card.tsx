@@ -44,6 +44,7 @@ export function ChallengeCard({ id }: { id: string }) {
 					alt='Challenge Image'
 					width={300}
 					height={300}
+					quality={10}
 					className='rounded-t-md'
 				/>
 			</div>

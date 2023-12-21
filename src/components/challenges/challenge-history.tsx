@@ -1,13 +1,13 @@
 'use client'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { Event } from '@/utils/types'
 import { format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
-import { Avatar, AvatarFallback, AvatarImage } from '.@/components/ui/avatar'
-import { Skeleton } from '.@/components/ui/skeleton'
 
 function LoadingSkeleton() {
 	return (

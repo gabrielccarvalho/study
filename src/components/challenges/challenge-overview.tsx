@@ -1,12 +1,12 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
 import { Calendar, UserRound } from 'lucide-react'
 import Image from 'next/image'
-import { Separator } from '.@/components/ui/separator'
 
 function LoadingSkeleton() {
 	return (
@@ -77,6 +77,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 					alt='challenge image'
 					width={1920}
 					height={1080}
+					quality={25}
 				/>
 			</div>
 			<div className='flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto'>

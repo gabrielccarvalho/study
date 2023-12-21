@@ -14,12 +14,12 @@ import { useChallenge } from '@/context/challenge-context'
 
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Skeleton } from '@/components/ui/skeleton'
+import { toast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { Skeleton } from '.@/components/ui/skeleton'
-import { toast } from '.@/components/ui/use-toast'
 
 const formSchema = z.object({
 	content: z.string(),
@@ -132,6 +132,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 					alt='event image'
 					width={500}
 					height={500}
+					quality={10}
 					className='shadow-md rounded-t-md'
 				/>
 				<div className='flex flex-col w-full max-w-md px-4 py-2 border border-t-0 shadow-lg bg-muted rounded-b-md border-muted-foreground/10'>
