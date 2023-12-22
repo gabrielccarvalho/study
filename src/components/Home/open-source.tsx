@@ -18,8 +18,8 @@ export function OpenSource() {
 
 		const globe = createGlobe(canvasRef.current, {
 			devicePixelRatio: 2,
-			width: 400 * 2,
-			height: 400 * 2,
+			width: 500 * 2,
+			height: 500 * 2,
 			phi: 0,
 			theta: 0,
 			dark: theme === 'dark' ? 1 : 0,
@@ -51,9 +51,9 @@ export function OpenSource() {
 		<>
 			<div
 				id='open-source'
-				className='flex flex-row justify-between flex-1 gap-4 px-6 py-8 mx-auto my-10 max-w-screen-2xl'
+				className='flex flex-row-reverse justify-between flex-1 gap-6 px-6 py-8 mx-auto my-20 max-w-screen-2xl'
 			>
-				<div className='flex flex-col self-start gap-10'>
+				<div className='flex flex-col flex-1 gap-10'>
 					<div className='flex flex-col gap-4'>
 						<span className='max-w-md text-6xl font-geist'>Open Source</span>
 						<p className='max-w-lg text-lg font-light font-geist'>
@@ -64,25 +64,27 @@ export function OpenSource() {
 					<Link
 						href='https://github.com/gabrielccarvalho/study'
 						target='_blank'
-						className='flex flex-row items-center'
 					>
 						<Button
 							size='lg'
-							className='transition-all duration-100 hover:scale-110'
+							className='flex items-center transition-all duration-100 hover:scale-110'
 						>
 							Acessar Repositório
 							<MoveUpRight className='w-5 h-5 ml-2' />
 						</Button>
 					</Link>
 				</div>
-				<div className='flex flex-row items-center justify-start'>
+				<div className='flex flex-row w-3/5'>
 					<canvas
 						ref={canvasRef}
 						style={{
-							width: 600,
-							height: 370,
-							maxWidth: '100%',
+							width: 500,
+							height: 500,
+							// maxWidth: '100%',
 							aspectRatio: 1,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
 							backgroundColor: 'transparent',
 						}}
 					/>
