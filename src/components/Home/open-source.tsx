@@ -2,11 +2,13 @@
 
 import createGlobe from 'cobe'
 import { MoveUpRight } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
 import { Button } from '../ui/button'
 
 export function OpenSource() {
+	const { theme } = useTheme()
 	const canvasRef = useRef<HTMLCanvasElement>(
 		null as unknown as HTMLCanvasElement,
 	)
@@ -20,13 +22,13 @@ export function OpenSource() {
 			height: 400 * 2,
 			phi: 0,
 			theta: 0,
-			dark: 1,
+			dark: theme === 'dark' ? 1 : 0,
 			diffuse: 1.2,
 			mapSamples: 16000,
 			mapBrightness: 6,
-			baseColor: [0.3, 0.3, 0.3],
+			baseColor: theme === 'dark' ? [0.3, 0.3, 0.3] : [1, 1, 1],
 			markerColor: [0.1, 0.8, 1],
-			glowColor: [1, 1, 1],
+			glowColor: theme === 'dark' ? [1, 1, 1] : [0.3, 0.3, 0.3],
 			markers: [
 				// longitude latitude
 				{ location: [-5.787858, -35.19516], size: 0.1 },
@@ -43,7 +45,7 @@ export function OpenSource() {
 		return () => {
 			globe.destroy()
 		}
-	}, [])
+	}, [theme])
 
 	return (
 		<>
