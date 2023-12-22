@@ -4,13 +4,30 @@ import { Toaster } from '@/components/ui/toaster'
 import { ChallengeProvider } from '@/context/challenge-context'
 import '@/styles/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
+import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
-import { Nunito_Sans } from 'next/font/google'
+import { Inter, Nunito_Sans, Roboto } from 'next/font/google'
 
-const NunitoSans = Nunito_Sans({
+const nunito = Nunito_Sans({
 	weight: ['200', '400', '600', '700', '900'],
 	style: ['normal', 'italic'],
 	subsets: ['latin'],
+	variable: '--font-nunito-sans',
+})
+
+const inter = Inter({
+	weight: ['200', '400', '600', '700', '900'],
+	style: ['normal'],
+	subsets: ['latin'],
+	variable: '--font-inter',
+})
+
+const roboto = Roboto({
+	weight: ['400'],
+	style: ['normal'],
+	subsets: ['latin'],
+	variable: '--font-roboto',
 })
 
 export const metadata: Metadata = {
@@ -24,10 +41,16 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<ClerkProvider>
+		<ClerkProvider
+			appearance={{
+				baseTheme: dark,
+			}}
+		>
 			<ChallengeProvider>
 				<html lang='en'>
-					<body className={NunitoSans.className}>
+					<body
+						className={`${inter.variable} ${nunito.variable} ${roboto.variable} ${GeistSans.variable}`}
+					>
 						<ThemeProvider
 							attribute='class'
 							defaultTheme='dark'
