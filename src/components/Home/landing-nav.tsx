@@ -7,13 +7,13 @@ export function LandingNav() {
 			<Link href='/'>
 				<span className='text-xl font-bold font-inter'>study</span>
 			</Link>
-			<div className='flex flex-row items-center justify-around flex-1 max-w-xl'>
-				<Link href='/'>
+			{/* <div className='flex flex-row items-center justify-around flex-1 max-w-xl'>
+				<Link href='#features'>
 					<span className='py-1 text-sm transition-all duration-100 font-geist'>
-						Produto
+						Features
 					</span>
 				</Link>
-				<Link href='/'>
+				<Link href='#platform'>
 					<span className='py-1 text-sm transition-all duration-100 font-geist'>
 						Showcase
 					</span>
@@ -23,7 +23,7 @@ export function LandingNav() {
 						Nosso Time
 					</span>
 				</Link>
-			</div>
+			</div> */}
 			<ModeToggle className='border-none backdrop-blur-md hover:bg-white/20' />
 		</div>
 	)
