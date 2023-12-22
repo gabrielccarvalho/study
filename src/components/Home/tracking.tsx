@@ -52,14 +52,17 @@ export function Tracking() {
 				id='features'
 				className='flex flex-row-reverse gap-8 p-6 mx-auto mt-8 max-w-7xl'
 			>
-				<div className='flex flex-col max-w-xl gap-8'>
-					<span className='text-6xl font-geist'>
-						Métricas de acompanhamento
-					</span>
-					<p className='max-w-sm font-light text-md font-geist'>
-						Você pode acompanhar detalhadamente seu progresso em cada etiqueta
-						personalizada que você criar, além de poder acompanhar seus amigos.
-					</p>
+				<div className='flex flex-col max-w-xl gap-10'>
+					<div className='flex flex-col gap-4'>
+						<span className='text-6xl font-geist'>
+							Métricas de acompanhamento
+						</span>
+						<p className='max-w-sm font-light text-md font-geist'>
+							Você pode acompanhar detalhadamente seu progresso em cada etiqueta
+							personalizada que você criar, além de poder acompanhar seus
+							amigos.
+						</p>
+					</div>
 					<Link href='/app'>
 						<Button
 							size='lg'
