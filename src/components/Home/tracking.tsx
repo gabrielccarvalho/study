@@ -95,7 +95,7 @@ export function Tracking() {
 								type='monotone'
 								dataKey='Matemática'
 								stroke='#f472b6'
-								strokeWidth={2}
+								strokeWidth={3}
 								dot={false}
 								activeDot={{ r: 6 }}
 							/>
@@ -103,7 +103,7 @@ export function Tracking() {
 								type='monotone'
 								dataKey='Inglês'
 								stroke='#82ca9d'
-								strokeWidth={2}
+								strokeWidth={3}
 								dot={false}
 								activeDot={{ r: 6 }}
 							/>
@@ -111,7 +111,7 @@ export function Tracking() {
 								type='monotone'
 								dataKey='Programação'
 								stroke='#6366f1'
-								strokeWidth={2}
+								strokeWidth={3}
 								dot={false}
 								activeDot={{ r: 6 }}
 							/>
