@@ -9,16 +9,16 @@ const customData = [
 		gender: 'male',
 	},
 	{
-		name: 'Roger',
+		name: 'Larissa',
 		value: 9332,
 		ranking: 2,
-		gender: 'male',
+		gender: 'female',
 	},
 	{
-		name: 'Larissa',
+		name: 'Arnaldo',
 		value: 8742,
 		ranking: 3,
-		gender: 'female',
+		gender: 'male',
 	},
 	{
 		name: 'João',
@@ -82,7 +82,7 @@ export function Showcase() {
 				</p>
 			</div>
 			<div className='flex items-center justify-center w-1/2 mx-auto'>
-				<div className='flex flex-col px-4 overflow-y-hidden border rounded-md shadow-lg max-h-[550px] w-96 border-muted'>
+				<div className='flex flex-col px-4 overflow-y-scroll border rounded-md shadow-lg max-h-[550px] w-96 border-muted'>
 					<div className='sticky top-0 z-30 flex items-center w-full py-2 bg-background'>
 						<span className='mb-2 text-2xl backdrop-blur-md'>Rankings</span>
 					</div>
