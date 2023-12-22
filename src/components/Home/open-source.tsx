@@ -1,14 +1,55 @@
+'use client'
+
+import createGlobe from 'cobe'
 import { MoveUpRight } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useRef } from 'react'
 import { Button } from '../ui/button'
 
 export function OpenSource() {
+	const canvasRef = useRef<HTMLCanvasElement>(
+		null as unknown as HTMLCanvasElement,
+	)
+
+	useEffect(() => {
+		let phi = 0
+
+		const globe = createGlobe(canvasRef.current, {
+			devicePixelRatio: 2,
+			width: 400 * 2,
+			height: 400 * 2,
+			phi: 0,
+			theta: 0,
+			dark: 1,
+			diffuse: 1.2,
+			mapSamples: 16000,
+			mapBrightness: 6,
+			baseColor: [0.3, 0.3, 0.3],
+			markerColor: [0.1, 0.8, 1],
+			glowColor: [1, 1, 1],
+			markers: [
+				// longitude latitude
+				{ location: [-5.787858, -35.19516], size: 0.1 },
+				{ location: [40.7128, -74.006], size: 0.05 },
+			],
+			onRender: (state) => {
+				// Called on every animation frame.
+				// `state` will be an empty object, return updated params.
+				state.phi = phi
+				phi += 0.003
+			},
+		})
+
+		return () => {
+			globe.destroy()
+		}
+	}, [])
+
 	return (
 		<>
 			<div
 				id='open-source'
-				className='flex flex-row-reverse justify-between flex-1 max-w-6xl gap-4 py-8 mx-auto my-8'
+				className='flex flex-row justify-between flex-1 gap-4 px-6 py-8 mx-auto my-10 max-w-screen-2xl'
 			>
 				<div className='flex flex-col self-start gap-10'>
 					<div className='flex flex-col gap-4'>
@@ -32,13 +73,16 @@ export function OpenSource() {
 						</Button>
 					</Link>
 				</div>
-				<div className='flex flex-row items-start justify-start max-w-md h-96'>
-					<Image
-						src='/github.png'
-						alt='GitHub'
-						width={500}
-						height={500}
-						className=''
+				<div className='flex flex-row items-center justify-start'>
+					<canvas
+						ref={canvasRef}
+						style={{
+							width: 600,
+							height: 370,
+							maxWidth: '100%',
+							aspectRatio: 1,
+							backgroundColor: 'transparent',
+						}}
 					/>
 				</div>
 			</div>

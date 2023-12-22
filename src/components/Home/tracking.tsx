@@ -16,31 +16,37 @@ const customData = [
 	{
 		name: 'Janeiro',
 		Inglês: Math.round(Math.random() * 10000),
+		Matemática: Math.round(Math.random() * 10000),
 		Programação: Math.round(Math.random() * 10000),
 	},
 	{
 		name: 'Fevereiro',
 		Inglês: Math.round(Math.random() * 10000),
+		Matemática: Math.round(Math.random() * 10000),
 		Programação: Math.round(Math.random() * 10000),
 	},
 	{
 		name: 'Março',
 		Inglês: Math.round(Math.random() * 10000),
+		Matemática: Math.round(Math.random() * 10000),
 		Programação: Math.round(Math.random() * 10000),
 	},
 	{
 		name: 'Abril',
 		Inglês: Math.round(Math.random() * 10000),
+		Matemática: Math.round(Math.random() * 10000),
 		Programação: Math.round(Math.random() * 10000),
 	},
 	{
 		name: 'Maio',
 		Inglês: Math.round(Math.random() * 10000),
+		Matemática: Math.round(Math.random() * 10000),
 		Programação: Math.round(Math.random() * 10000),
 	},
 	{
 		name: 'Junho',
 		Inglês: Math.round(Math.random() * 10000),
+		Matemática: Math.round(Math.random() * 10000),
 		Programação: Math.round(Math.random() * 10000),
 	},
 ]
@@ -50,10 +56,10 @@ export function Tracking() {
 		<>
 			<div
 				id='features'
-				className='flex flex-row-reverse gap-8 p-6 mx-auto mt-8 max-w-7xl'
+				className='flex flex-row-reverse justify-between gap-8 p-6 mx-auto mt-8 max-w-screen-2xl'
 			>
 				<div className='flex flex-col max-w-xl gap-10'>
-					<div className='flex flex-col gap-4'>
+					<div className='flex flex-col flex-1 gap-4'>
 						<span className='text-6xl font-geist'>
 							Métricas de acompanhamento
 						</span>
@@ -73,7 +79,7 @@ export function Tracking() {
 						</Button>
 					</Link>
 				</div>
-				<div className='flex flex-col w-full p-2 rounded-md h-96'>
+				<div className='flex flex-col w-1/2 p-2 rounded-md h-96'>
 					<ResponsiveContainer width='100%' height='100%'>
 						<LineChart width={300} height={300} data={customData}>
 							<XAxis dataKey='name' axisLine={false} hide />
@@ -87,7 +93,7 @@ export function Tracking() {
 							/>
 							<Line
 								type='monotone'
-								dataKey='Programação'
+								dataKey='Matemática'
 								stroke='#f472b6'
 								strokeWidth={2}
 								dot={false}
@@ -97,6 +103,14 @@ export function Tracking() {
 								type='monotone'
 								dataKey='Inglês'
 								stroke='#82ca9d'
+								strokeWidth={2}
+								dot={false}
+								activeDot={{ r: 6 }}
+							/>
+							<Line
+								type='monotone'
+								dataKey='Programação'
+								stroke='#6366f1'
 								strokeWidth={2}
 								dot={false}
 								activeDot={{ r: 6 }}
