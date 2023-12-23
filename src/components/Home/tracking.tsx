@@ -65,11 +65,10 @@ export function Tracking() {
 						</span>
 						<p className='max-w-sm font-light text-md font-geist'>
 							Você pode acompanhar detalhadamente seu progresso em cada etiqueta
-							personalizada que você criar, além de poder acompanhar seus
-							amigos.
+							personalizada que você criar.
 						</p>
 					</div>
-					<Link href='/app'>
+					<Link href='/app' className='self-start'>
 						<Button
 							size='lg'
 							className='self-start transition-all duration-100 hover:scale-110'

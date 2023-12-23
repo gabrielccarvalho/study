@@ -16,7 +16,7 @@ export function Header() {
 						</h1>
 						<span className='max-w-lg font-light text-center font-geist'>
 							Estude, acumule pontos e compita com seus amigos! Acesse o app e
-							torne seu estudo mais divertido!
+							comece a aprender de forma divertida.
 						</span>
 					</div>
 					<div className='flex items-center justify-center flex-1'>

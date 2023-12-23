@@ -76,6 +76,9 @@ module.exports = {
 				roboto: ['var(--font-roboto)', 'roboto'],
 				geist: ['var(--font-geist-sans)'],
 			},
+			backgroundImage: {
+				confetti: "url('/confetti.png')",
+			},
 		},
 	},
 	plugins: [require('tailwindcss-animate')],

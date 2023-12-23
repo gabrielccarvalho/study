@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Trophy } from 'lucide-react'
 import { Separator } from '../ui/separator'
 
 const customData = [
@@ -7,18 +8,21 @@ const customData = [
 		value: 9420,
 		ranking: 1,
 		gender: 'male',
+		color: 'text-yellow-500',
 	},
 	{
 		name: 'Larissa',
 		value: 9332,
 		ranking: 2,
 		gender: 'female',
+		color: 'text-gray-400',
 	},
 	{
 		name: 'Arnaldo',
 		value: 8742,
 		ranking: 3,
 		gender: 'male',
+		color: 'text-amber-600',
 	},
 	{
 		name: 'João',
@@ -66,9 +70,11 @@ const customData = [
 
 export function Showcase() {
 	return (
-		<div className='flex flex-row w-full p-6 mx-auto mt-20 max-w-screen-2xl'>
-			<div className='flex flex-col flex-1 w-1/2 gap-8'>
-				<span className='text-6xl font-geist'>Estude se divertindo</span>
+		<div className='flex flex-row w-full p-6 mx-auto mt-28 max-w-screen-2xl'>
+			<div className='flex flex-col flex-1 w-1/2 gap-4'>
+				<span className='max-w-xl mb-4 text-6xl font-geist'>
+					Motivação para estudar
+				</span>
 				<p className='max-w-lg text-md font-geist'>
 					Com um sistema de gamificação, o Study te ajuda a estudar de forma
 					divertida e eficiente, com recompensas e desafios para você se motivar
@@ -76,13 +82,11 @@ export function Showcase() {
 				</p>
 				<p className='max-w-lg text-md font-geist'>
 					Para cada minuto que você estuda, você acumula pontos e sobe no
-					ranking de cada desafio que você participa. Além disso, você pode
-					criar suas próprias etiquetas para acompanhar seu progresso em cada
-					matéria.
+					ranking de cada desafio que você participa.
 				</p>
 			</div>
-			<div className='flex items-center justify-center w-1/2 mx-auto'>
-				<div className='flex flex-col px-4 overflow-y-scroll border rounded-md shadow-lg max-h-[500px] w-96 border-muted'>
+			<div className='flex items-center justify-center w-1/2 mx-auto bg-confetti'>
+				<div className='flex flex-col px-4 overflow-y-scroll border rounded-md shadow-lg max-h-[500px] w-96 border-muted z-20 bg-background'>
 					<div className='sticky top-0 z-30 flex items-center w-full py-2 bg-background'>
 						<span className='mb-2 text-2xl backdrop-blur-md'>Rankings</span>
 					</div>
@@ -105,7 +109,12 @@ export function Showcase() {
 											</span>
 										</div>
 									</div>
-									<span className='text-xl font-bold'>#{item.ranking}</span>
+									<div className='flex items-center'>
+										{item.color && (
+											<Trophy className={`w-6 h-6 mr-2 ${item.color}`} />
+										)}
+										<span className='text-xl font-bold'>#{item.ranking}</span>
+									</div>
 								</div>
 							</div>
 							<Separator className='my-4' />
