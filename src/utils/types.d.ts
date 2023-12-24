@@ -45,3 +45,31 @@ export type Challenge = {
 	daysIntoChallenge: number
 	progress: number
 }
+
+export type addEventType = {
+	title: string
+	description: string
+	duration: number
+	challenge: string
+	imageUrl: string
+}
+
+export type addCommentType = {
+	content: string
+	challengeId: string
+	eventId: string
+}
+
+export type addChallengeType = {
+	title: string
+	description: string
+	thumbnail: string
+	startDate: Date
+	endDate: Date
+	events: Event[]
+	members: string[]
+}
+
+export type joinChallengeType = {
+	challengeId: string
+}

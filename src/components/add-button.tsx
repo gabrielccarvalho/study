@@ -54,7 +54,13 @@ export function AddButton() {
 	})
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		joinChallenge({ challengeId: values.id })
+		await joinChallenge({ challengeId: values.id })
+
+		toast({
+			title: 'Você entrou no desafio!',
+			description: 'Agora é só estudar e se divertir! 🎉',
+			variant: 'success',
+		})
 	}
 
 	useEffect(() => {
