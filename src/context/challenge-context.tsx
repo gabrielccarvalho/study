@@ -4,10 +4,10 @@ import {
 	Challenge,
 	Comment,
 	Event,
-	addChallengeType,
-	addCommentType,
-	addEventType,
-	joinChallengeType,
+	addChallenge,
+	addComment,
+	addEvent,
+	joinChallenge,
 } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
@@ -15,14 +15,10 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const ChallengeContext = createContext({
 	challenges: [] as Challenge[],
-	addEvent: (_data: addEventType) =>
-		[] as unknown as Promise<Event | undefined>,
-	addComment: (_data: addCommentType) =>
-		[] as unknown as Promise<Comment | undefined>,
-	addChallenge: (_data: addChallengeType) =>
-		[] as unknown as Promise<Challenge | undefined>,
-	joinChallenge: (_data: joinChallengeType) =>
-		[] as unknown as Promise<Challenge[] | undefined>,
+	addEvent: (_data: addEvent) => [] as unknown as Promise<Event>,
+	addComment: (_data: addComment) => [] as unknown as Promise<Comment>,
+	addChallenge: (_data: addChallenge) => [] as unknown as Promise<Challenge>,
+	joinChallenge: (_data: joinChallenge) => [] as unknown as Promise<Challenge>,
 })
 
 export function ChallengeProvider({ children }: { children: React.ReactNode }) {
@@ -50,8 +46,10 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		fetchChallenges()
 	}, [])
 
-	async function addEvent(data: addEventType): Promise<Event | undefined> {
-		if (!user) return
+	async function addEvent(data: addEvent): Promise<Event> {
+		if (!user) {
+			throw new Error('User not logged in')
+		}
 
 		const { title, description, duration, challenge, imageUrl } = data
 
@@ -107,10 +105,10 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		return newEvent
 	}
 
-	async function addComment(
-		data: addCommentType,
-	): Promise<Comment | undefined> {
-		if (!user) return
+	async function addComment(data: addComment): Promise<Comment> {
+		if (!user) {
+			throw new Error('User not logged in')
+		}
 
 		const { content, challengeId, eventId } = data
 		const now = new Date()
@@ -194,9 +192,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		return newComment
 	}
 
-	async function addChallenge(
-		data: addChallengeType,
-	): Promise<Challenge | undefined> {
+	async function addChallenge(data: addChallenge): Promise<Challenge> {
 		const {
 			title,
 			description,
@@ -281,12 +277,20 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		return newChallenge
 	}
 
-	async function joinChallenge(
-		data: joinChallengeType,
-	): Promise<Challenge[] | undefined> {
-		if (!user) return
+	async function joinChallenge(data: joinChallenge): Promise<Challenge> {
+		if (!user) {
+			throw new Error('User not logged in')
+		}
 
 		const { challengeId } = data
+
+		const existingChallenge = challenges.find(
+			(challenge) => challenge.id === challengeId,
+		)
+
+		if (!existingChallenge) {
+			throw new Error('Challenge not found')
+		}
 
 		await fetch('/api/firebase/join-challenge', {
 			method: 'POST',
@@ -315,7 +319,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			return updatedChallenges
 		})
 
-		return undefined
+		return existingChallenge
 	}
 
 	return (

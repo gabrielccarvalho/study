@@ -46,7 +46,7 @@ export type Challenge = {
 	progress: number
 }
 
-export type addEventType = {
+export type addEvent = {
 	title: string
 	description: string
 	duration: number
@@ -54,13 +54,13 @@ export type addEventType = {
 	imageUrl: string
 }
 
-export type addCommentType = {
+export type addComment = {
 	content: string
 	challengeId: string
 	eventId: string
 }
 
-export type addChallengeType = {
+export type addChallenge = {
 	title: string
 	description: string
 	thumbnail: string
@@ -70,6 +70,6 @@ export type addChallengeType = {
 	members: string[]
 }
 
-export type joinChallengeType = {
+export type joinChallenge = {
 	challengeId: string
 }
