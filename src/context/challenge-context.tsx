@@ -32,9 +32,6 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				next: {
-					revalidate: 60,
-				},
 			}).then(async (item) => {
 				const response = await item.json()
 
