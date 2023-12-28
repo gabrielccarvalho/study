@@ -92,7 +92,7 @@ export function Showcase() {
 					</div>
 					{customData.map((item) => (
 						<>
-							<div className='flex flex-col gap-2'>
+							<div className='flex flex-col gap-2' key={item.ranking}>
 								<div className='flex flex-row items-center justify-between w-full p-2'>
 									<div className='flex items-center justify-between gap-2'>
 										<Avatar>

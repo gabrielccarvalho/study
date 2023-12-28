@@ -11,14 +11,16 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { useUser } from '@clerk/nextjs'
+import { SignOutButton, useClerk, useUser } from '@clerk/nextjs'
 import { Bell, ChevronDown, LogOut } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ModeToggle } from './mode-toggle'
 import { SearchBar } from './searchbar'
 
 export function Nav() {
 	const { user } = useUser()
+	const router = useRouter()
 
 	return (
 		<div className='sticky top-0 left-0 right-0 flex flex-row items-center justify-between h-20 px-3 py-1 border-b-2 shadow-sm bg-background/80'>
@@ -71,10 +73,18 @@ export function Nav() {
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem className='hover:cursor-pointer group'>
-								<span className='group-hover:text-red-500'>Sair</span>
-								<LogOut className='w-4 h-4 ml-2 group-hover:text-red-500' />
-							</DropdownMenuItem>
+							<SignOutButton
+								signOutCallback={() => {
+									router.push('/')
+								}}
+							>
+								<DropdownMenuItem className='hover:cursor-pointer group'>
+									<>
+										<span className='group-hover:text-red-500'>Sair</span>
+										<LogOut className='w-4 h-4 ml-2 group-hover:text-red-500' />
+									</>
+								</DropdownMenuItem>
+							</SignOutButton>
 						</DropdownMenuGroup>
 					</DropdownMenuContent>
 				</DropdownMenu>
