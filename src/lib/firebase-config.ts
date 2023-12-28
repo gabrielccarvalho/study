@@ -1,9 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import {
-	getFirestore,
-	initializeFirestore,
-	memoryLocalCache,
-} from 'firebase/firestore'
+import { getFirestore } from 'firebase/firestore'
 
 export const firebaseApp = initializeApp({
 	apiKey: process.env.FIREBASE_API_KEY,
@@ -16,6 +12,4 @@ export const firebaseApp = initializeApp({
 	measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 })
 
-export const db = initializeFirestore(firebaseApp, {
-	localCache: memoryLocalCache(),
-})
+export const db = getFirestore(firebaseApp)
