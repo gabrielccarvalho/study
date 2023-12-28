@@ -148,7 +148,10 @@ export function ChallengeHistory({ id }: { id: string }) {
 				>
 					<h3 className='font-semibold text-md'>{date}</h3>
 					{events.map((event) => (
-						<Link key={event.id} href={`/challenge/${id}/event/${event.id}`}>
+						<Link
+							key={event.id}
+							href={`/app/challenge/${id}/event/${event.id}`}
+						>
 							<div className='flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto border rounded-md shadow-md bg-muted border-muted-foreground/10'>
 								<div className='flex flex-row items-center justify-between w-full p-1'>
 									<div className='flex flex-row gap-2'>

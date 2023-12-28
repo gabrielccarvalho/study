@@ -31,7 +31,10 @@ export function Sidebar() {
 				<Link href='/app/challenges' className='w-full'>
 					<Button
 						variant='ghost'
-						aria-selected={pathname === '/app/challenges'}
+						aria-selected={
+							pathname === '/app/challenges' ||
+							pathname.startsWith('/app/challenge')
+						}
 						className='w-full border-r-2 rounded-none border-r-transparent hover:bg-transparent hover:border-blue-200 aria-selected:border-blue-500'
 					>
 						<Swords className='w-6 h-6' />
