@@ -71,9 +71,6 @@ module.exports = {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 			},
 			fontFamily: {
-				inter: ['var(--font-inter)', 'inter'],
-				nunito: ['var(--font-nunito-sans)', 'nunito'],
-				roboto: ['var(--font-roboto)', 'roboto'],
 				geist: ['var(--font-geist-sans)'],
 			},
 			backgroundImage: {

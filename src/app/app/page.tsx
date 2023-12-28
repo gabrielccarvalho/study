@@ -1,6 +1,6 @@
-import { Sidebar } from '@/components/app/sidebar'
 import { Charts } from '@/components/dashboard/charts'
 import { Nav } from '@/components/nav'
+import { Sidebar } from '@/components/sidebar'
 
 export default function App() {
 	return (

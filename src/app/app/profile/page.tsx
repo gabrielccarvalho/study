@@ -1,6 +1,4 @@
-import { LoginConnections } from '@/components/app/login-connections'
-import { Sidebar } from '@/components/app/sidebar'
-import { Nav } from '@/components/nav'
+import { LoginConnections } from '@/components/login-connections'
 import { Separator } from '@/components/ui/separator'
 import { currentUser } from '@clerk/nextjs'
 import { ProfileForm } from './profile-form'

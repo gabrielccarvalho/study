@@ -1,4 +1,3 @@
-import { DailyGoal } from '../app/daily-goal'
 import { CardsMetric } from './metrics'
 
 export function Charts() {

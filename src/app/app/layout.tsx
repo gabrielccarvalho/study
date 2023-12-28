@@ -1,5 +1,5 @@
-import { Sidebar } from '@/components/app/sidebar'
 import { Nav } from '@/components/nav'
+import { Sidebar } from '@/components/sidebar'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
