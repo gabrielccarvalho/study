@@ -23,7 +23,7 @@ export function Nav() {
 	const router = useRouter()
 
 	return (
-		<div className='sticky top-0 left-0 right-0 flex flex-row items-center justify-between h-20 px-3 py-1 border-b-2 shadow-sm bg-background/80'>
+		<div className='sticky top-0 flex flex-row items-center justify-between px-3 py-1 border-b-2 shadow-sm min-h-20 bg-background/80'>
 			<Link href='/app'>
 				<span className='font-semibold text-md'>study.app</span>
 			</Link>

@@ -16,7 +16,7 @@ export function Sidebar() {
 	const pathname = usePathname()
 
 	return (
-		<div className='flex flex-col items-center justify-between w-20 py-8 border-r-2 border-border/80'>
+		<div className='fixed bottom-0 flex flex-col items-center justify-between w-20 py-8 border-r-2 top-20 border-border/80'>
 			<div className='flex flex-col items-center w-full gap-6'>
 				<Link href='/app' className='w-full'>
 					<Button

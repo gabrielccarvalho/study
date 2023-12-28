@@ -3,9 +3,7 @@
 import { useUser } from '@clerk/nextjs'
 import { format, formatDistance } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
-import { ChevronLeft } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
@@ -28,7 +26,6 @@ const formSchema = z.object({
 function LoadingSkeleton() {
 	return (
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-4 mx-auto'>
-			<ChevronLeft className='w-8 h-8' />
 			<div className='flex flex-col items-center w-full max-w-md mx-auto mt-2'>
 				<Skeleton className='w-[450px] h-[450px] shadow-md rounded-b-none' />
 				<div className='flex flex-col w-full max-w-md px-4 py-2 bg-muted rounded-b-md'>
@@ -123,9 +120,6 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
 	return (
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto'>
-			<Link href={`/challenge/${id}`} className='sticky top-16'>
-				<ChevronLeft className='w-8 h-8' />
-			</Link>
 			<div className='flex flex-col items-center w-3/4 max-w-md mx-auto mt-2 md:w-full'>
 				<Image
 					src={currentEvent.image}
