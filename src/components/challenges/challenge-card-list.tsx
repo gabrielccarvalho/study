@@ -42,6 +42,7 @@ export function ChallengeList() {
 	}
 
 	if (
+		!challenges ||
 		challenges.filter((challenge) => challenge.members.includes(user.id))
 			.length === 0
 	) {
