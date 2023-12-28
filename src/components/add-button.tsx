@@ -93,8 +93,8 @@ export function AddButton() {
 				<DropdownMenuItem asChild>
 					<Dialog>
 						<DialogTrigger asChild>
-							<div className='flex flex-row items-center cursor-pointer hover:text-emerald-500'>
-								<PlusCircleIcon className='w-4 h-4 mr-1 text-emerald-500' />
+							<div className='flex flex-row items-center cursor-pointer hover:text-primary'>
+								<PlusCircleIcon className='w-4 h-4 mr-1 text-primary' />
 								<span className='text-sm'>Estudo</span>
 							</div>
 						</DialogTrigger>
@@ -108,8 +108,12 @@ export function AddButton() {
 								<AddEventForm />
 								<DialogFooter className='sm:justify-center'>
 									<DialogClose asChild>
-										<Button type='submit' form='add-event-form'>
-											Salvar
+										<Button
+											type='submit'
+											form='add-event-form'
+											className='flex-1 mt-4'
+										>
+											Adicionar
 										</Button>
 									</DialogClose>
 								</DialogFooter>
@@ -121,8 +125,8 @@ export function AddButton() {
 				<DropdownMenuItem asChild>
 					<Dialog>
 						<DialogTrigger asChild>
-							<div className='flex flex-row items-center cursor-pointer hover:text-emerald-500'>
-								<PlusCircleIcon className='w-4 h-4 mr-1 text-emerald-500' />
+							<div className='flex flex-row items-center cursor-pointer hover:text-primary'>
+								<PlusCircleIcon className='w-4 h-4 mr-1 text-primary' />
 								<span className='text-sm'>Desafio</span>
 							</div>
 						</DialogTrigger>
@@ -136,8 +140,12 @@ export function AddButton() {
 								<AddChallengeForm />
 								<DialogFooter className='sm:justify-center'>
 									<DialogClose asChild>
-										<Button type='submit' form='add-challenge-form'>
-											Salvar
+										<Button
+											type='submit'
+											form='add-challenge-form'
+											className='flex-1 mt-4'
+										>
+											Adicionar
 										</Button>
 									</DialogClose>
 								</DialogFooter>
@@ -155,8 +163,8 @@ export function AddButton() {
 				<DropdownMenuItem asChild>
 					<Dialog>
 						<DialogTrigger asChild>
-							<div className='flex flex-row items-start cursor-pointer hover:text-emerald-500'>
-								<CornerDownRight className='w-4 h-4 mr-1 text-emerald-500' />
+							<div className='flex flex-row items-start cursor-pointer hover:text-primary'>
+								<CornerDownRight className='w-4 h-4 mr-1 text-primary' />
 								<span className='text-sm'>Desafio</span>
 							</div>
 						</DialogTrigger>
@@ -188,8 +196,12 @@ export function AddButton() {
 								</Form>
 								<DialogFooter className='sm:justify-center'>
 									<DialogClose asChild>
-										<Button type='submit' form='join-event-form'>
-											Salvar
+										<Button
+											type='submit'
+											form='join-event-form'
+											className='flex-1 mt-4'
+										>
+											Entrar
 										</Button>
 									</DialogClose>
 								</DialogFooter>

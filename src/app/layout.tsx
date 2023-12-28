@@ -8,6 +8,7 @@ import { dark } from '@clerk/themes'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import { Inter, Nunito_Sans, Roboto } from 'next/font/google'
+import { Providers } from './providers'
 
 const nunito = Nunito_Sans({
 	weight: ['200', '400', '600', '700', '900'],
@@ -41,29 +42,31 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<ClerkProvider
-			appearance={{
-				baseTheme: dark,
-			}}
-		>
-			<ChallengeProvider>
-				<html lang='en'>
-					<body
-						className={`${inter.variable} ${nunito.variable} ${roboto.variable} ${GeistSans.variable}`}
-					>
-						<ThemeProvider
-							attribute='class'
-							defaultTheme='dark'
-							enableSystem
-							disableTransitionOnChange
+		<Providers>
+			<ClerkProvider
+				appearance={{
+					baseTheme: dark,
+				}}
+			>
+				<ChallengeProvider>
+					<html lang='en'>
+						<body
+							className={`${inter.variable} ${nunito.variable} ${roboto.variable} ${GeistSans.variable}`}
 						>
-							{children}
-							<AddButton />
-							<Toaster />
-						</ThemeProvider>
-					</body>
-				</html>
-			</ChallengeProvider>
-		</ClerkProvider>
+							<ThemeProvider
+								attribute='class'
+								defaultTheme='dark'
+								enableSystem
+								disableTransitionOnChange
+							>
+								{children}
+								<AddButton />
+								<Toaster />
+							</ThemeProvider>
+						</body>
+					</html>
+				</ChallengeProvider>
+			</ClerkProvider>
+		</Providers>
 	)
 }

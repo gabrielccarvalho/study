@@ -21,7 +21,7 @@ export function Header() {
 					</div>
 					<div className='flex items-center justify-center flex-1'>
 						<Link href='/app'>
-							<Button className='flex flex-row items-center justify-start transition-all duration-100 group hover:scale-110'>
+							<Button className='flex flex-row items-center justify-start transition-all duration-100 bg-black dark:bg-white hover:bg-black hover:dark:bg-white group hover:scale-110'>
 								Confira agora!
 								<MoveRight
 									strokeWidth={1.5}
@@ -45,7 +45,7 @@ export function Header() {
 						<Link href='/app'>
 							<Button
 								size='icon'
-								className='w-8 h-8 transition-all duration-100 rounded-full hover:scale-110'
+								className='w-8 h-8 transition-all duration-100 bg-black rounded-full dark:bg-white hover:bg-black hover:dark:bg-white hover:scale-110'
 							>
 								<MoveUpRight strokeWidth={1.5} className='w-5 h-5' />
 							</Button>
@@ -65,7 +65,11 @@ export function Header() {
 					</div>
 					<div className='flex flex-row items-center justify-between'>
 						<span className='text-lg font-geist'>Em breve</span>
-						<Button disabled size='icon' className='w-8 h-8 rounded-full'>
+						<Button
+							disabled
+							size='icon'
+							className='w-8 h-8 bg-black rounded-full dark:bg-white hover:bg-black hover:dark:bg-white'
+						>
 							<Lock strokeWidth={1.5} className='w-4 h-4' />
 						</Button>
 					</div>
@@ -81,7 +85,11 @@ export function Header() {
 					</div>
 					<div className='flex flex-row items-center justify-between'>
 						<span className='text-lg font-geist'>Em breve</span>
-						<Button size='icon' disabled className='w-8 h-8 rounded-full'>
+						<Button
+							size='icon'
+							disabled
+							className='w-8 h-8 bg-black rounded-full dark:bg-white hover:bg-black hover:dark:bg-white'
+						>
 							<Lock strokeWidth={1.5} className='w-4 h-4' />
 						</Button>
 					</div>

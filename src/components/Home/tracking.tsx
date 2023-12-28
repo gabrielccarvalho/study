@@ -71,7 +71,7 @@ export function Tracking() {
 					<Link href='/app' className='self-start'>
 						<Button
 							size='lg'
-							className='self-start transition-all duration-100 hover:scale-110'
+							className='self-start transition-all duration-100 bg-black dark:bg-white hover:dark:bg-white hover:bg-black hover:scale-110'
 						>
 							Acesse o app
 							<MoveUpRight strokeWidth={1.5} className='w-5 h-5 ml-2' />

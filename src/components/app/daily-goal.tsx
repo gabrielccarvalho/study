@@ -54,7 +54,7 @@ export function DailyGoal() {
 		setGoal(Math.max(60, Math.min(720, goal + adjustment)))
 	}
 	return (
-		<div className='flex flex-col items-center w-full max-w-sm mx-auto'>
+		<div className='flex flex-col items-center w-full max-w-sm'>
 			<span className='text-2xl font-semibold'>Meta diária</span>
 			<p className='text-sm text-center text-muted-foreground'>
 				Defina sua meta diária de estudo!
@@ -95,7 +95,7 @@ export function DailyGoal() {
 								dataKey='goal'
 								style={
 									{
-										fill: 'hsl(var(--foreground))',
+										fill: 'hsl(var(--primary))',
 										opacity: 0.8,
 									} as React.CSSProperties
 								}

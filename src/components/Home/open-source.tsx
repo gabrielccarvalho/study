@@ -65,7 +65,7 @@ export function OpenSource() {
 					>
 						<Button
 							size='lg'
-							className='flex items-center transition-all duration-100 hover:scale-110'
+							className='flex items-center transition-all duration-100 bg-black dark:bg-white hover:bg-black hover:dark:bg-white hover:scale-110'
 						>
 							Acessar Repositório
 							<MoveUpRight className='w-5 h-5 ml-2' />
