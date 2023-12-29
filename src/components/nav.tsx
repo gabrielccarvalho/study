@@ -54,13 +54,13 @@ export function Nav() {
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem className='hover:cursor-pointer'>
-								Perfil
+								<Link href='/app/profile'>Perfil</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem className='hover:cursor-pointer'>
-								Dashboard
+								<Link href='/app'>Dashboard</Link>
 							</DropdownMenuItem>
 							<DropdownMenuItem className='hover:cursor-pointer'>
-								Desafios
+								<Link href='/app/challenges'>Desafios</Link>
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
