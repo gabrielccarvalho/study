@@ -55,16 +55,45 @@ export function ChallengeOverview({ id }: { id: string }) {
 		return <LoadingSkeleton />
 	}
 
-	const userChallengeData = challenge.leaderBoard.find(
-		(item) => item.user.id === user.id,
+	const leaderboard = challenge.events.reduce(
+		(
+			acc: {
+				duration: number
+				user: {
+					id: string
+					username: string | null
+					avatar: string
+				}
+			}[],
+			event,
+		) => {
+			const existingUser = acc.find((item) => item.user.id === event.user.id)
+
+			if (existingUser) {
+				existingUser.duration += event.duration
+			} else {
+				acc.push({
+					user: {
+						id: event.user.id,
+						username: event.user.username,
+						avatar: event.user.avatar,
+					},
+					duration: event.duration,
+				})
+			}
+
+			return acc
+		},
+		[],
 	)
+
+	const userChallengeData = leaderboard.find((item) => item.user.id === user.id)
 
 	const userPoints = userChallengeData?.duration || 0
 
-	const leaderChallengeData = challenge.leaderBoard.find(
+	const leaderChallengeData = leaderboard.find(
 		(item) =>
-			item.duration ===
-			Math.max(...challenge.leaderBoard.map((item) => item.duration)),
+			item.duration === Math.max(...leaderboard.map((item) => item.duration)),
 	)
 
 	const leaderPoints = leaderChallengeData?.duration || 0
@@ -115,7 +144,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 					<Calendar className='w-6 h-6 text-gray-500' />
 					<div className='flex flex-col justify-between'>
 						<span className='text-xs'>
-							{challenge.duration - challenge.daysIntoChallenge}
+							{challenge.duration - challenge.daysintochallenge}
 						</span>
 						<span className='text-xs'>dias restantes</span>
 					</div>

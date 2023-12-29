@@ -92,17 +92,13 @@ export function ChallengeHistory({ id }: { id: string }) {
 
 	const events = challenge.events.reduce(
 		(acc: { [x: string]: Event[] }, event) => {
-			const weekDay = format(new Date(event.date.seconds * 1000), 'eee', {
+			const weekDay = format(new Date(event.date), 'eee', {
 				locale: ptBR,
 			})
 
-			const monthDay = format(
-				new Date(event.date.seconds * 1000),
-				"dd 'de' LLLL",
-				{
-					locale: ptBR,
-				},
-			)
+			const monthDay = format(new Date(event.date), "dd 'de' LLLL", {
+				locale: ptBR,
+			})
 
 			const eventDate = `${weekDay}, ${monthDay}`
 
@@ -121,15 +117,17 @@ export function ChallengeHistory({ id }: { id: string }) {
 
 	if (eventsLength === 0) {
 		return (
-			<div className='flex flex-col items-center justify-center flex-1'>
-				<span className='text-xl font-bold'>
-					Ainda não há eventos registrados nesse desafio
-				</span>
-				<span className='max-w-xs text-sm font-light text-center'>
-					Adicione um evento clicando no botão de adicionar no canto inferior
-					direito!
-				</span>
-			</div>
+			<main className='flex flex-col flex-1 p-4'>
+				<div className='flex flex-col items-center justify-center flex-1'>
+					<span className='text-xl font-bold'>
+						Ainda não há eventos registrados nesse desafio
+					</span>
+					<span className='max-w-xs text-sm font-light text-center'>
+						Adicione um evento clicando no botão de adicionar no canto inferior
+						direito!
+					</span>
+				</div>
+			</main>
 		)
 	}
 
@@ -182,10 +180,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 									</div>
 									<div className='flex flex-row self-end'>
 										<span className='text-xs font-thin'>
-											{format(
-												new Date(event.date.seconds * 1000),
-												"hh:mm aaaaa'm",
-											)}
+											{format(new Date(event.date), "hh:mm aaaaa'm")}
 										</span>
 									</div>
 								</div>

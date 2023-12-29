@@ -54,7 +54,7 @@ export function ChallengeCard({ id }: { id: string }) {
 				<div className='flex flex-col items-end gap-1 pt-4'>
 					<Progress value={challenge.progress} />
 					<span className='text-xs text-gray-500'>
-						{challenge.daysIntoChallenge}/{challenge.duration}
+						{challenge.daysintochallenge}/{challenge.duration}
 					</span>
 				</div>
 				<div className='flex w-full py-2'>

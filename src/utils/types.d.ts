@@ -1,8 +1,3 @@
-type date_time = {
-	seconds: number
-	nanoseconds: number
-}
-
 export type User = {
 	id: string
 	username: string | null
@@ -12,7 +7,7 @@ export type User = {
 export type Comment = {
 	id: string
 	content: string
-	created_at: date_time
+	created_at: string
 	user: User
 }
 
@@ -21,7 +16,7 @@ export type Event = {
 	title: string
 	description: string
 	image: string
-	date: date_time
+	date: string
 	description: string
 	duration: number
 	comments: Comment[]
@@ -33,16 +28,16 @@ export type Challenge = {
 	title: string
 	description: string
 	thumbnail: string
-	start_date: date_time
-	end_date: date_time
+	start_date: string
+	end_date: string
 	members: string[]
 	events: Event[]
-	leaderBoard: {
+	leaderboard: {
 		user: User
 		duration: number
 	}[]
 	duration: number
-	daysIntoChallenge: number
+	daysintochallenge: number
 	progress: number
 }
 

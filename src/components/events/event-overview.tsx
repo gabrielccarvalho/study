@@ -141,7 +141,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 							<span className='ml-2 text-md'>{currentEvent.user.username}</span>
 						</div>
 						<span className='text-sm font-thin'>
-							{format(new Date(currentEvent.date.seconds), "hh:mm aaaaa'm'")}
+							{format(new Date(currentEvent.date), "hh:mm aaaaa'm'")}
 						</span>
 					</div>
 					<Separator className='my-1' />
@@ -174,11 +174,10 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 							</span>
 							<span className='text-sm font-light'>{comment.content}</span>
 							<span className='mt-2 text-xs font-thin'>
-								{formatDistance(
-									new Date(comment.created_at.seconds * 1000),
-									new Date(),
-									{ addSuffix: true, locale: ptBR },
-								)}
+								{formatDistance(new Date(comment.created_at), new Date(), {
+									addSuffix: true,
+									locale: ptBR,
+								})}
 							</span>
 						</div>
 					</div>
