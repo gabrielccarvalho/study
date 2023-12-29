@@ -156,7 +156,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 					</div>
 				</div>
 			</div>
-			{currentEvent.comments.map((comment) => {
+			{currentEvent.comments?.map((comment) => {
 				return (
 					<div
 						key={comment.id}
