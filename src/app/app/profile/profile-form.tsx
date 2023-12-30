@@ -11,10 +11,10 @@ import {
 	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { toast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import * as z from 'zod'
 
 interface ProfileFormProps {
@@ -60,10 +60,8 @@ export function ProfileForm({ user }: ProfileFormProps) {
 				username: data.username,
 			}),
 		})
-		toast({
-			title: 'Seus dados foram alterados com sucesso!',
-			variant: 'success',
-		})
+
+		toast('Perfil atualizado com sucesso!')
 	}
 
 	return (

@@ -15,11 +15,11 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { useToast } from '@/components/ui/use-toast'
 import { useChallenge } from '@/context/challenge-context'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import * as z from 'zod'
 
 const formSchema = z.object({
@@ -31,7 +31,6 @@ const formSchema = z.object({
 })
 
 export function AddEventForm() {
-	const { toast } = useToast()
 	const [file, setFile] = useState<File | null>(null)
 	const { challenges, addEvent } = useChallenge()
 
@@ -66,22 +65,26 @@ export function AddEventForm() {
 			console.error(error)
 		}
 
-		toast({
-			title: 'Estudo adicionado!',
+		toast('Estudo adicionado!', {
 			description: `Seu estudo "${values.title}" com duração de ${values.duration} minutos foi adicionado!`,
-			variant: 'success',
+			action: {
+				label: 'Desfazer',
+				onClick: () => console.log('Desfazer'),
+			},
 		})
 	}
 
 	useEffect(() => {
 		if (Object.values(form.formState.errors).length > 0) {
-			toast({
-				title: 'Falha ao adicionar estudo!',
+			toast('Oops! Ocorreu um erro.', {
 				description: 'Seu estudo não pode ser computado',
-				variant: 'destructive',
+				action: {
+					label: 'Tentar novamente',
+					onClick: () => console.log('Tentar novamente'),
+				},
 			})
 		}
-	}, [form.formState.errors, toast])
+	}, [form.formState.errors])
 
 	const challengesInfo = challenges.map((challenge) => {
 		return {

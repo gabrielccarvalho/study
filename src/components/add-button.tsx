@@ -29,12 +29,12 @@ import {
 	FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { toast } from '@/components/ui/use-toast'
 import { useChallenge } from '@/context/challenge-context'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 import { AddChallengeForm } from './add-challenge-form'
 import { AddEventForm } from './add-event-form'
@@ -44,6 +44,7 @@ const formSchema = z.object({
 })
 
 export function AddButton() {
+	const { challenges } = useChallenge()
 	const pathname = usePathname()
 
 	if (pathname === '/') return
@@ -56,20 +57,26 @@ export function AddButton() {
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		await joinChallenge({ challengeId: values.id })
 
-		toast({
-			title: 'Você entrou no desafio!',
-			description: 'Agora é só estudar e se divertir! 🎉',
-			variant: 'success',
+		const challenge = challenges.find((challenge) => challenge.id === values.id)
+
+		toast('Sucesso!', {
+			description: `Você entrou no desafio ${challenge?.title} 🎉`,
+			action: {
+				label: 'Desfazer',
+				onClick: () => console.log('Desfazer'),
+			},
 		})
 	}
 
 	useEffect(() => {
 		if (Object.values(form.formState.errors).length > 0) {
-			toast({
-				title: 'Falha ao entrar no desafio!',
+			toast('Falha ao entrar no desafio! 🙁', {
 				description:
-					'Parece que você deixou o campo vazio ou o desafio não existe 🙁',
-				variant: 'destructive',
+					'Parece que você não digitou o código do desafio corretamente.',
+				action: {
+					label: 'Desfazer',
+					onClick: () => console.log('Desfazer'),
+				},
 			})
 
 			form.reset()

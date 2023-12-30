@@ -22,11 +22,11 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { useToast } from '@/components/ui/use-toast'
 import { useChallenge } from '@/context/challenge-context'
 import { cn } from '@/lib/utils'
 import { useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
 	title: z.string(),
@@ -36,7 +36,6 @@ const formSchema = z.object({
 })
 
 export function AddChallengeForm() {
-	const { toast } = useToast()
 	const { user } = useUser()
 	const [file, setFile] = useState<File | null>(null)
 	const { addChallenge } = useChallenge()
@@ -72,22 +71,26 @@ export function AddChallengeForm() {
 			console.error(error)
 		}
 
-		toast({
-			title: 'Desafio adicionado!',
-			description: `Seu desafio "${values.title}" foi adicionado!`,
-			variant: 'success',
+		toast('Desafio adicionado!', {
+			description: `Seu desafio "${values.title}" foi adicionado! 🎉`,
+			action: {
+				label: 'Desfazer',
+				onClick: () => console.log('Desfazer'),
+			},
 		})
 	}
 
 	useEffect(() => {
 		if (Object.values(form.formState.errors).length > 0) {
-			toast({
-				title: 'Falha ao adicionar desafio!',
+			toast('Oops! Ocorreu um erro.', {
 				description: 'Seu desafio não pode ser criado 🙁',
-				variant: 'destructive',
+				action: {
+					label: 'Tentar novamente',
+					onClick: () => console.log('Desfazer'),
+				},
 			})
 		}
-	}, [form.formState.errors, toast])
+	}, [form.formState.errors])
 
 	return (
 		<Form {...form}>

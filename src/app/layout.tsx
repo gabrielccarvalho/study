@@ -1,6 +1,6 @@
 import { AddButton } from '@/components/add-button'
 import { ThemeProvider } from '@/components/theme-provider'
-import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from '@/components/ui/sonner'
 import '@/styles/globals.css'
 import { Analytics } from '@vercel/analytics/react'
 import { GeistSans } from 'geist/font/sans'

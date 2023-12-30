@@ -13,10 +13,10 @@ import { useChallenge } from '@/context/challenge-context'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
-import { toast } from '@/components/ui/use-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const formSchema = z.object({
@@ -96,9 +96,12 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		if (values.content === '') {
-			toast({
-				title: 'Oops! Você precisa escrever algo para enviar o comentário.',
-				variant: 'destructive',
+			toast('Oops! Ocorreu um erro.', {
+				description: 'Você precisa escrever algo para enviar o comentário.',
+				action: {
+					label: 'Tentar novamente',
+					onClick: () => console.log('Tentar novamente'),
+				},
 			})
 
 			return
@@ -112,9 +115,12 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
 		form.reset()
 
-		toast({
-			title: 'Comentario enviado!',
-			variant: 'success',
+		toast('Comentário enviadp!', {
+			description: 'Seu comentário foi enviado! 🎉',
+			action: {
+				label: 'Desfazer',
+				onClick: () => console.log('Desfazer'),
+			},
 		})
 	}
 
