@@ -2,6 +2,7 @@ import { AddButton } from '@/components/add-button'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import '@/styles/globals.css'
+import { Analytics } from '@vercel/analytics/react'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import { Providers } from './providers'
@@ -27,6 +28,7 @@ export default function RootLayout({
 						disableTransitionOnChange
 					>
 						{children}
+						<Analytics />
 						<AddButton />
 						<Toaster />
 					</ThemeProvider>
