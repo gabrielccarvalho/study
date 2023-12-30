@@ -27,7 +27,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		const fetchChallenges = async () => {
-			const info = await fetch('/api/firebase/fetch-challenges', {
+			const info = await fetch('/api/db/fetch-challenges', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -55,6 +55,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
 		const randomId = crypto.randomUUID()
 		const date = new Date()
+		const localDate = new Date(date.setHours(date.getHours() - 3))
 
 		const newEvent: Event = {
 			id: randomId,
@@ -62,10 +63,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			description,
 			duration,
 			comments: [],
-			date: {
-				seconds: date.getTime() / 1000,
-				nanoseconds: 0,
-			},
+			date: localDate.toISOString().slice(0, 19).replace('T', ' '),
 			image: imageUrl,
 			user: {
 				id: user.id,
@@ -75,7 +73,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		}
 
 		await Promise.all([
-			fetch('/api/firebase/add-event', {
+			fetch('/api/db/add-event', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -112,6 +110,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
 		const { content, challengeId, eventId } = data
 		const now = new Date()
+		const localDate = new Date(now.setHours(now.getHours() - 3))
 		const randomId = crypto.randomUUID()
 
 		// Add comment to local state for immediate feedback
@@ -131,10 +130,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 					{
 						id: randomId,
 						content,
-						created_at: {
-							seconds: now.getTime() / 1000,
-							nanoseconds: 0,
-						},
+						created_at: localDate.toISOString().slice(0, 19).replace('T', ' '),
 						user: {
 							id: user.id,
 							username: user.username,
@@ -153,9 +149,9 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 				events: updatedEvents,
 			}
 
-			// Add comment to firestore
-			async function addCommentToFirestore() {
-				await fetch('/api/firebase/add-comment', {
+			// Add comment
+			async function addCommentOnDb() {
+				await fetch('/api/db/add-comment', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -170,7 +166,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			const updatedChallenges = [...challenges]
 			updatedChallenges[challengeIndex] = updatedChallenge
 
-			addCommentToFirestore()
+			addCommentOnDb()
 
 			return updatedChallenges
 		})
@@ -178,10 +174,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		const newComment: Comment = {
 			id: randomId,
 			content,
-			created_at: {
-				seconds: now.getTime() / 1000,
-				nanoseconds: 0,
-			},
+			created_at: now.toISOString().slice(0, 19).replace('T', ' '),
 			user: {
 				id: user.id,
 				username: user.username,
@@ -205,11 +198,11 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
 		const duration = differenceInDays(new Date(endDate), new Date(startDate))
 
-		const daysIntoChallenge = differenceInDays(new Date(), new Date(startDate))
+		const daysintochallenge = differenceInDays(new Date(), new Date(startDate))
 
-		const progress = Math.round((daysIntoChallenge / duration) * 100)
+		const progress = Math.round((daysintochallenge / duration) * 100)
 
-		const leaderBoard = events.reduce(
+		const leaderboard = events.reduce(
       (
         acc: {
           duration: number
@@ -243,28 +236,22 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 
 		const randomUUID = crypto.randomUUID()
 
-		const newChallenge: Challenge = {
+		const newChallenge = {
 			id: randomUUID,
 			title,
 			description,
 			thumbnail,
-			start_date: {
-				seconds: startDate.getTime() / 1000,
-				nanoseconds: 0,
-			},
-			end_date: {
-				seconds: endDate.getTime() / 1000,
-				nanoseconds: 0,
-			},
+			start_date: startDate.toISOString().slice(0, 19).replace('T', ' '),
+			end_date: endDate.toISOString().slice(0, 19).replace('T', ' '),
 			events,
 			members,
 			progress,
-			daysIntoChallenge,
+			daysintochallenge,
 			duration,
-			leaderBoard,
+			leaderboard,
 		}
 
-		await fetch('/api/firebase/add-challenge', {
+		await fetch('/api/db/add-challenge', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

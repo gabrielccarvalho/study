@@ -13,7 +13,7 @@ export function ChallengeEventList({ id }: { id: string }) {
 
 	return (
 		<main className='flex flex-col items-center flex-1'>
-			{challenge.leaderBoard
+			{challenge.leaderboard
 				.sort((a, b) => b.duration - a.duration)
 				.map((item, index) => {
 					return (

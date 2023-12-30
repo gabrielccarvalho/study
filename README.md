@@ -98,7 +98,7 @@
 | end_date          | `Date`          | The deadline of the challenge.
 | members           | `string[]`      | An array of users id that are on the challenge.
 | events            | `Event[]`       | An array of events on this challenge.
-| leaderBoard       | `LeaderBoard[]` | An array of users and total durations.
+| leaderboard       | `leaderboard[]` | An array of users and total durations.
 | duration          | `number`        | The duration of the challenge.
 | daysIntoChallenge | `number`        | How many days into the challenge.
 | progress          | `number`        | The progress of the challenge in percentage.
@@ -119,7 +119,7 @@
          { ... },
          { ... },
       ],
-      leaderBoard: {
+      leaderboard: {
          user: ...User,
          duration: 0
       }
