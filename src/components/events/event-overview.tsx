@@ -115,7 +115,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 
 		form.reset()
 
-		toast('Comentário enviadp!', {
+		toast('Comentário enviado!', {
 			description: 'Seu comentário foi enviado! 🎉',
 			action: {
 				label: 'Desfazer',
