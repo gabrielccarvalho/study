@@ -118,6 +118,12 @@ export function ChallengeHistory({ id }: { id: string }) {
 	if (eventsLength === 0) {
 		return (
 			<main className='flex flex-col flex-1 p-4'>
+				<div className='sticky top-0 right-0 flex flex-col items-start max-w-xs gap-2 p-2 border rounded-md shadow-lg border-muted-foreground/10 bg-muted'>
+					<span className='text-sm font-semibold'>Código do desafio:</span>
+					<span className='text-xs font-semibold text-center text-muted-foreground'>
+						{id}
+					</span>
+				</div>
 				<div className='flex flex-col items-center justify-center flex-1'>
 					<span className='text-xl font-bold'>
 						Ainda não há eventos registrados nesse desafio
