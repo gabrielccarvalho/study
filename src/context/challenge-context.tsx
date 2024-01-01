@@ -279,7 +279,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			throw new Error('Challenge not found')
 		}
 
-		await fetch('/api/firebase/join-challenge', {
+		await fetch('/api/db/join-challenge', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
