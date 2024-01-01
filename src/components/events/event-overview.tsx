@@ -132,7 +132,8 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 					alt='event image'
 					width={500}
 					height={500}
-					quality={10}
+					quality={100}
+					priority
 					className='shadow-md rounded-t-md'
 				/>
 				<div className='flex flex-col w-full max-w-md px-4 py-2 border border-t-0 shadow-lg bg-muted rounded-b-md border-muted-foreground/10'>
