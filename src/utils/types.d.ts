@@ -68,3 +68,7 @@ export type addChallenge = {
 export type joinChallenge = {
 	challengeId: string
 }
+
+export type leaveChallenge = {
+	challengeId: string
+}

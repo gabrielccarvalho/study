@@ -1,12 +1,25 @@
 'use client'
 
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
-import { Calendar, UserRound } from 'lucide-react'
+import { Calendar, LogOut, MoreHorizontal, UserRound } from 'lucide-react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { Button } from '../ui/button'
 
 function LoadingSkeleton() {
 	return (
@@ -45,9 +58,16 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeOverview({ id }: { id: string }) {
-	const { challenges } = useChallenge()
+	const { challenges, leaveChallenge } = useChallenge()
+	const router = useRouter()
 
 	const { user } = useUser()
+
+	async function handleLeaveChallenge() {
+		await leaveChallenge({ challengeId: id })
+
+		router.push('/app/challenges')
+	}
 
 	const challenge = challenges.find((challenge) => challenge.id === id)
 
@@ -101,6 +121,30 @@ export function ChallengeOverview({ id }: { id: string }) {
 	return (
 		<main className='flex flex-col items-center'>
 			<div className='flex flex-col items-center justify-center w-full overflow-hidden max-h-96'>
+				<AlertDialog>
+					<AlertDialogTrigger asChild>
+						<Button className='absolute right-4 top-24'>
+							<span>Sair</span>
+						</Button>
+					</AlertDialogTrigger>
+					<AlertDialogContent>
+						<AlertDialogHeader>
+							<AlertDialogTitle>
+								Tem certeza de que quer sair deste dessafio?
+							</AlertDialogTitle>
+							<AlertDialogDescription>
+								Essa ação não pode ser desfeita. Caso realmente queira sair do
+								desafio, clique em continuar.
+							</AlertDialogDescription>
+						</AlertDialogHeader>
+						<AlertDialogFooter>
+							<AlertDialogCancel>Cancelar</AlertDialogCancel>
+							<AlertDialogAction onClick={handleLeaveChallenge}>
+								Continuar
+							</AlertDialogAction>
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
 				<Image
 					src={challenge.thumbnail}
 					alt='challenge image'

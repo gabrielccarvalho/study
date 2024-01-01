@@ -8,6 +8,7 @@ import {
 	addComment,
 	addEvent,
 	joinChallenge,
+	leaveChallenge,
 } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
@@ -19,6 +20,8 @@ const ChallengeContext = createContext({
 	addComment: (_data: addComment) => [] as unknown as Promise<Comment>,
 	addChallenge: (_data: addChallenge) => [] as unknown as Promise<Challenge>,
 	joinChallenge: (_data: joinChallenge) => [] as unknown as Promise<Challenge>,
+	leaveChallenge: (_data: leaveChallenge) =>
+		[] as unknown as Promise<Challenge>,
 })
 
 export function ChallengeProvider({ children }: { children: React.ReactNode }) {
@@ -309,9 +312,65 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		return existingChallenge
 	}
 
+	async function leaveChallenge(data: joinChallenge): Promise<Challenge> {
+		if (!user) {
+			throw new Error('User not logged in')
+		}
+
+		const { challengeId } = data
+
+		const existingChallenge = challenges.find(
+			(challenge) => challenge.id === challengeId,
+		)
+
+		if (!existingChallenge) {
+			throw new Error('Challenge not found')
+		}
+
+		await fetch('/api/db/leave-challenge', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				challengeId,
+				userId: user.id,
+			}),
+		})
+
+		setChallenges((challenges) => {
+			const challengeIndex = challenges.findIndex(
+				(challenge) => challenge.id === challengeId,
+			)
+
+			const updatedChallenge = {
+				...challenges[challengeIndex],
+				members: [
+					...challenges[challengeIndex].members.filter(
+						(member) => member !== user.id,
+					),
+				],
+			}
+
+			const updatedChallenges = [...challenges]
+			updatedChallenges[challengeIndex] = updatedChallenge
+
+			return updatedChallenges
+		})
+
+		return existingChallenge
+	}
+
 	return (
 		<ChallengeContext.Provider
-			value={{ challenges, addEvent, addComment, addChallenge, joinChallenge }}
+			value={{
+				challenges,
+				addEvent,
+				addComment,
+				addChallenge,
+				joinChallenge,
+				leaveChallenge,
+			}}
 		>
 			{children}
 		</ChallengeContext.Provider>
@@ -319,8 +378,14 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useChallenge() {
-	const { challenges, addEvent, addComment, addChallenge, joinChallenge } =
-		useContext(ChallengeContext)
+	const {
+		challenges,
+		addEvent,
+		addComment,
+		addChallenge,
+		joinChallenge,
+		leaveChallenge,
+	} = useContext(ChallengeContext)
 
 	return {
 		challenges,
@@ -328,5 +393,6 @@ export function useChallenge() {
 		addComment,
 		addChallenge,
 		joinChallenge,
+		leaveChallenge,
 	}
 }

@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 		const { challengeId, userId } = await request.json()
 
 		const { rows } =
-			await sql`UPDATE challenges SET members = array_append(members, ${userId})  WHERE id = ${challengeId} RETURNING *;`
+			await sql`UPDATE challenges SET members = array_remove(members, ${userId})  WHERE id = ${challengeId} RETURNING *;`
 
 		return NextResponse.json({ success: true, event: rows })
 	} catch (error) {
