@@ -3,6 +3,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import '@/styles/globals.css'
 import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import { Providers } from './providers'
@@ -29,6 +30,7 @@ export default function RootLayout({
 					>
 						{children}
 						<Analytics />
+						<SpeedInsights />
 						<AddButton />
 						<Toaster />
 					</ThemeProvider>
