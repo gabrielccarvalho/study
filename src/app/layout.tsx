@@ -20,7 +20,7 @@ export default function RootLayout({
 }) {
 	return (
 		<Providers>
-			<html lang='en'>
+			<html lang='pt'>
 				<body className={`${GeistSans.variable}`}>
 					<ThemeProvider
 						attribute='class'
