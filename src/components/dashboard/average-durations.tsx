@@ -1,7 +1,6 @@
 import { useChallenge } from '@/context/challenge-context'
 import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
-// Assuming useUser provides access to user details
 
 const calculateDailyAverage = (
 	events: Event[],
@@ -16,7 +15,7 @@ const calculateDailyAverage = (
 	if (eventsOnCurrentDay.length === 0) {
 		return {
 			average: null,
-			today: 0, // No events for this day, so user's duration is 0
+			today: 0,
 		}
 	}
 
@@ -27,7 +26,7 @@ const calculateDailyAverage = (
 
 	const userDailyDuration = eventsOnCurrentDay.reduce((acc, event) => {
 		if (event.user.id === userId) {
-			return acc + event.duration // Accumulate user's duration for the day
+			return acc + event.duration
 		}
 		return acc
 	}, 0)
