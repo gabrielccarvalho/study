@@ -16,9 +16,7 @@ import { CalculateAverageDuration } from './average-durations'
 export function CardsMetric() {
 	const averageDurations = CalculateAverageDuration()
 
-	if (!averageDurations) return
-
-	const data = averageDurations.map((item) => {
+	const data = averageDurations?.map((item) => {
 		return {
 			average: Math.round(Number(item.average)),
 			today: item.today,
@@ -27,7 +25,7 @@ export function CardsMetric() {
 	})
 
 	return (
-		<Card className='flex-1'>
+		<Card className='flex-1 w-full'>
 			<CardHeader>
 				<CardTitle>Minutos de estudo</CardTitle>
 				<CardDescription>
@@ -52,16 +50,17 @@ export function CardsMetric() {
 										return (
 											<div className='p-2 border rounded-lg shadow-sm bg-background'>
 												<div className='grid grid-cols-2 gap-2'>
-													<div className='flex flex-col'>
+													<div className='flex flex-col items-center'>
 														<span className='text-[0.70rem] uppercase text-muted-foreground'>
-															Média
+															Média geral
 														</span>
 														<span className='font-bold text-muted-foreground'>
-															{payload[0].value}
+															{payload[0].value} min
 														</span>
 													</div>
-													<div className='flex flex-col'>
+													<div className='flex flex-col items-center'>
 														<span className='text-[0.70rem] uppercase text-muted-foreground'>
+															estudados{' '}
 															{isToday(payload[1].payload.date)
 																? 'Hoje'
 																: isYesterday(payload[1].payload.date)
@@ -71,7 +70,7 @@ export function CardsMetric() {
 																	  })}
 														</span>
 														<span className='font-bold'>
-															{payload[1].value}
+															{payload[1].value} min
 														</span>
 													</div>
 												</div>
