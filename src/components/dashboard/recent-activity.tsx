@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/table'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 export function ActivityTable() {
 	const { challenges } = useChallenge()
@@ -35,20 +37,24 @@ export function ActivityTable() {
 			<Table>
 				<TableCaption>Suas atividades recentes na plataforma.</TableCaption>
 				<TableHeader>
-					<TableRow>
-						<TableHead>Desafio</TableHead>
-						<TableHead>Título</TableHead>
-						<TableHead>Tags</TableHead>
-						<TableHead className='text-right'>Tempo</TableHead>
+					<TableRow className='gap-2'>
+						<TableHead className='w-1/4'>Desafio</TableHead>
+						<TableHead className='w-1/4'>Título</TableHead>
+						<TableHead className='w-1/4'>Data</TableHead>
+						<TableHead className='w-1/4 text-right'>Tempo</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
 					{userEvents.map((event) => (
-						<TableRow key={event.id}>
-							<TableCell>{event.challengeName}</TableCell>
-							<TableCell>{event.title}</TableCell>
-							<TableCell />
-							<TableCell className='text-right'>{event.duration} min</TableCell>
+						<TableRow className='gap-2' key={event.id}>
+							<TableCell className='w-1/4'>{event.challengeName}</TableCell>
+							<TableCell className='w-1/4'>{event.title}</TableCell>
+							<TableCell className='w-1/4'>
+								{format(new Date(event.date), "dd 'de' LLL", { locale: ptBR })}
+							</TableCell>
+							<TableCell className='w-1/4 text-right'>
+								{event.duration} min
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
