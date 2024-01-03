@@ -1,6 +1,6 @@
 'use client'
 
-import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
+import { Line, LineChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts'
 
 import {
 	Card,
@@ -11,40 +11,21 @@ import {
 } from '@/components/ui/card'
 import { format, isToday, isYesterday } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-
-const data = [
-	{
-		average: 500,
-		today: 240,
-	},
-	{
-		average: 300,
-		today: 139,
-	},
-	{
-		average: 200,
-		today: 980,
-	},
-	{
-		average: 278,
-		today: 390,
-	},
-	{
-		average: 189,
-		today: 480,
-	},
-	{
-		average: 239,
-		today: 380,
-	},
-	{
-		average: 349,
-		today: 430,
-	},
-]
+import { CalculateAverageDuration } from './average-durations'
 
 export function CardsMetric() {
-	const date = new Date() // REPLACE
+	const averageDurations = CalculateAverageDuration()
+
+	if (!averageDurations) return
+
+	const data = averageDurations.map((item) => {
+		return {
+			average: Math.round(Number(item.average)),
+			today: item.today,
+			date: item.date,
+		}
+	})
+
 	return (
 		<Card className='flex-1'>
 			<CardHeader>
@@ -54,7 +35,7 @@ export function CardsMetric() {
 				</CardDescription>
 			</CardHeader>
 			<CardContent className='pb-4'>
-				<div className='h-[200px]'>
+				<div className='h-[300px]'>
 					<ResponsiveContainer width='100%' height='100%'>
 						<LineChart
 							data={data}
@@ -81,11 +62,13 @@ export function CardsMetric() {
 													</div>
 													<div className='flex flex-col'>
 														<span className='text-[0.70rem] uppercase text-muted-foreground'>
-															{isToday(date)
+															{isToday(payload[1].payload.date)
 																? 'Hoje'
-																: isYesterday(date)
+																: isYesterday(payload[1].payload.date)
 																  ? 'Ontem'
-																  : format(date, 'eee', { locale: ptBR })}
+																  : format(payload[1].payload.date, 'eee', {
+																			locale: ptBR,
+																	  })}
 														</span>
 														<span className='font-bold'>
 															{payload[1].value}
