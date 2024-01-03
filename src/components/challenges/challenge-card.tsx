@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
+import { differenceInDays } from 'date-fns'
 
 function LoadingSkeleton() {
 	return (
@@ -36,6 +37,12 @@ export function ChallengeCard({ id }: { id: string }) {
 		return <LoadingSkeleton />
 	}
 
+	const progress =
+		((challenge.duration -
+			differenceInDays(new Date(challenge.end_date), new Date())) /
+			challenge.duration) *
+		100
+
 	return (
 		<div className='flex flex-col overflow-hidden border rounded-md shadow-md border-muted-foreground/10 w-72'>
 			<div className='flex items-center justify-center overflow-hidden max-h-48 roundend-t-md'>
@@ -52,9 +59,11 @@ export function ChallengeCard({ id }: { id: string }) {
 				<span className='text-lg font-bold'>{challenge.title}</span>
 				<span className='text-sm text-gray-500'>{challenge.description}</span>
 				<div className='flex flex-col items-end gap-1 pt-4'>
-					<Progress value={challenge.progress} />
+					<Progress value={progress} />
 					<span className='text-xs text-gray-500'>
-						{challenge.daysintochallenge}/{challenge.duration}
+						{challenge.duration -
+							differenceInDays(new Date(challenge.end_date), new Date())}
+						/{challenge.duration}
 					</span>
 				</div>
 				<div className='flex w-full py-2'>

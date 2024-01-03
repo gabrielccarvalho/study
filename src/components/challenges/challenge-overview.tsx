@@ -16,6 +16,7 @@ import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
+import { differenceInDays } from 'date-fns'
 import { Calendar, LogOut, MoreHorizontal, UserRound } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -188,7 +189,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 					<Calendar className='w-6 h-6 text-gray-500' />
 					<div className='flex flex-col justify-between'>
 						<span className='text-xs'>
-							{challenge.duration - challenge.daysintochallenge}
+							{differenceInDays(new Date(challenge.end_date), new Date())}
 						</span>
 						<span className='text-xs'>dias restantes</span>
 					</div>
