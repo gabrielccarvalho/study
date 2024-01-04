@@ -2,6 +2,9 @@ export type User = {
 	id: string
 	username: string | null
 	avatar: string
+	publicMetadata?: {
+		imageUrl: string
+	}
 }
 
 export type Comment = {

@@ -13,6 +13,7 @@ import { useChallenge } from '@/context/challenge-context'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useUsers } from '@/context/users-context'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -72,6 +73,7 @@ function LoadingSkeleton() {
 export function EventOverview({ id, event }: { id: string; event: string }) {
 	const { challenges, addComment } = useChallenge()
 	const { user } = useUser()
+	const { userList } = useUsers()
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -124,6 +126,8 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		})
 	}
 
+	const userAvatar = userList.find((user) => user.id === currentEvent.user.id)
+
 	return (
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto'>
 			<div className='flex flex-col items-center w-3/4 max-w-md mx-auto mt-2 md:w-full'>
@@ -140,7 +144,12 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 					<div className='flex flex-row items-center justify-between'>
 						<div className='flex flex-row items-center'>
 							<Avatar className='w-8 h-8'>
-								<AvatarImage src={currentEvent.user.avatar} />
+								<AvatarImage
+									src={
+										userAvatar?.publicMetadata?.imageUrl ||
+										currentEvent.user.avatar
+									}
+								/>
 								<AvatarFallback>
 									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
 								</AvatarFallback>
@@ -164,13 +173,20 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 				</div>
 			</div>
 			{currentEvent.comments?.map((comment) => {
+				const commentAvatar = userList.find(
+					(user) => user.id === comment.user.id,
+				)
 				return (
 					<div
 						key={comment.id}
 						className='flex flex-row w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10'
 					>
 						<Avatar className='w-7 h-7'>
-							<AvatarImage src={comment.user.avatar} />
+							<AvatarImage
+								src={
+									commentAvatar?.publicMetadata?.imageUrl || comment.user.avatar
+								}
+							/>
 							<AvatarFallback>
 								<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
 							</AvatarFallback>

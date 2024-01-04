@@ -15,8 +15,6 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -24,6 +22,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
+import { useUsers } from '@/context/users-context'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
 import { Calendar, LogOut, MoreHorizontal, UserRound } from 'lucide-react'
@@ -69,6 +68,7 @@ function LoadingSkeleton() {
 
 export function ChallengeOverview({ id }: { id: string }) {
 	const { challenges, leaveChallenge } = useChallenge()
+	const { userList } = useUsers()
 	const router = useRouter()
 
 	const { user } = useUser()
@@ -128,6 +128,10 @@ export function ChallengeOverview({ id }: { id: string }) {
 
 	const leaderPoints = leaderChallengeData?.duration || 0
 
+	const leaderImageUrl = userList.find(
+		(user) => user.id === leaderChallengeData?.user.id,
+	)?.publicMetadata?.imageUrl
+
 	return (
 		<main className='flex flex-col items-center'>
 			<div className='flex flex-col items-center justify-center w-full overflow-hidden max-h-96'>
@@ -168,7 +172,9 @@ export function ChallengeOverview({ id }: { id: string }) {
 					<div className='flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto hover:cursor-pointer'>
 						<div className='flex flex-row items-center gap-2'>
 							<Avatar>
-								<AvatarImage src={leaderChallengeData?.user.avatar} />
+								<AvatarImage
+									src={leaderImageUrl || leaderChallengeData?.user.avatar}
+								/>
 								<AvatarFallback>
 									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
 										<UserRound className='w-6 h-6 text-white' />
@@ -183,7 +189,11 @@ export function ChallengeOverview({ id }: { id: string }) {
 
 						<div className='flex flex-row items-center gap-2'>
 							<Avatar>
-								<AvatarImage src={user.publicMetadata.imageUrl as string} />
+								<AvatarImage
+									src={
+										(user.publicMetadata.imageUrl as string) || user.imageUrl
+									}
+								/>
 								<AvatarFallback>
 									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
 										<UserRound className='w-6 h-6 text-white' />
@@ -214,28 +224,39 @@ export function ChallengeOverview({ id }: { id: string }) {
 					<div className='flex flex-col'>
 						{leaderboard
 							.sort((a, b) => b.duration - a.duration)
-							.map((item, index) => (
-								<div key={item.user.id}>
-									<div className='flex flex-row items-center justify-between w-full py-2'>
-										<div className='flex flex-row items-center gap-2'>
-											<Avatar>
-												<AvatarImage src={item.user.avatar} />
-												<AvatarFallback>
-													<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
-														<UserRound className='w-6 h-6 text-white' />
-													</div>
-												</AvatarFallback>
-											</Avatar>
-											<div className='flex flex-col justify-between'>
-												<span className='text-sm'>{item.user.username}</span>
-												<span className='text-xs'>{item.duration} min</span>
+							.map((item, index) => {
+								const itemAvatar = userList.find(
+									(user) => user.id === item.user.id,
+								)
+
+								return (
+									<div key={item.user.id}>
+										<div className='flex flex-row items-center justify-between w-full py-2'>
+											<div className='flex flex-row items-center gap-2'>
+												<Avatar>
+													<AvatarImage
+														src={
+															itemAvatar?.publicMetadata?.imageUrl ||
+															itemAvatar?.avatar
+														}
+													/>
+													<AvatarFallback>
+														<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
+															<UserRound className='w-6 h-6 text-white' />
+														</div>
+													</AvatarFallback>
+												</Avatar>
+												<div className='flex flex-col justify-between'>
+													<span className='text-sm'>{item.user.username}</span>
+													<span className='text-xs'>{item.duration} min</span>
+												</div>
 											</div>
+											<span className='text-sm'>{index + 1}º lugar</span>
 										</div>
-										<span className='text-sm'>{index + 1}º lugar</span>
+										<Separator />
 									</div>
-									<Separator />
-								</div>
-							))}
+								)
+							})}
 					</div>
 				</DialogContent>
 			</Dialog>

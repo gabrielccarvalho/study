@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
+import { useUsers } from '@/context/users-context'
 import { Event } from '@/utils/types'
 import { addDays, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
@@ -75,6 +76,7 @@ function LoadingSkeleton() {
 
 export function ChallengeHistory({ id }: { id: string }) {
 	const { challenges } = useChallenge()
+	const { userList } = useUsers()
 
 	const challenge = challenges.find((challenge) => challenge.id === id)
 
@@ -159,48 +161,58 @@ export function ChallengeHistory({ id }: { id: string }) {
 						.sort(
 							(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 						)
-						.map((event) => (
-							<Link
-								key={event.id}
-								href={`/app/challenge/${id}/event/${event.id}`}
-							>
-								<div className='flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto border rounded-md shadow-md bg-muted border-muted-foreground/10'>
-									<div className='flex flex-row items-center justify-between w-full p-1'>
-										<div className='flex flex-row gap-2'>
-											<div className='relative'>
-												<Avatar>
-													<AvatarImage src={event.image} />
-													<AvatarFallback>
-														<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600'>
-															<BookOpen className='w-6 h-6 text-white' />
-														</div>
-													</AvatarFallback>
-												</Avatar>
-												<Avatar className='absolute bottom-0 right-0 w-5 h-5'>
-													<AvatarImage src={event.user.avatar} />
-													<AvatarFallback>
-														<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
-													</AvatarFallback>
-												</Avatar>
+						.map((event) => {
+							const userAvatar = userList.find(
+								(user) => user.id === event.user.id,
+							)
+							return (
+								<Link
+									key={event.id}
+									href={`/app/challenge/${id}/event/${event.id}`}
+								>
+									<div className='flex flex-col items-center justify-between w-full max-w-lg px-4 py-1 mx-auto border rounded-md shadow-md bg-muted border-muted-foreground/10'>
+										<div className='flex flex-row items-center justify-between w-full p-1'>
+											<div className='flex flex-row gap-2'>
+												<div className='relative'>
+													<Avatar>
+														<AvatarImage src={event.image} />
+														<AvatarFallback>
+															<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600'>
+																<BookOpen className='w-6 h-6 text-white' />
+															</div>
+														</AvatarFallback>
+													</Avatar>
+													<Avatar className='absolute bottom-0 right-0 w-5 h-5'>
+														<AvatarImage
+															src={
+																userAvatar?.publicMetadata?.imageUrl ||
+																event.user.avatar
+															}
+														/>
+														<AvatarFallback>
+															<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
+														</AvatarFallback>
+													</Avatar>
+												</div>
+												<div className='flex flex-col justify-between'>
+													<span className='font-semibold text-md'>
+														{event.title}
+													</span>
+													<span className='text-sm font-light'>
+														{event.user.username}
+													</span>
+												</div>
 											</div>
-											<div className='flex flex-col justify-between'>
-												<span className='font-semibold text-md'>
-													{event.title}
-												</span>
-												<span className='text-sm font-light'>
-													{event.user.username}
+											<div className='flex flex-row self-end'>
+												<span className='text-xs font-thin'>
+													{format(new Date(event.date), "hh:mm aaaaa'm")}
 												</span>
 											</div>
-										</div>
-										<div className='flex flex-row self-end'>
-											<span className='text-xs font-thin'>
-												{format(new Date(event.date), "hh:mm aaaaa'm")}
-											</span>
 										</div>
 									</div>
-								</div>
-							</Link>
-						))}
+								</Link>
+							)
+						})}
 				</div>
 			))}
 		</main>
