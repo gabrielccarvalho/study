@@ -1,3 +1,4 @@
+import { ActivityDataTable } from './activity-table/page'
 import { CardsMetric } from './metrics'
 import { ActivityTable } from './recent-activity'
 
@@ -9,7 +10,8 @@ export function Charts() {
 				<CardsMetric />
 				<div className='flex flex-col w-1/2 gap-2'>
 					<span className='text-2xl font-semibold'>Atividade</span>
-					<ActivityTable />
+					{/* <ActivityTable /> */}
+					<ActivityDataTable />
 				</div>
 			</div>
 		</div>
