@@ -1,9 +1,7 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColumnDef } from '@tanstack/react-table'
-import { ChevronDown, ChevronUp } from 'lucide-react'
 import { DataTableColumnHeader } from './header'
 
 export type RecentActivity = {
