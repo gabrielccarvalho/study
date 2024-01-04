@@ -71,7 +71,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			user: {
 				id: user.id,
 				username: user.username,
-				avatar: user.imageUrl,
+				avatar: user.publicMetadata.imageUrl as string,
 			},
 		}
 
@@ -137,7 +137,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 						user: {
 							id: user.id,
 							username: user.username,
-							avatar: user.imageUrl,
+							avatar: user.publicMetadata.imageUrl as string,
 						},
 					},
 				],
@@ -181,7 +181,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			user: {
 				id: user.id,
 				username: user.username,
-				avatar: user.imageUrl,
+				avatar: user.publicMetadata.imageUrl as string,
 			},
 		}
 

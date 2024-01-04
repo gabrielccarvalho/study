@@ -10,7 +10,8 @@ export default async function Profile() {
 		throw new Error('Not authenticated')
 	}
 
-	const { firstName, lastName, username, imageUrl, id } = user
+	const { firstName, lastName, username, publicMetadata, id } = user
+	const { imageUrl } = publicMetadata
 
 	return (
 		<div className='flex flex-col flex-1 py-2'>
@@ -28,7 +29,7 @@ export default async function Profile() {
 							id,
 							firstName,
 							lastName,
-							imageUrl,
+							imageUrl: imageUrl as unknown as string,
 							username,
 						}}
 					/>

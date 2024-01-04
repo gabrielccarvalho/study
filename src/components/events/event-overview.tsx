@@ -192,7 +192,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 			})}
 			<div className='flex flex-row justify-center w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10'>
 				<Avatar className='w-7 h-7'>
-					<AvatarImage src={user.imageUrl} />
+					<AvatarImage src={user.publicMetadata.imageUrl as string} />
 					<AvatarFallback>
 						<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
 					</AvatarFallback>

@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
@@ -37,6 +38,8 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 export function ProfileForm({ user }: ProfileFormProps) {
+	const [userImage, setUserImage] = useState<string | null>(null)
+	const [isLoading, setIsLoading] = useState(false)
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileFormSchema),
 		mode: 'onChange',
@@ -58,6 +61,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
 				firstName: data.firstName,
 				lastName: data.lastName,
 				username: data.username,
+				imageUrl: userImage,
 			}),
 		})
 
@@ -77,7 +81,31 @@ export function ProfileForm({ user }: ProfileFormProps) {
 									<input
 										type='file'
 										className='sr-only'
-										onChange={field.onChange}
+										onChange={async (e) => {
+											setIsLoading(true)
+											if (!e.target.files) return
+											const file = e.target.files[0]
+
+											const formData = new FormData()
+											formData.append('file', file)
+
+											try {
+												const response = await fetch('/api/upload', {
+													method: 'POST',
+													body: formData,
+												})
+
+												const data = await response.json()
+
+												setUserImage(data.image)
+
+												field.onChange()
+												setIsLoading(false)
+											} catch (error) {
+												console.error(error)
+											}
+										}}
+										disabled={isLoading}
 										ref={field.ref}
 										name={field.name}
 										id={field.name}
@@ -88,7 +116,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
 										className='cursor-pointer hover:opacity-70'
 									>
 										<Image
-											src={user.imageUrl}
+											src={userImage || user.imageUrl}
 											alt='user avatar'
 											width={64}
 											height={64}

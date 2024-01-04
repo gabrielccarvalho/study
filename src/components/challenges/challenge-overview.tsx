@@ -172,7 +172,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 
 				<div className='flex flex-row items-center gap-2'>
 					<Avatar>
-						<AvatarImage src={user.imageUrl} />
+						<AvatarImage src={user.publicMetadata.imageUrl as string} />
 						<AvatarFallback>
 							<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
 								<UserRound className='w-6 h-6 text-white' />
