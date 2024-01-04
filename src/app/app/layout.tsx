@@ -1,6 +1,5 @@
 import { Nav } from '@/components/nav'
 import { Sidebar } from '@/components/sidebar'
-import { Timer } from '@/components/timer'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
@@ -12,7 +11,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					<div className='flex flex-col flex-1 w-full ml-20'>{children}</div>
 				</main>
 			</div>
-			<Timer />
 		</>
 	)
 }
