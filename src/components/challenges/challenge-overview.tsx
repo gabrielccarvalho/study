@@ -128,9 +128,9 @@ export function ChallengeOverview({ id }: { id: string }) {
 
 	const leaderPoints = leaderChallengeData?.duration || 0
 
-	const leaderImageUrl = userList.find(
+	const currentLeader = userList.find(
 		(user) => user.id === leaderChallengeData?.user.id,
-	)?.publicMetadata?.imageUrl
+	)
 
 	return (
 		<main className='flex flex-col items-center'>
@@ -173,7 +173,10 @@ export function ChallengeOverview({ id }: { id: string }) {
 						<div className='flex flex-row items-center gap-2'>
 							<Avatar>
 								<AvatarImage
-									src={leaderImageUrl || leaderChallengeData?.user.avatar}
+									src={
+										currentLeader?.publicMetadata?.imageUrl ||
+										leaderChallengeData?.user.avatar
+									}
 								/>
 								<AvatarFallback>
 									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
@@ -225,7 +228,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 						{leaderboard
 							.sort((a, b) => b.duration - a.duration)
 							.map((item, index) => {
-								const itemAvatar = userList.find(
+								const currentUser = userList.find(
 									(user) => user.id === item.user.id,
 								)
 
@@ -236,8 +239,8 @@ export function ChallengeOverview({ id }: { id: string }) {
 												<Avatar>
 													<AvatarImage
 														src={
-															itemAvatar?.publicMetadata?.imageUrl ||
-															itemAvatar?.avatar
+															currentUser?.publicMetadata?.imageUrl ||
+															currentUser?.avatar
 														}
 													/>
 													<AvatarFallback>
@@ -247,7 +250,9 @@ export function ChallengeOverview({ id }: { id: string }) {
 													</AvatarFallback>
 												</Avatar>
 												<div className='flex flex-col justify-between'>
-													<span className='text-sm'>{item.user.username}</span>
+													<span className='text-sm'>
+														{currentUser?.username}
+													</span>
 													<span className='text-xs'>{item.duration} min</span>
 												</div>
 											</div>

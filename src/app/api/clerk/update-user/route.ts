@@ -5,14 +5,23 @@ export async function POST(request: Request) {
 	try {
 		const { userId, firstName, lastName, username, imageUrl } =
 			await request.json()
-		const user = await clerkClient.users.updateUser(userId, {
-			firstName,
-			lastName,
-			username,
-			publicMetadata: {
-				imageUrl,
-			},
-		})
+		let user
+		if (imageUrl !== null) {
+			user = await clerkClient.users.updateUser(userId, {
+				firstName,
+				lastName,
+				username,
+				publicMetadata: {
+					imageUrl,
+				},
+			})
+		} else {
+			user = await clerkClient.users.updateUser(userId, {
+				firstName,
+				lastName,
+				username,
+			})
+		}
 
 		return NextResponse.json({ success: true, user })
 	} catch (error) {

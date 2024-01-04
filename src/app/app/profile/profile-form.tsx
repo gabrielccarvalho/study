@@ -25,6 +25,7 @@ interface ProfileFormProps {
 		lastName: string | null
 		imageUrl: string
 		username: string | null
+		defaultUserImage: string
 	}
 }
 
@@ -116,7 +117,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
 										className='cursor-pointer hover:opacity-70'
 									>
 										<Image
-											src={userImage || user.imageUrl}
+											src={userImage || user.imageUrl || user.defaultUserImage}
 											alt='user avatar'
 											width={64}
 											height={64}

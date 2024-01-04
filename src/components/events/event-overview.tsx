@@ -126,7 +126,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		})
 	}
 
-	const userAvatar = userList.find((user) => user.id === currentEvent.user.id)
+	const currentUser = userList.find((user) => user.id === currentEvent.user.id)
 
 	return (
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto'>
@@ -146,7 +146,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 							<Avatar className='w-8 h-8'>
 								<AvatarImage
 									src={
-										userAvatar?.publicMetadata?.imageUrl ||
+										currentUser?.publicMetadata?.imageUrl ||
 										currentEvent.user.avatar
 									}
 								/>
@@ -154,7 +154,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
 								</AvatarFallback>
 							</Avatar>
-							<span className='ml-2 text-md'>{currentEvent.user.username}</span>
+							<span className='ml-2 text-md'>{currentUser?.username}</span>
 						</div>
 						<span className='text-sm font-thin'>
 							{format(new Date(currentEvent.date), "hh:mm aaaaa'm'")}
@@ -173,9 +173,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 				</div>
 			</div>
 			{currentEvent.comments?.map((comment) => {
-				const commentAvatar = userList.find(
-					(user) => user.id === comment.user.id,
-				)
+				const commentUser = userList.find((user) => user.id === comment.user.id)
 				return (
 					<div
 						key={comment.id}
@@ -184,7 +182,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 						<Avatar className='w-7 h-7'>
 							<AvatarImage
 								src={
-									commentAvatar?.publicMetadata?.imageUrl || comment.user.avatar
+									commentUser?.publicMetadata?.imageUrl || comment.user.avatar
 								}
 							/>
 							<AvatarFallback>
@@ -193,7 +191,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 						</Avatar>
 						<div className='flex flex-col justify-between'>
 							<span className='text-sm font-semibold'>
-								{comment.user.username}
+								{commentUser?.username}
 							</span>
 							<span className='text-sm font-light'>{comment.content}</span>
 							<span className='mt-2 text-xs font-thin'>

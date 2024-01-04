@@ -162,7 +162,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 							(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 						)
 						.map((event) => {
-							const userAvatar = userList.find(
+							const currentUser = userList.find(
 								(user) => user.id === event.user.id,
 							)
 							return (
@@ -185,7 +185,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 													<Avatar className='absolute bottom-0 right-0 w-5 h-5'>
 														<AvatarImage
 															src={
-																userAvatar?.publicMetadata?.imageUrl ||
+																currentUser?.publicMetadata?.imageUrl ||
 																event.user.avatar
 															}
 														/>
@@ -199,7 +199,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 														{event.title}
 													</span>
 													<span className='text-sm font-light'>
-														{event.user.username}
+														{currentUser?.username}
 													</span>
 												</div>
 											</div>
