@@ -24,6 +24,8 @@ export const columns: ColumnDef<RecentActivity>[] = [
 				}
 				onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
 				aria-label='Select all'
+				className='rounded-none'
+				style={{ borderRadius: '0.3rem' }}
 			/>
 		),
 		cell: ({ row }) => (
@@ -31,6 +33,8 @@ export const columns: ColumnDef<RecentActivity>[] = [
 				checked={row.getIsSelected()}
 				onCheckedChange={(value) => row.toggleSelected(!!value)}
 				aria-label='Select row'
+				className='rounded-none'
+				style={{ borderRadius: '0.3rem' }}
 			/>
 		),
 		enableSorting: false,
