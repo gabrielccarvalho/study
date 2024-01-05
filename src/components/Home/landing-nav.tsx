@@ -24,7 +24,7 @@ export function LandingNav() {
 					</span>
 				</Link>
 			</div> */}
-			{/* <ModeToggle className='border-none backdrop-blur-md hover:bg-white/20' /> */}
+			<ModeToggle className='border-none backdrop-blur-md hover:bg-white/20' />
 		</div>
 	)
 }

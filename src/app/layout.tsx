@@ -1,5 +1,5 @@
 import { AddButton } from '@/components/add-button'
-// import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { ChallengeProvider } from '@/context/challenge-context'
 import { UserProvider } from '@/context/users-context'
@@ -31,16 +31,16 @@ export default function RootLayout({
 							className={GeistSans.className}
 						>
 							<body>
-								{/* <ThemeProvider
+								<ThemeProvider
 									attribute='class'
 									defaultTheme='light'
 									disableTransitionOnChange
-								> */}
-								{children}
-								<SpeedInsights />
-								<AddButton />
-								<Toaster />
-								{/* </ThemeProvider> */}
+								>
+									{children}
+									<SpeedInsights />
+									<AddButton />
+									<Toaster />
+								</ThemeProvider>
 							</body>
 						</html>
 					</Providers>

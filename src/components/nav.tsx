@@ -70,14 +70,14 @@ export function Nav() {
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						{/* <DropdownMenuLabel>Aparência</DropdownMenuLabel>
+						<DropdownMenuLabel>Aparência</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<DropdownMenuItem className='flex flex-row justify-between'>
 								<ModeToggle withText />
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
-						<DropdownMenuSeparator /> */}
+						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
 							<SignOutButton
 								signOutCallback={() => {
