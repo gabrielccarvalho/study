@@ -2,6 +2,7 @@
 
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { useTheme } from 'next-themes'
+import { useEffect, useState } from 'react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -11,7 +12,17 @@ export function ModeToggle({
 	className,
 	withText = false,
 }: { className?: string; withText?: boolean }) {
+	const [mounted, setMounted] = useState(false)
 	const { setTheme, theme } = useTheme()
+
+	// useEffect only runs on the client, so now we can safely show the UI
+	useEffect(() => {
+		setMounted(true)
+	}, [])
+
+	if (!mounted) {
+		return null
+	}
 
 	return (
 		<Button

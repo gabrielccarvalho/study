@@ -1,8 +1,10 @@
 import { AddButton } from '@/components/add-button'
-import { ThemeProvider } from '@/components/theme-provider'
+// import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { ChallengeProvider } from '@/context/challenge-context'
+import { UserProvider } from '@/context/users-context'
 import '@/styles/globals.css'
-import { Analytics } from '@vercel/analytics/react'
+import { ClerkProvider } from '@clerk/nextjs'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
@@ -19,23 +21,31 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<Providers>
-			<html lang='pt'>
-				<body className={`${GeistSans.variable}`}>
-					<ThemeProvider
-						attribute='class'
-						defaultTheme='dark'
-						enableSystem
-						disableTransitionOnChange
-					>
-						{children}
-						<Analytics />
-						<SpeedInsights />
-						<AddButton />
-						<Toaster />
-					</ThemeProvider>
-				</body>
-			</html>
-		</Providers>
+		<ClerkProvider>
+			<ChallengeProvider>
+				<UserProvider>
+					<Providers>
+						<html
+							lang='pt-BR'
+							style={{ colorScheme: 'light' }}
+							className={GeistSans.className}
+						>
+							<body>
+								{/* <ThemeProvider
+									attribute='class'
+									defaultTheme='light'
+									disableTransitionOnChange
+								> */}
+								{children}
+								<SpeedInsights />
+								<AddButton />
+								<Toaster />
+								{/* </ThemeProvider> */}
+							</body>
+						</html>
+					</Providers>
+				</UserProvider>
+			</ChallengeProvider>
+		</ClerkProvider>
 	)
 }
