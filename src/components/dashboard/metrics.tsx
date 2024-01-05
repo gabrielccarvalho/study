@@ -9,11 +9,22 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
+import { useChallenge } from '@/context/challenge-context'
+import { useUser } from '@clerk/nextjs'
 import { format, isToday, isYesterday } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { CalculateAverageDuration } from './average-durations'
 
 export function CardsMetric() {
+	const { challenges } = useChallenge()
+	const { user } = useUser()
 	const averageDurations = CalculateAverageDuration()
 
 	const data = averageDurations?.map((item) => {
@@ -24,13 +35,31 @@ export function CardsMetric() {
 		}
 	})
 
+	const challengeList = challenges?.filter((challenge) =>
+		challenge.members.includes(user?.id as string),
+	)
+
 	return (
 		<Card className='flex-1 w-full'>
-			<CardHeader>
-				<CardTitle>Minutos de estudo</CardTitle>
-				<CardDescription>
-					Seus minutos de estudo em comparação com a média dos últimos 7 dias
-				</CardDescription>
+			<CardHeader className='flex flex-row items-start justify-between flex-1 w-full'>
+				<div className='flex flex-col gap-1'>
+					<CardTitle>Minutos de estudo</CardTitle>
+					<CardDescription>
+						Seus minutos de estudo em comparação com a média dos últimos 7 dias
+					</CardDescription>
+				</div>
+				<Select>
+					<SelectTrigger className='w-[200px]'>
+						<SelectValue placeholder='Selecione um desafio' />
+					</SelectTrigger>
+					<SelectContent>
+						{challengeList.map((challenge) => (
+							<SelectItem key={challenge.id} value={challenge.id}>
+								{challenge.title}
+							</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
 			</CardHeader>
 			<CardContent className='pb-4'>
 				<div className='h-[300px]'>
