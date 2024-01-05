@@ -22,7 +22,7 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DataTablePagination } from './pagination'
 import { DataTableViewOptions } from './visibility'
 
@@ -60,6 +60,8 @@ export function DataTable<TData, TValue>({
 			rowSelection,
 		},
 	})
+
+	useEffect(() => table.setPageSize(5), [table])
 
 	return (
 		<div>
