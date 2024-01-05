@@ -43,7 +43,10 @@ export function Nav() {
 							<div className='flex items-center justify-center p-1 border-2 rounded-full border-blue-500/50'>
 								<Avatar className='w-6 h-6 cursor-pointer'>
 									<AvatarImage
-										src={user?.publicMetadata.imageUrl as string}
+										src={
+											(user?.publicMetadata.imageUrl as string) ||
+											user?.imageUrl
+										}
 										alt='user image'
 									/>
 									<AvatarFallback />

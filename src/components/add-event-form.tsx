@@ -16,6 +16,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 import { useChallenge } from '@/context/challenge-context'
+import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -33,6 +34,7 @@ const formSchema = z.object({
 export function AddEventForm() {
 	const [file, setFile] = useState<File | null>(null)
 	const { challenges, addEvent } = useChallenge()
+	const { user } = useUser()
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -86,12 +88,14 @@ export function AddEventForm() {
 		}
 	}, [form.formState.errors])
 
-	const challengesInfo = challenges.map((challenge) => {
-		return {
-			id: challenge.id,
-			title: challenge.title,
-		}
-	})
+	const challengesInfo = challenges
+		.filter((challenge) => challenge.members.includes(user?.id as string))
+		.map((challenge) => {
+			return {
+				id: challenge.id,
+				title: challenge.title,
+			}
+		})
 
 	return (
 		<Form {...form}>

@@ -46,26 +46,28 @@ export function CalculateAverageDuration() {
 	const result = []
 
 	for (const challenge of challenges) {
-		const { events, start_date, end_date } = challenge
-		const end = new Date(end_date)
+		if (challenge.members.includes(user.id)) {
+			const { events, start_date, end_date } = challenge
+			const end = new Date(end_date)
 
-		for (
-			let currentDate = new Date(start_date);
-			currentDate <= end;
-			currentDate.setDate(currentDate.getDate() + 1)
-		) {
-			const { average, today } = calculateDailyAverage(
-				events,
-				currentDate,
-				user.id,
-			)
+			for (
+				let currentDate = new Date(start_date);
+				currentDate <= end;
+				currentDate.setDate(currentDate.getDate() + 1)
+			) {
+				const { average, today } = calculateDailyAverage(
+					events,
+					currentDate,
+					user.id,
+				)
 
-			if (average !== null) {
-				result.push({
-					date: new Date(currentDate),
-					average: average,
-					today: today,
-				})
+				if (average !== null) {
+					result.push({
+						date: new Date(currentDate),
+						average: average,
+						today: today,
+					})
+				}
 			}
 		}
 	}
