@@ -56,14 +56,14 @@ export function Tracking() {
 		<>
 			<div
 				id='features'
-				className='flex flex-row-reverse justify-between gap-8 p-6 mx-auto mt-8 max-w-screen-2xl'
+				className='flex flex-col justify-between gap-8 p-6 mx-auto md:mt-8 md:flex-row-reverse max-w-screen-2xl'
 			>
 				<div className='flex flex-col max-w-xl gap-10'>
 					<div className='flex flex-col flex-1 gap-4'>
-						<span className='text-6xl font-geist'>
+						<span className='text-4xl md:text-6xl '>
 							Métricas de acompanhamento
 						</span>
-						<p className='max-w-sm font-light text-md font-geist'>
+						<p className='max-w-sm font-light text-md '>
 							Você pode acompanhar detalhadamente seu progresso em cada etiqueta
 							personalizada que você criar.
 						</p>
@@ -78,7 +78,7 @@ export function Tracking() {
 						</Button>
 					</Link>
 				</div>
-				<div className='flex flex-col w-1/2 p-2 rounded-md h-96'>
+				<div className='flex flex-col p-2 rounded-md md:w-1/2 h-96'>
 					<ResponsiveContainer width='100%' height='100%'>
 						<LineChart width={300} height={300} data={customData}>
 							<XAxis dataKey='name' axisLine={false} hide />

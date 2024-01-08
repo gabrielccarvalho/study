@@ -48,12 +48,12 @@ export function OpenSource() {
 		<>
 			<div
 				id='open-source'
-				className='flex flex-row-reverse justify-between flex-1 gap-6 px-6 py-8 mx-auto my-20 max-w-screen-2xl'
+				className='flex flex-row-reverse justify-between flex-1 gap-6 px-6 py-8 mx-auto md:my-20 max-w-screen-2xl'
 			>
 				<div className='flex flex-col flex-1 gap-10'>
 					<div className='flex flex-col gap-4'>
-						<span className='max-w-md text-6xl font-geist'>Open Source</span>
-						<p className='max-w-lg text-lg font-light font-geist'>
+						<span className='max-w-md text-6xl '>Open Source</span>
+						<p className='max-w-lg text-lg font-light '>
 							O Study é um projeto 100% open source, se tiver alguma ideia ou
 							quiser navegar pelo projeto, acesse nosso repositório no GitHub
 						</p>
@@ -72,7 +72,7 @@ export function OpenSource() {
 						</Button>
 					</Link>
 				</div>
-				<div className='flex flex-row w-3/5'>
+				<div className='flex-row hidden w-3/5 md:flex'>
 					<canvas
 						ref={canvasRef}
 						style={{

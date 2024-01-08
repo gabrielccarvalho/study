@@ -70,22 +70,20 @@ const customData = [
 
 export function Showcase() {
 	return (
-		<div className='flex flex-row w-full p-6 mx-auto mt-28 max-w-screen-2xl'>
+		<div className='flex flex-row w-full p-6 mx-auto md:mt-28 max-w-screen-2xl'>
 			<div className='flex flex-col flex-1 w-1/2 gap-4'>
-				<span className='max-w-xl mb-4 text-6xl font-geist'>
-					Motivação para estudar
-				</span>
-				<p className='max-w-lg text-md font-geist'>
+				<span className='max-w-xl mb-4 text-6xl '>Motivação para estudar</span>
+				<p className='max-w-lg text-md '>
 					Com um sistema de gamificação, o Study te ajuda a estudar de forma
 					divertida e eficiente, com recompensas e desafios para você se motivar
 					a estudar cada vez mais.
 				</p>
-				<p className='max-w-lg text-md font-geist'>
+				<p className='max-w-lg text-md '>
 					Para cada minuto que você estuda, você acumula pontos e sobe no
 					ranking de cada desafio que você participa.
 				</p>
 			</div>
-			<div className='flex items-center justify-center w-1/2 mx-auto bg-confetti'>
+			<div className='items-center justify-center hidden w-1/2 mx-auto md:flex bg-confetti'>
 				<div className='flex flex-col px-4 overflow-y-scroll border rounded-md shadow-lg max-h-[500px] w-96 border-muted z-20 bg-background'>
 					<div className='sticky top-0 z-30 flex items-center w-full py-2 bg-background'>
 						<span className='mb-2 text-2xl backdrop-blur-md'>Rankings</span>
