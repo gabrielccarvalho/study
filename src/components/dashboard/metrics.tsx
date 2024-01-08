@@ -27,13 +27,15 @@ export function CardsMetric() {
 	const { user } = useUser()
 	const averageDurations = CalculateAverageDuration()
 
-	const data = averageDurations?.map((item) => {
-		return {
-			average: Math.round(Number(item.average)),
-			today: item.today,
-			date: item.date,
-		}
-	})
+	const data = averageDurations
+		?.map((item) => {
+			return {
+				average: Math.round(Number(item.average)),
+				today: item.today,
+				date: item.date,
+			}
+		})
+		.slice(-7)
 
 	const challengeList = challenges?.filter((challenge) =>
 		challenge.members.includes(user?.id as string),
