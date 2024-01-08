@@ -27,6 +27,7 @@ export function ActivityDataTable() {
 	const data = userEvents.map((event) => ({
 		challenge: event.challengeName,
 		title: event.title,
+		tags: event.tag,
 		date: format(new Date(event.date), "dd 'de' LLL", { locale: ptBR }),
 		duration: event.duration,
 	}))

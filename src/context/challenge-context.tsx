@@ -54,7 +54,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			throw new Error('User not logged in')
 		}
 
-		const { title, description, duration, challenge, imageUrl } = data
+		const { title, description, duration, challenge, imageUrl, tag } = data
 
 		const randomId = crypto.randomUUID()
 		const date = new Date()
@@ -68,6 +68,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 			comments: [],
 			date: localDate.toISOString().slice(0, 19).replace('T', ' '),
 			image: imageUrl,
+			tag,
 			user: {
 				id: user.id,
 				username: user.username,

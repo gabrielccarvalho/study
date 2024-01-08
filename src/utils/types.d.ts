@@ -24,6 +24,7 @@ export type Event = {
 	duration: number
 	comments: Comment[]
 	user: User
+	tag?: string
 }
 
 export type Challenge = {
@@ -50,6 +51,7 @@ export type addEvent = {
 	duration: number
 	challenge: string
 	imageUrl: string
+	tag?: string
 }
 
 export type addComment = {

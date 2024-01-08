@@ -19,6 +19,7 @@ import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { Badge } from '../ui/badge'
 
 const formSchema = z.object({
 	content: z.string(),
@@ -162,7 +163,12 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 					</div>
 					<Separator className='my-1' />
 					<div className='flex flex-col'>
-						<span className='text-lg font-semibold'>{currentEvent.title}</span>
+						<div className='flex flex-row items-center justify-between flex-1 pr-2'>
+							<span className='text-lg font-semibold'>
+								{currentEvent.title}
+							</span>
+							<Badge>{currentEvent.tag}</Badge>
+						</div>
 						<span className='font-thin text-md'>
 							{currentEvent.description}
 						</span>

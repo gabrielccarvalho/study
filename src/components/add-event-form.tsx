@@ -3,6 +3,7 @@
 import {
 	Form,
 	FormControl,
+	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -28,6 +29,7 @@ const formSchema = z.object({
 	description: z.string(),
 	duration: z.string(),
 	challenge: z.string(),
+	tag: z.string().optional(),
 	file: z.any(),
 })
 
@@ -54,13 +56,14 @@ export function AddEventForm() {
 
 			const data = await response.json()
 
-			const { title, description, duration, challenge } = values
+			const { title, description, duration, challenge, tag } = values
 
 			addEvent({
 				title,
 				description,
 				duration: parseInt(duration),
 				challenge,
+				tag,
 				imageUrl: data.image,
 			})
 		} catch (error) {
@@ -111,7 +114,7 @@ export function AddEventForm() {
 						<FormItem>
 							<FormLabel>Nome do estudo</FormLabel>
 							<FormControl>
-								<Input placeholder='estudo sobre ...' {...field} />
+								<Input placeholder='adicione um título...' {...field} />
 							</FormControl>
 						</FormItem>
 					)}
@@ -124,7 +127,7 @@ export function AddEventForm() {
 						<FormItem>
 							<FormLabel>Descrição do estudo</FormLabel>
 							<FormControl>
-								<Input placeholder='estudei matemática ...' {...field} />
+								<Input placeholder='adicione uma descrição...' {...field} />
 							</FormControl>
 						</FormItem>
 					)}
@@ -185,6 +188,23 @@ export function AddEventForm() {
 									))}
 								</SelectContent>
 							</Select>
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name='tag'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Etiqueta do estudo</FormLabel>
+							<FormControl>
+								<Input placeholder='adicione uma etiqueta...' {...field} />
+							</FormControl>
+							<FormDescription>
+								Adicione uma tag para facilitar a busca e acompanhamento do seu
+								estudo.
+							</FormDescription>
 						</FormItem>
 					)}
 				/>

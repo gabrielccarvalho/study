@@ -1,5 +1,6 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ColumnDef } from '@tanstack/react-table'
 import { DataTableColumnHeader } from './header'
@@ -49,6 +50,21 @@ export const columns: ColumnDef<RecentActivity>[] = [
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title='Título' />
 		),
+	},
+	{
+		accessorKey: 'tags',
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title='Etiquetas' />
+		),
+		cell: ({ row }) => {
+			const tag: string = row.getValue('tags')
+
+			if (!tag) {
+				return ''
+			}
+
+			return <Badge>{tag}</Badge>
+		},
 	},
 	{
 		accessorKey: 'date',
