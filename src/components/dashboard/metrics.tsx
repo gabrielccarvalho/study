@@ -1,7 +1,5 @@
 'use client'
 
-import { Line, LineChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts'
-
 import {
 	Card,
 	CardContent,
@@ -9,37 +7,35 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '@/components/ui/select'
-import { useChallenge } from '@/context/challenge-context'
-import { useUser } from '@clerk/nextjs'
-import { format, isToday, isYesterday } from 'date-fns'
+import { format, getDay, isToday, isYesterday, subDays } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { useState } from 'react'
+import { DateRange } from 'react-day-picker'
+import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
 import { CalculateAverageDuration } from './average-durations'
+import { CalendarDateRangePicker } from './date-range-picker'
 
 export function CardsMetric() {
-	const { challenges } = useChallenge()
-	const { user } = useUser()
+	const [range, setRange] = useState<DateRange | undefined>({
+		from: subDays(new Date(), 7),
+		to: new Date(),
+	})
 	const averageDurations = CalculateAverageDuration()
 
-	const data = averageDurations
-		?.map((item) => {
-			return {
-				average: Math.round(Number(item.average)),
-				today: item.today,
-				date: item.date,
-			}
-		})
-		.slice(-7)
+	const data = averageDurations?.map((item) => {
+		return {
+			average: Math.round(Number(item.average)),
+			today: item.today,
+			date: item.date,
+		}
+	})
 
-	const challengeList = challenges?.filter((challenge) =>
-		challenge.members.includes(user?.id as string),
-	)
+	const filteredData = data?.filter((item) => {
+		if (range?.from && range?.to) {
+			return item.date >= range.from && item.date <= range.to
+		}
+		return item
+	})
 
 	return (
 		<Card className='flex-1 w-full'>
@@ -50,24 +46,15 @@ export function CardsMetric() {
 						Seus minutos de estudo em comparação com a média dos últimos 7 dias
 					</CardDescription>
 				</div>
-				<Select>
-					<SelectTrigger className='w-[200px]'>
-						<SelectValue placeholder='Selecione um desafio' />
-					</SelectTrigger>
-					<SelectContent>
-						{challengeList.map((challenge) => (
-							<SelectItem key={challenge.id} value={challenge.id}>
-								{challenge.title}
-							</SelectItem>
-						))}
-					</SelectContent>
-				</Select>
+				<div>
+					<CalendarDateRangePicker updateRange={setRange} />
+				</div>
 			</CardHeader>
 			<CardContent className='pb-4'>
 				<div className='h-[300px]'>
 					<ResponsiveContainer width='100%' height='100%'>
 						<LineChart
-							data={data}
+							data={filteredData}
 							margin={{
 								top: 5,
 								right: 10,
@@ -96,9 +83,13 @@ export function CardsMetric() {
 																? 'Hoje'
 																: isYesterday(payload[1].payload.date)
 																  ? 'Ontem'
-																  : format(payload[1].payload.date, 'eee', {
-																			locale: ptBR,
-																	  })}
+																  : format(
+																			payload[1].payload.date,
+																			"eee',' dd/MM",
+																			{
+																				locale: ptBR,
+																			},
+																	  )}
 														</span>
 														<span className='font-bold'>
 															{payload[1].value} min
