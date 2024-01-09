@@ -16,7 +16,7 @@ export default async function Profile() {
 	return (
 		<div className='flex flex-col flex-1 py-2'>
 			<div className='flex flex-col w-full gap-2 px-4'>
-				<h1 className='text-2xl font-bold'>Perfil</h1>
+				<h1 className='text-2xl font-medium'>Perfil</h1>
 				<p className='text-sm text-gray-500'>
 					Aqui você pode editar seus dados pessoais.
 				</p>

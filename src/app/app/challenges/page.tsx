@@ -5,7 +5,7 @@ export default function Challenges() {
 	return (
 		<div className='flex flex-col flex-1 py-2'>
 			<div className='flex flex-col gap-2 px-4'>
-				<h1 className='text-2xl font-bold'>Desafios</h1>
+				<h1 className='text-2xl font-medium'>Desafios</h1>
 				<p className='text-sm text-gray-500'>
 					Aqui você pode ver todos os desafios que você está participando.
 				</p>

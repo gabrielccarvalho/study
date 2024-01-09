@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/ui/button'
 import {
-	BookCheck,
 	GanttChartSquare,
 	Settings,
+	ShoppingBasket,
 	Swords,
 	User,
 	Video,
@@ -41,14 +41,18 @@ export function Sidebar() {
 						<span className='sr-only'>Desafios</span>
 					</Button>
 				</Link>
-				<Button
-					variant='ghost'
-					disabled
-					className='w-full border-r-2 rounded-none border-r-transparent hover:bg-transparent hover:border-blue-200 aria-selected:border-blue-500'
-				>
-					<BookCheck className='w-6 h-6' />
-					<span className='sr-only'>Aprender</span>
-				</Button>
+				<Link href='/app/store' className='w-full'>
+					<Button
+						variant='ghost'
+						aria-selected={
+							pathname === '/app/store' || pathname.startsWith('/app/store')
+						}
+						className='w-full border-r-2 rounded-none border-r-transparent hover:bg-transparent hover:border-blue-200 aria-selected:border-blue-500'
+					>
+						<ShoppingBasket className='w-6 h-6' />
+						<span className='sr-only'>Aprender</span>
+					</Button>
+				</Link>
 				<Button
 					variant='ghost'
 					disabled
