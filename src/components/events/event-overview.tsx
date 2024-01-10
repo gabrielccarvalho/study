@@ -167,7 +167,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 							<span className='text-lg font-semibold'>
 								{currentEvent.title}
 							</span>
-							<Badge>{currentEvent.tag}</Badge>
+							{currentEvent.tag && <Badge>{currentEvent.tag}</Badge>}
 						</div>
 						<span className='font-thin text-md'>
 							{currentEvent.description}
