@@ -27,6 +27,10 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'study-image-storage.s3.sa-east-1.amazonaws.com',
 			},
+			{
+				protocol: 'https',
+				hostname: 'files.stripe.com',
+			},
 		],
 	},
 }

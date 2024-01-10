@@ -8,6 +8,7 @@ type Props = {
 	description: string
 	imageUrl: string
 	cardAmount: number
+	redirect: string
 }
 
 export function CardPreview({
@@ -16,6 +17,7 @@ export function CardPreview({
 	description,
 	imageUrl,
 	cardAmount,
+	redirect,
 }: Props) {
 	function formatCurrency(
 		amount: number,
@@ -56,9 +58,16 @@ export function CardPreview({
 				</span>
 			</div>
 			<div className='flex items-end flex-1 w-full px-2 pb-2'>
-				<Button variant='default' className='w-full my-2 rounded-sm'>
-					<span className='text-xs'>Adicionar ao Carrinho</span>
-				</Button>
+				<a
+					href={redirect}
+					target='_blank'
+					rel='noreferrer'
+					className='w-full my-2'
+				>
+					<Button variant='default' className='w-full rounded-sm'>
+						<span className='text-xs'>Obter Pacote</span>
+					</Button>
+				</a>
 			</div>
 		</Card>
 	)

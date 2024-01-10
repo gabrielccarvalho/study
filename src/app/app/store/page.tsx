@@ -1,4 +1,4 @@
-// import { CardPreview } from '@/components/store/card-preview'
+import { CardsList } from '@/components/store/cards-list'
 import { Separator } from '@/components/ui/separator'
 
 export default function Store() {
@@ -19,14 +19,15 @@ export default function Store() {
 					cardAmount={20}
 					description='Aprenda o necessário para se comunicar em inglês nesse pacote de flashcards.'
 					imageUrl='https://study-image-storage.s3.sa-east-1.amazonaws.com/gatinho-1703823489435.jpeg'
-				/>
-				<CardPreview
+				/> */}
+				{/* <CardPreview
 					title='Alguma outra coisa'
 					price={49.99}
 					cardAmount={50}
 					description='Aprenda alguma coisa ai, com esse pacote de flashcards caro pra caralho que eu nem sei o que é.'
 					imageUrl='https://study-image-storage.s3.sa-east-1.amazonaws.com/avatar-1703821500412.jpeg'
 				/> */}
+				<CardsList />
 			</div>
 		</div>
 	)
