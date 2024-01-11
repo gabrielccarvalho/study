@@ -1,0 +1,148 @@
+'use client'
+
+import { format, isToday, isYesterday } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
+
+const data = [
+	{
+		average: 720,
+		today: 590,
+		date: new Date(2024, 1, 1),
+	},
+	{
+		average: 610,
+		today: 640,
+		date: new Date(2024, 1, 2),
+	},
+	{
+		average: 492,
+		today: 652,
+		date: new Date(2024, 1, 3),
+	},
+	{
+		average: 932,
+		today: 702,
+		date: new Date(2024, 1, 4),
+	},
+	{
+		average: 620,
+		today: 750,
+		date: new Date(2024, 1, 5),
+	},
+	{
+		average: 452,
+		today: 820,
+		date: new Date(2024, 1, 6),
+	},
+	{
+		average: 589,
+		today: 910,
+		date: new Date(2024, 1, 7),
+	},
+]
+
+export function Track() {
+	return (
+		<section className='w-full py-6 md:py-12 lg:py-24'>
+			<div className='container px-4 md:px-6'>
+				<div className='flex flex-col items-center justify-center space-y-4 text-center'>
+					<div className='space-y-2'>
+						<h2 className='text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl'>
+							Acompanhe seu tempo de estudo
+						</h2>
+						<p className='mx-auto max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400'>
+							Acompanhe o tempo de estudo diário e veja sua evolução.
+						</p>
+					</div>
+				</div>
+				<div className='flex flex-col flex-1 h-96'>
+					<ResponsiveContainer width='100%' height='100%'>
+						<LineChart
+							data={data}
+							margin={{
+								top: 5,
+								right: 10,
+								left: 10,
+								bottom: 0,
+							}}
+						>
+							<Tooltip
+								content={({ active, payload }) => {
+									if (active && payload && payload.length) {
+										return (
+											<div className='p-2 border rounded-lg shadow-sm bg-background'>
+												<div className='grid grid-cols-2 gap-2'>
+													<div className='flex flex-col items-center'>
+														<span className='text-[0.70rem] uppercase text-muted-foreground'>
+															Média geral
+														</span>
+														<span className='font-bold text-muted-foreground'>
+															{payload[0].value} min
+														</span>
+													</div>
+													<div className='flex flex-col items-center'>
+														<span className='text-[0.70rem] uppercase text-muted-foreground'>
+															estudados{' '}
+															{isToday(payload[1].payload.date)
+																? 'Hoje'
+																: isYesterday(payload[1].payload.date)
+																  ? 'Ontem'
+																  : format(
+																			payload[1].payload.date,
+																			"eee',' dd/MM",
+																			{
+																				locale: ptBR,
+																			},
+																	  )}
+														</span>
+														<span className='font-bold'>
+															{payload[1].value} min
+														</span>
+													</div>
+												</div>
+											</div>
+										)
+									}
+
+									return null
+								}}
+							/>
+							<Line
+								type='monotone'
+								strokeWidth={2}
+								dataKey='average'
+								activeDot={{
+									r: 6,
+									style: { fill: 'var(--theme-primary)', opacity: 0.25 },
+								}}
+								style={
+									{
+										stroke: 'var(--theme-primary)',
+										opacity: 0.25,
+										'--theme-primary': 'hsl(var(--primary))',
+									} as React.CSSProperties
+								}
+							/>
+							<Line
+								type='monotone'
+								dataKey='today'
+								strokeWidth={2}
+								activeDot={{
+									r: 8,
+									style: { fill: 'var(--theme-primary)' },
+								}}
+								style={
+									{
+										stroke: 'var(--theme-primary)',
+										'--theme-primary': 'hsl(var(--primary))',
+									} as React.CSSProperties
+								}
+							/>
+						</LineChart>
+					</ResponsiveContainer>
+				</div>
+			</div>
+		</section>
+	)
+}

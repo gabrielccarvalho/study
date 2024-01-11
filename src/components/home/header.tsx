@@ -1,96 +1,110 @@
-import { Button } from '@/components/ui/button'
-import { Lock, MoveRight, MoveUpRight } from 'lucide-react'
+import { Bell } from 'lucide-react'
 import Link from 'next/link'
+import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
+import { Skeleton } from '../ui/skeleton'
 import { LandingNav } from './landing-nav'
 
 export function Header() {
 	return (
 		<>
 			<LandingNav />
-			<div className='flex flex-row items-center justify-between flex-1 px-4 pt-20 pb-10 transition-all duration-100 md:p-16 md:rounded-b-md bg-gradient-to-br from-yellow-400/85 via-pink-400/85 to-indigo-400/85 dark:from-yellow-500/85 dark:via-pink-500/85 dark:to-indigo-500/85'>
-				<div className='flex flex-col justify-center gap-8 mx-auto mb-12 md:p-16 max-w-screen-2xl'>
-					<div className='flex flex-col items-center justify-center flex-1 max-w-3xl gap-4'>
-						<h1 className='text-4xl font-normal text-center md:leading-tight md:text-7xl '>
-							Torne seu estudo mais divertido!
-						</h1>
-						<span className='max-w-lg font-light text-center '>
-							Estude, acumule pontos e compita com seus amigos! Acesse o app e
-							comece a aprender de forma divertida.
-						</span>
-					</div>
-					<div className='flex items-center justify-center flex-1'>
-						<Link href='/app'>
-							<Button className='flex flex-row items-center justify-start transition-all duration-100 bg-black dark:bg-white hover:bg-black hover:dark:bg-white group hover:scale-110'>
-								Confira agora
-								<MoveRight
-									strokeWidth={1.5}
-									className='w-6 h-6 ml-2 mr-2 transition-all duration-100 group-hover:mr-0 group-hover:ml-4'
+			<section className='w-full py-6 sm:py-6 md:py-12 lg:py-24 xl:py-32'>
+				<div className='container px-4 md:px-6'>
+					<div className='grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] mt-12 md:mt-0'>
+						<div className='flex-col hidden object-cover mx-auto overflow-hidden shadow-lg md:flex bg-slate-800 aspect-video rounded-xl sm:w-full lg:order-last lg:aspect-square'>
+							<div className='flex flex-row items-center justify-between p-4'>
+								<div className='w-16 h-2 bg-purple-500 rounded-md' />
+								<div className='flex flex-row items-center gap-2'>
+									<div className='w-12 h-2 bg-indigo-500 rounded-full' />
+									<div className='w-6 h-6 bg-indigo-500 rounded-full' />
+								</div>
+							</div>
+							<Separator className='bg-white/50' />
+							<div className='flex flex-row flex-1 px-2 py-4'>
+								<div className='flex flex-col items-center justify-between h-full'>
+									<div className='flex flex-col items-center gap-4'>
+										<div className='w-5 h-5 bg-purple-500 rounded-lg' />
+										<div className='w-5 h-5 bg-purple-500 rounded-lg' />
+										<div className='w-5 h-5 bg-purple-500 rounded-lg' />
+										<div className='w-5 h-5 bg-purple-500 rounded-lg' />
+										<div className='w-5 h-5 bg-purple-500 rounded-lg' />
+									</div>
+									<div className='w-5 h-5 mb-4 bg-purple-500 rounded-lg' />
+								</div>
+								<Separator
+									orientation='vertical'
+									className='h-full ml-2 bg-white/50'
 								/>
-							</Button>
-						</Link>
+								<div className='flex flex-col flex-1 p-2'>
+									<div className='w-16 h-2 bg-indigo-500 rounded-md' />
+									<div className='flex items-end w-full h-48 max-w-full gap-2 px-4 mt-4 overflow-hidden border border-white rounded-lg'>
+										<div className='w-4 h-20 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-12 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-10 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-20 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-24 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-24 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-32 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 bg-indigo-500 rounded-t-sm h-44' />
+										<div className='w-4 h-12 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-32 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-20 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-12 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-10 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-20 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-24 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-24 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-32 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 bg-indigo-500 rounded-t-sm h-44' />
+										<div className='w-4 h-12 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-32 bg-indigo-500 rounded-t-sm' />
+										<div className='w-4 h-6 bg-indigo-500 rounded-t-sm' />
+									</div>
+									<div className='w-16 h-2 mt-4 bg-indigo-500 rounded-lg' />
+									<div className='w-32 h-2 mt-2 bg-indigo-500 rounded-lg' />
+									<div className='flex flex-col w-full h-48 gap-2 px-1 py-2 mt-2 border border-white rounded-lg'>
+										<div className='w-full h-3 bg-indigo-500 rounded-md' />
+										<div className='w-full h-3 bg-indigo-700 rounded-md' />
+										<div className='w-full h-3 bg-indigo-500 rounded-md' />
+										<div className='w-full h-3 bg-indigo-700 rounded-md' />
+										<div className='w-full h-3 bg-indigo-500 rounded-md' />
+										<div className='w-full h-3 bg-indigo-700 rounded-md' />
+										<div className='w-full h-3 bg-indigo-500 rounded-md' />
+										<div className='w-full h-3 bg-indigo-700 rounded-md' />
+										<div className='w-full h-3 bg-indigo-500 rounded-md' />
+										<div className='w-full h-3 bg-indigo-700 rounded-md' />
+									</div>
+								</div>
+							</div>
+						</div>
+						<div className='flex flex-col justify-center space-y-4'>
+							<div className='space-y-2'>
+								<h1 className='text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none'>
+									Deixe seus estudos mais{' '}
+									<span className='px-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-500'>
+										divertidos
+									</span>{' '}
+									sem perder o foco.
+								</h1>
+								<p className='max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400'>
+									Estude de forma leve e divertida, com métricas e gráficos para
+									te auxiliar a identificar onde melhorar. Junte-se a nós e leve
+									seus estudos para o próximo nível.
+								</p>
+							</div>
+							<div className='flex flex-col gap-2 min-[400px]:flex-row'>
+								<Link href='/app'>
+									<Button size='lg'>Começe agora</Button>
+								</Link>
+								<Button variant='outline' size='lg'>
+									Saiba mais
+								</Button>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div className='flex-row items-stretch justify-around hidden max-w-5xl px-4 py-2 pb-6 mx-auto -mt-20 border border-b-0 rounded-md md:flex bg-white/20 border-white/20 backdrop-blur-sm'>
-				<div className='flex flex-col flex-1 gap-10 px-2 max-w-56'>
-					<div className='flex flex-col gap-2 py-2'>
-						<span className='text-xl '>Competir</span>
-						<p className='text-xs font-light '>Plataforma de acompanhamento</p>
-					</div>
-					<div className='flex flex-row items-center justify-between'>
-						<span className='text-lg '>Acesse o app</span>
-						<Link href='/app'>
-							<Button
-								size='icon'
-								className='w-8 h-8 transition-all duration-100 bg-black rounded-full dark:bg-white hover:bg-black hover:dark:bg-white hover:scale-110'
-							>
-								<MoveUpRight strokeWidth={1.5} className='w-5 h-5' />
-							</Button>
-						</Link>
-					</div>
-				</div>
-				<Separator
-					orientation='vertical'
-					className='self-center h-16 mx-4 bg-foreground/10'
-				/>
-				<div className='flex flex-col flex-1 gap-10 px-2 max-w-56'>
-					<div className='flex flex-col gap-2 py-2'>
-						<span className='text-xl '>Estudar</span>
-						<p className='text-xs font-light '>Plataforma de estudos</p>
-					</div>
-					<div className='flex flex-row items-center justify-between'>
-						<span className='text-lg '>Em breve</span>
-						<Button
-							disabled
-							size='icon'
-							className='w-8 h-8 bg-black rounded-full dark:bg-white hover:bg-black hover:dark:bg-white'
-						>
-							<Lock strokeWidth={1.5} className='w-4 h-4' />
-						</Button>
-					</div>
-				</div>
-				<Separator
-					orientation='vertical'
-					className='self-center h-16 mx-4 bg-foreground/10'
-				/>
-				<div className='flex flex-col flex-1 gap-10 px-2 max-w-56'>
-					<div className='flex flex-col gap-2 py-2'>
-						<span className='text-xl '>Aprender</span>
-						<p className='text-xs font-light '>Plataforma de aulas</p>
-					</div>
-					<div className='flex flex-row items-center justify-between'>
-						<span className='text-lg '>Em breve</span>
-						<Button
-							size='icon'
-							disabled
-							className='w-8 h-8 bg-black rounded-full dark:bg-white hover:bg-black hover:dark:bg-white'
-						>
-							<Lock strokeWidth={1.5} className='w-4 h-4' />
-						</Button>
-					</div>
-				</div>
-			</div>
+			</section>
 		</>
 	)
 }

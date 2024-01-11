@@ -1,27 +1,19 @@
+import Link from 'next/link'
+
 export function LandingFooter() {
 	return (
-		<>
-			<div className='flex flex-row justify-between p-6'>
-				<div className='flex flex-row items-center justify-between flex-1 md:flex-auto md:justify-normal'>
-					<span className='mr-1 font-bold text-md '>study.app</span>
-					<span className='text-xs font-light '>
-						All rights reserved © 2023
-					</span>
-				</div>
-				<div className='flex-row items-center hidden md:flex'>
-					<span className='text-xs font-light'>
-						Feito com 🤍 por{' '}
-						<a
-							href='https://github.com/gabrielccarvalho'
-							target='_blank'
-							className='font-bold text-md font-geist'
-							rel='noreferrer'
-						>
-							Gabriel Campos
-						</a>
-					</span>
-				</div>
-			</div>
-		</>
+		<footer className='flex flex-col items-center w-full gap-2 px-4 py-6 border-t sm:flex-row shrink-0 md:px-6'>
+			<p className='text-xs text-gray-500 dark:text-gray-400'>
+				© study.app. All rights reserved.
+			</p>
+			<nav className='flex gap-4 sm:ml-auto sm:gap-6'>
+				<Link className='text-xs hover:underline underline-offset-4' href='#'>
+					Terms of Service
+				</Link>
+				<Link className='text-xs hover:underline underline-offset-4' href='#'>
+					Privacy
+				</Link>
+			</nav>
+		</footer>
 	)
 }
