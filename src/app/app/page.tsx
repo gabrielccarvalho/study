@@ -1,5 +1,4 @@
 import { Charts } from '@/components/dashboard/charts'
-import { Card } from '@/components/ui/card'
 
 export default function App() {
 	return (
