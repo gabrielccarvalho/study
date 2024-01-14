@@ -1,10 +1,7 @@
-import { Bell } from 'lucide-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
-import { Skeleton } from '../ui/skeleton'
 import { LandingNav } from './landing-nav'
-import { Mockup } from './mockup'
 
 export function Header() {
 	return (
@@ -13,7 +10,14 @@ export function Header() {
 			<section className='w-full py-6 sm:py-6 md:py-12 lg:py-24 xl:py-32'>
 				<div className='container px-4 md:px-6'>
 					<div className='grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] mt-12 md:mt-0'>
-						<Mockup />
+						<div className='flex-col hidden object-cover mx-auto overflow-hidden shadow-lg md:flex aspect-video rounded-xl sm:w-full lg:order-last lg:aspect-square'>
+							<Image
+								src='loom.svg'
+								width={600}
+								height={600}
+								alt='Landing illustration'
+							/>
+						</div>
 						<div className='flex flex-col justify-center space-y-4'>
 							<div className='space-y-2'>
 								<h1 className='text-3xl font-bold tracking-tighter text-transparent bg-black sm:text-5xl xl:text-6xl/none bg-clip-text bg-gradient-to-r dark:from-gray-400 dark:to-white'>

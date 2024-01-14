@@ -4,7 +4,7 @@ export function Mockup() {
 	return (
 		<div className='flex-col hidden object-cover mx-auto overflow-hidden shadow-lg md:flex bg-slate-800 aspect-video rounded-xl sm:w-full lg:order-last lg:aspect-square'>
 			<div className='flex flex-row items-center justify-between p-4'>
-				<div className='w-16 h-2 transition-all duration-300 delay-200 bg-purple-500 rounded-md' />
+				<div className='w-16 h-2 transition-all duration-1000 delay-200 bg-purple-500 rounded-md animate-pulse' />
 				<div className='flex flex-row items-center gap-2'>
 					<div className='w-12 h-2 bg-indigo-500 rounded-full' />
 					<div className='w-6 h-6 bg-indigo-500 rounded-full' />
