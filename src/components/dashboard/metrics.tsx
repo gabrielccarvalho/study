@@ -51,7 +51,7 @@ export function CardsMetric() {
 				</div>
 			</CardHeader>
 			<CardContent className='pb-0 md:pb-4'>
-				<div className='md:h-[300px]'>
+				<div className='h-[300px]'>
 					<ResponsiveContainer width='100%' height='100%'>
 						<LineChart
 							data={filteredData}
