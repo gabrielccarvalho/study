@@ -91,7 +91,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
 											formData.append('file', file)
 
 											try {
-												const response = await fetch('/api/upload', {
+												const response = await fetch('/api/aws/upload-image', {
 													method: 'POST',
 													body: formData,
 												})

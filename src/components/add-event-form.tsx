@@ -52,7 +52,7 @@ export function AddEventForm() {
 		try {
 			let data
 			if (formData !== undefined) {
-				const response = await fetch('/api/upload', {
+				const response = await fetch('/api/aws/upload-image', {
 					method: 'POST',
 					body: formData,
 				})
