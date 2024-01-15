@@ -20,6 +20,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { CornerDownRight, PlusCircleIcon, PlusIcon } from 'lucide-react'
 
+import { AddChallengeForm } from '@/components/control/add-challenge-form'
+import { AddEventForm } from '@/components/control/add-event-form'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -36,8 +38,6 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { AddChallengeForm } from './add-challenge-form'
-import { AddEventForm } from './add-event-form'
 
 const formSchema = z.object({
 	id: z.string(),

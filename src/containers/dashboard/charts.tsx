@@ -1,5 +1,5 @@
-import { ActivityDataTable } from './activity-table/page'
-import { CardsMetric } from './metrics'
+import { ActivityDataTable } from '@/components/dashboard/activity-table/page'
+import { CardsMetric } from '@/components/dashboard/metrics'
 
 export function Charts() {
 	return (

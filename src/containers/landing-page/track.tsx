@@ -42,7 +42,7 @@ const data = [
 	},
 ]
 
-export function Track() {
+export function StudyTrack() {
 	return (
 		<section className='w-full py-4 md:py-10 lg:py-16'>
 			<div className='container px-4 md:px-6'>

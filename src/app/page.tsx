@@ -1,15 +1,15 @@
-import { Header } from '@/components/home/header'
-import { HeroSection } from '@/components/home/hero'
-import { LandingFooter } from '@/components/home/landing-footer'
-import { Pricing } from '@/components/home/pricing'
-import { Track } from '@/components/home/track'
+import { Header } from '@/containers/landing-page/header'
+import { HeroSection } from '@/containers/landing-page/hero'
+import { LandingFooter } from '@/containers/landing-page/landing-footer'
+import { Pricing } from '@/containers/landing-page/pricing'
+import { StudyTrack } from '@/containers/landing-page/track'
 
 export default function Home() {
 	return (
 		<>
 			<Header />
 			<HeroSection />
-			<Track />
+			<StudyTrack />
 			<Pricing />
 			<LandingFooter />
 		</>

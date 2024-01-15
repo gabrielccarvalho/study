@@ -1,5 +1,6 @@
 'use client'
 
+import { ModeToggle } from '@/components/navigation/mode-toggle'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,12 +12,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { SignOutButton, useClerk, useUser } from '@clerk/nextjs'
+import { SignOutButton, useUser } from '@clerk/nextjs'
 import { Bell, ChevronDown, LogOut } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ModeToggle } from './mode-toggle'
-import { SearchBar } from './searchbar'
 
 export function Nav() {
 	const { user } = useUser()

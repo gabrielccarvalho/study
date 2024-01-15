@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useChallenge } from '@/context/challenge-context'
 
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -19,7 +20,6 @@ import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import { Badge } from '../ui/badge'
 
 const formSchema = z.object({
 	content: z.string(),

@@ -1,4 +1,4 @@
-import { AddButton } from '@/components/add-button'
+import { AddButton } from '@/components/control/add-button'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { ChallengeProvider } from '@/context/challenge-context'

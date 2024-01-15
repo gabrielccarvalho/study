@@ -1,9 +1,7 @@
-import { CheckIcon } from 'lucide-react'
+import { Card, CardDescription, CardTitle } from '@/components/ui/card'
 import { JSX, SVGProps } from 'react'
-import { Button } from '../ui/button'
-import { PricingCard } from './pricing-card'
 
-export function Pricing() {
+export function HeroSection() {
 	return (
 		<section className='w-full py-6 bg-gray-200 dark:bg-black md:py-6 lg:py-12 xl:py-24'>
 			<div className='container px-4 md:px-6'>
@@ -11,60 +9,42 @@ export function Pricing() {
 					<div className='flex flex-col justify-center text-center md:space-y-8'>
 						<div className='space-y-4'>
 							<h1 className='text-2xl font-bold tracking-tighter text-transparent bg-black text-start md:text-center md:text-3xl sm:text-5xl xl:text-6xl/none bg-clip-text bg-gradient-to-r dark:from-gray-400 dark:to-white'>
-								Nossos Planos
+								Descubra nossas funcionalidades
 							</h1>
 							<p className='mx-auto text-sm md:max-w-screen-md md:text-xl md:text-center text-start'>
-								Escolha o plano que mais se adequa a você e comece a estudar
-								agora mesmo!
+								As funcionalidades do Study.app foram pensadas para facilitar o
+								seu dia-a-dia e tornar o seu estudo mais divertido sem perder a
+								qualidade.
 							</p>
 						</div>
-						<div className='grid gap-6 pt-6 lg:grid-cols-3 lg:gap-12 md:pt-0'>
-							<PricingCard
-								title='Grátis'
-								description='Ideal para quem está começando'
-								price={0}
-								features={[
-									'Métricas de Estudo',
-									'Monitoramento de Progresso',
-									'Até 3 Desafios',
-									'Criação de cartões',
-								]}
-								notIncluded={[
-									'Acesso a todos os pacotes de cartões',
-									'0 Licenças',
-								]}
-								cta='Começe sem custos!'
-							/>
-
-							<PricingCard
-								title='Pro'
-								description='Ideal para quem quer ir para o próximo nível'
-								price={19.99}
-								features={[
-									'Métricas de Estudo',
-									'Monitoramento de Progresso',
-									'Desafios ilimitados',
-									'Criação de cartões',
-									'Acesso a todos os pacotes de cartões',
-									'1 Licença',
-								]}
-								cta='Começe agora!'
-								redirect='https://buy.stripe.com/fZeeYxfsw30G2e4289'
-							/>
-							<PricingCard
-								title='Personalizado'
-								description='Ideal para empresas e escolas'
-								price={99.99}
-								features={[
-									'Métricas de Estudo',
-									'Monitoramento de Progresso',
-									'Desafios ilimitados',
-									'Criação de cartões',
-									'Acesso a todos os pacotes de cartões',
-									'Licenças sob demanda',
-								]}
-								cta='Fale com nosso time!'
-							/>
+						<div className='w-full max-w-full mx-auto space-y-4'>
+							<div className='grid items-stretch max-w-5xl gap-6 py-12 mx-auto lg:grid-cols-3 lg:gap-12'>
+								<Card className='flex flex-col items-center p-6 space-y-4 transition-all duration-200 ease-in-out group hover:border-emerald-500 hover:scale-105'>
+									<BarChart2Icon className='w-12 h-12 transition-all duration-200 ease-in-out group-hover:text-emerald-500' />
+									<CardTitle className='mb-2'>Métricas</CardTitle>
+									<CardDescription className='text-center'>
+										Use nossas métricas para acompanhar seu progresso e
+										identificar áreas para melhorar. Nossa plataforma conta com
+										gráficos e tabelas para você se manter motivado e focado.
+									</CardDescription>
+								</Card>
+								<Card className='flex flex-col items-center p-6 space-y-4 transition-all duration-200 ease-in-out group hover:border-yellow-500 hover:scale-105'>
+									<TrophyIcon className='w-12 h-12 transition-all duration-200 ease-in-out group-hover:text-yellow-500' />
+									<CardTitle className='mb-2'>Desafie seus amigos</CardTitle>
+									<CardDescription className='text-center'>
+										Nossa plataforma conta com um sistema de desafios, onde você
+										pode criar desafios e convidar seus amigos para participar.
+									</CardDescription>
+								</Card>
+								<Card className='flex flex-col items-center p-6 space-y-4 transition-all duration-200 ease-in-out group hover:border-indigo-500 hover:scale-105'>
+									<TrendingUpIcon className='w-12 h-12 transition-all duration-200 ease-in-out group-hover:text-indigo-500' />
+									<CardTitle className='mb-2'>Monitore seu Progresso</CardTitle>
+									<CardDescription className='text-center'>
+										Monitore seu progresso diáriamente e veja como você está
+										evoluindo.
+									</CardDescription>
+								</Card>
+							</div>
 						</div>
 					</div>
 				</div>

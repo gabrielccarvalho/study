@@ -1,4 +1,4 @@
-import { ModeToggle } from '@/components/mode-toggle'
+import { ModeToggle } from '@/components/navigation/mode-toggle'
 import Link from 'next/link'
 
 export function LandingNav() {

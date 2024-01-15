@@ -1,9 +1,9 @@
 'use client'
 
+import { ChallengeCard } from '@/components/challenges/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { useUser } from '@clerk/nextjs'
-import { ChallengeCard } from './challenge-card'
 
 function LoadingSkeleton() {
 	return (

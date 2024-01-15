@@ -1,7 +1,7 @@
 'use client'
 
 import { intervalToDuration } from 'date-fns'
-import { Pause, Play, Square } from 'lucide-react'
+import { Play, Square } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import Draggable from 'react-draggable'
 import { Button } from './ui/button'
