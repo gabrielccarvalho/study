@@ -33,7 +33,7 @@ export function Header() {
 									seus estudos para o próximo nível.
 								</p>
 							</div>
-							<div className='flex flex-col gap-2 min-[400px]:flex-row'>
+							<div className='flex gap-2 min-[400px]:flex-row'>
 								<Link href='/app'>
 									<Button size='lg'>Começe agora</Button>
 								</Link>
