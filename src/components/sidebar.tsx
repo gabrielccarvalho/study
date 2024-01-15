@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { GanttChartSquare, ShoppingBasket, Swords, User } from 'lucide-react'
+import { GanttChartSquare, Swords, User } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -34,7 +34,7 @@ export function Sidebar() {
 						<span className='sr-only'>Desafios</span>
 					</Button>
 				</Link>
-				<Link href='/app/store' className='w-full'>
+				{/* <Link href='/app/store' className='w-full'>
 					<Button
 						variant='ghost'
 						aria-selected={
@@ -45,7 +45,7 @@ export function Sidebar() {
 						<ShoppingBasket className='w-5 h-5 md:w-6 md:h-6' />
 						<span className='sr-only'>Aprender</span>
 					</Button>
-				</Link>
+				</Link> */}
 				{/* <Button
 					variant='ghost'
 					disabled
