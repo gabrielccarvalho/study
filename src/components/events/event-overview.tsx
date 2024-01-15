@@ -121,8 +121,8 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		toast('Comentário enviado!', {
 			description: 'Seu comentário foi enviado! 🎉',
 			action: {
-				label: 'Desfazer',
-				onClick: () => console.log('Desfazer'),
+				label: 'Fechar',
+				onClick: () => {},
 			},
 		})
 	}
