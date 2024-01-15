@@ -1,3 +1,4 @@
+import { formatCurrency } from '@/utils/format-currency'
 import Image from 'next/image'
 import { Button } from '../ui/button'
 import { Card } from '../ui/card'
@@ -19,17 +20,6 @@ export function CardPreview({
 	cardAmount,
 	redirect,
 }: Props) {
-	function formatCurrency(
-		amount: number,
-		locale = 'pt-BR',
-		currencyCode = 'BRL',
-	): string {
-		return new Intl.NumberFormat(locale, {
-			style: 'currency',
-			currency: currencyCode,
-		}).format(amount)
-	}
-
 	return (
 		<Card className='flex flex-col overflow-hidden transition-all duration-200 border rounded-sm shadow-md border-muted-foreground/10 w-80 dark:border-muted-foreground/40 hover:scale-105'>
 			<div className='flex items-center justify-center overflow-hidden max-h-[300px] roundend-t-sm'>

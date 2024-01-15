@@ -1,10 +1,8 @@
 import { Header } from '@/components/home/header'
 import { HeroSection } from '@/components/home/hero'
 import { LandingFooter } from '@/components/home/landing-footer'
-import { OpenSource } from '@/components/home/open-source'
-import { Showcase } from '@/components/home/showcase'
+import { Pricing } from '@/components/home/pricing'
 import { Track } from '@/components/home/track'
-import { Tracking } from '@/components/home/tracking'
 
 export default function Home() {
 	return (
@@ -12,6 +10,7 @@ export default function Home() {
 			<Header />
 			<HeroSection />
 			<Track />
+			<Pricing />
 			<LandingFooter />
 		</>
 	)
