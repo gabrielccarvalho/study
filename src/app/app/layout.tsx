@@ -6,9 +6,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 		<>
 			<div className='flex flex-col flex-1 h-screen'>
 				<Nav />
-				<main className='flex-row flex-1 hidden md:flex'>
+				<main className='flex flex-col-reverse flex-1 md:flex-row'>
 					<Sidebar />
-					<div className='flex flex-col flex-1 w-full ml-20'>{children}</div>
+					<div className='flex flex-col flex-1 w-full mb-20 md:ml-20 md:mb-0'>
+						{children}
+					</div>
 				</main>
 			</div>
 		</>

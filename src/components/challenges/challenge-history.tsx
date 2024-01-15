@@ -141,12 +141,12 @@ export function ChallengeHistory({ id }: { id: string }) {
 	}
 	return (
 		<main className='flex flex-col flex-1 p-4'>
-			<div className='absolute flex flex-col items-start max-w-xs gap-2 p-2 border rounded-md shadow-lg left-24 border-muted-foreground/10 bg-muted'>
+			{/* <div className='flex-col items-start hidden max-w-xs gap-2 p-2 border rounded-md shadow-lg md:flex md:absolute left-24 border-muted-foreground/10 bg-muted'>
 				<span className='text-sm font-semibold'>Código do desafio:</span>
 				<span className='text-xs font-semibold text-center text-muted-foreground'>
 					{id}
 				</span>
-			</div>
+			</div> */}
 			{Object.entries(sortedEvents).map(([date, events]) => (
 				<div
 					key={date}

@@ -6,12 +6,12 @@ export function HeroSection() {
 		<section className='w-full py-6 bg-gray-200 dark:bg-black md:py-6 lg:py-12 xl:py-24'>
 			<div className='container px-4 md:px-6'>
 				<div className='grid items-center gap-6'>
-					<div className='flex flex-col justify-center space-y-8 text-center'>
+					<div className='flex flex-col justify-center text-center md:space-y-8'>
 						<div className='space-y-4'>
-							<h1 className='text-3xl font-bold tracking-tighter text-transparent bg-black sm:text-5xl xl:text-6xl/none bg-clip-text bg-gradient-to-r dark:from-gray-400 dark:to-white'>
+							<h1 className='text-2xl font-bold tracking-tighter text-transparent bg-black text-start md:text-center md:text-3xl sm:text-5xl xl:text-6xl/none bg-clip-text bg-gradient-to-r dark:from-gray-400 dark:to-white'>
 								Descubra nossas funcionalidades
 							</h1>
-							<p className='max-w-screen-md mx-auto md:text-xl'>
+							<p className='mx-auto text-sm md:max-w-screen-md md:text-xl md:text-center text-start'>
 								As funcionalidades do Study.app foram pensadas para facilitar o
 								seu dia-a-dia e tornar o seu estudo mais divertido sem perder a
 								qualidade.

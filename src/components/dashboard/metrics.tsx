@@ -7,7 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
-import { format, getDay, isToday, isYesterday, subDays } from 'date-fns'
+import { format, isToday, isYesterday, subDays } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
@@ -39,7 +39,7 @@ export function CardsMetric() {
 
 	return (
 		<Card className='flex-1 w-full'>
-			<CardHeader className='flex flex-row items-start justify-between flex-1 w-full'>
+			<CardHeader className='flex flex-col items-start justify-between flex-1 w-full gap-2 md:gap-0 md:flex-row'>
 				<div className='flex flex-col gap-1'>
 					<CardTitle>Minutos de estudo</CardTitle>
 					<CardDescription>
@@ -50,8 +50,8 @@ export function CardsMetric() {
 					<CalendarDateRangePicker updateRange={setRange} />
 				</div>
 			</CardHeader>
-			<CardContent className='pb-4'>
-				<div className='h-[300px]'>
+			<CardContent className='pb-0 md:pb-4'>
+				<div className='md:h-[300px]'>
 					<ResponsiveContainer width='100%' height='100%'>
 						<LineChart
 							data={filteredData}

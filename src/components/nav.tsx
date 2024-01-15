@@ -28,7 +28,7 @@ export function Nav() {
 				<span className='font-semibold text-md'>study.app</span>
 			</Link>
 			<div className='flex flex-row items-center'>
-				<SearchBar />
+				{/* <SearchBar /> */}
 				<Button variant='ghost' className='hover:bg-transparent group'>
 					<Bell
 						size={21}

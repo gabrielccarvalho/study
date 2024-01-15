@@ -86,7 +86,7 @@ export function AddButton() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<div className='fixed flex items-center justify-center w-10 h-10 rounded-full md:w-12 md:h-12 right-6 bottom-16 md:right-10 md:bottom-10 bg-primary hover:cursor-pointer hover:bg-primary/80'>
+				<div className='fixed z-50 flex items-center justify-center w-10 h-10 rounded-full md:w-12 md:h-12 right-6 bottom-4 md:right-10 md:bottom-10 bg-primary hover:cursor-pointer hover:bg-primary/80'>
 					<PlusIcon className='w-4 h-4 md:w-6 md:h-6 text-primary-foreground' />
 				</div>
 			</DropdownMenuTrigger>
