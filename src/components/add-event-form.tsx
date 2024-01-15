@@ -26,11 +26,11 @@ import * as z from 'zod'
 
 const formSchema = z.object({
 	title: z.string(),
-	description: z.string(),
+	description: z.string().optional(),
 	duration: z.string(),
 	challenge: z.string(),
 	tag: z.string().optional(),
-	file: z.any(),
+	file: z.any().optional(),
 })
 
 export function AddEventForm() {
@@ -43,18 +43,21 @@ export function AddEventForm() {
 	})
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		if (!file) return
-
-		const formData = new FormData()
-		formData.append('file', file)
+		let formData
+		if (file) {
+			formData = new FormData()
+			formData.append('file', file)
+		}
 
 		try {
-			const response = await fetch('/api/upload', {
-				method: 'POST',
-				body: formData,
-			})
-
-			const data = await response.json()
+			let data
+			if (formData !== undefined) {
+				const response = await fetch('/api/upload', {
+					method: 'POST',
+					body: formData,
+				})
+				data = await response.json()
+			}
 
 			const { title, description, duration, challenge, tag } = values
 
@@ -64,9 +67,10 @@ export function AddEventForm() {
 				duration: parseInt(duration),
 				challenge,
 				tag,
-				imageUrl: data.image,
+				imageUrl: data?.image || null,
 			})
 		} catch (error) {
+			console.log(error)
 			console.error(error)
 		}
 

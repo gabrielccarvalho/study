@@ -177,7 +177,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 													<Avatar>
 														<AvatarImage src={event.image} />
 														<AvatarFallback>
-															<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600'>
+															<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-gray-600 to-black'>
 																<BookOpen className='w-6 h-6 text-white' />
 															</div>
 														</AvatarFallback>
@@ -199,7 +199,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 														{event.title}
 													</span>
 													<span className='text-sm font-light'>
-														{currentUser?.username}
+														{event.user.username}
 													</span>
 												</div>
 											</div>

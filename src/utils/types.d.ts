@@ -17,8 +17,8 @@ export type Comment = {
 export type Event = {
 	id: string
 	title: string
-	description: string
-	image: string
+	description?: string
+	image?: string
 	date: string
 	description: string
 	duration: number
@@ -47,10 +47,10 @@ export type Challenge = {
 
 export type addEvent = {
 	title: string
-	description: string
+	description?: string
 	duration: number
 	challenge: string
-	imageUrl: string
+	imageUrl?: string
 	tag?: string
 }
 

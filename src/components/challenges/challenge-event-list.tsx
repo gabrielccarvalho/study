@@ -27,7 +27,7 @@ export function ChallengeEventList({ id }: { id: string }) {
 										<Avatar>
 											<AvatarImage src={item.user.avatar} />
 											<AvatarFallback>
-												<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
+												<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-gray-600 to-black'>
 													<UserRound className='w-6 h-6 text-white' />
 												</div>
 											</AvatarFallback>

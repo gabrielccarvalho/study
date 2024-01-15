@@ -133,7 +133,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto'>
 			<div className='flex flex-col items-center w-3/4 max-w-md mx-auto mt-2 md:w-full'>
 				<Image
-					src={currentEvent.image}
+					src={currentEvent?.image || '/event-placeholder.svg'}
 					alt='event image'
 					width={500}
 					height={500}
@@ -169,9 +169,11 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 							</span>
 							{currentEvent.tag && <Badge>{currentEvent.tag}</Badge>}
 						</div>
-						<span className='font-thin text-md'>
-							{currentEvent.description}
-						</span>
+						{currentEvent.description && (
+							<span className='font-thin text-md'>
+								{currentEvent.description}
+							</span>
+						)}
 						<span className='mt-2 text-xs font-thin'>
 							Ativo por {currentEvent.duration} minutos
 						</span>

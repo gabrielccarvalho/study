@@ -23,6 +23,7 @@ export async function POST(request: Request) {
 
 		return NextResponse.json({ success: true, event })
 	} catch (error) {
+		console.log(error)
 		return NextResponse.json({ error: 'Error adding a challenge' })
 	}
 }
