@@ -94,7 +94,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 	)
 
 	if (!currentEvent) {
-		redirect(`/challenge/${id}`)
+		redirect(`/challenges/${id}`)
 	}
 
 	function onSubmit(values: z.infer<typeof formSchema>) {

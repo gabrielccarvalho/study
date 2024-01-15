@@ -67,7 +67,7 @@ export function ChallengeCard({ id }: { id: string }) {
 					</span>
 				</div>
 				<div className='flex w-full py-2'>
-					<Link href={`/app/challenge/${id}`}>
+					<Link href={`/app/challenges/${id}`}>
 						<Button variant='default'>
 							<span className='text-xs'>Ver Desafio</span>
 						</Button>
