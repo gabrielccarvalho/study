@@ -57,7 +57,6 @@ function BarChart2Icon(
 	props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
 	return (
-		// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
 		<svg
 			{...props}
 			xmlns='http://www.w3.org/2000/svg'
@@ -79,7 +78,6 @@ function BarChart2Icon(
 
 function TrophyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 	return (
-		// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
 		<svg
 			{...props}
 			xmlns='http://www.w3.org/2000/svg'
@@ -106,7 +104,6 @@ function TrendingUpIcon(
 	props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
 	return (
-		// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
 		<svg
 			{...props}
 			xmlns='http://www.w3.org/2000/svg'
