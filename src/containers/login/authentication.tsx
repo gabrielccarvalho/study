@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function AuthenticationPage() {
 	return (
 		<>
-			<div className='h-screen md:hidden'>
+			{/* <div className='h-screen md:hidden'>
 				<Image
 					src='/examples/authentication-light.png'
 					width={1280}
@@ -29,8 +29,8 @@ export default function AuthenticationPage() {
 					alt='Authentication'
 					className='hidden dark:block'
 				/>
-			</div>
-			<div className='container relative flex-col items-center justify-center hidden h-screen md:grid lg:max-w-none lg:grid-cols-2 lg:px-0'>
+			</div> */}
+			<div className='container relative grid flex-col items-center justify-center h-screen lg:max-w-none lg:grid-cols-2 lg:px-0'>
 				<Link
 					href='/register'
 					className={cn(
