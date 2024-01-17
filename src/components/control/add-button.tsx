@@ -47,7 +47,8 @@ export function AddButton() {
 	const { challenges } = useChallenge()
 	const pathname = usePathname()
 
-	if (pathname === '/') return
+	if (pathname === '/' || pathname === '/login' || pathname === '/register')
+		return
 
 	const { joinChallenge } = useChallenge()
 	const form = useForm<z.infer<typeof formSchema>>({

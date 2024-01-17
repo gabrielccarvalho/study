@@ -88,7 +88,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<div className='grid gap-4'>
 							<Label>Email</Label>
 							<Input
-								placeholder='johndoe@example.com'
 								type='email'
 								onChange={(e) => setEmailAddress(e.target.value)}
 							/>
@@ -102,7 +101,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<div className='flex flex-col gap-2'>
 									<Label>Primeiro Nome</Label>
 									<Input
-										placeholder='johndoe'
 										type='text'
 										onChange={(e) => setFirstName(e.target.value)}
 									/>
@@ -110,7 +108,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<div className='flex flex-col gap-2'>
 									<Label>Último Nome</Label>
 									<Input
-										placeholder='johndoe'
 										type='text'
 										onChange={(e) => setLastName(e.target.value)}
 									/>
@@ -118,7 +115,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 							</div>
 							<Label>Senha</Label>
 							<Input
-								placeholder='********'
 								type='password'
 								onChange={(e) => setPassword(e.target.value)}
 							/>

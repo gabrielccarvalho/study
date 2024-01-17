@@ -79,7 +79,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormItem>
 									<FormLabel>Nome de Usuário</FormLabel>
 									<FormControl>
-										<Input placeholder='johndoe' type='text' {...field} />
+										<Input type='text' {...field} />
 									</FormControl>
 								</FormItem>
 							)}
@@ -91,7 +91,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormItem>
 									<FormLabel>Senha</FormLabel>
 									<FormControl>
-										<Input placeholder='*********' type='password' {...field} />
+										<Input type='password' {...field} />
 									</FormControl>
 								</FormItem>
 							)}
