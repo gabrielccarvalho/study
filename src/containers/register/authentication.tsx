@@ -7,8 +7,8 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
-	title: 'Authentication',
-	description: 'Authentication forms built using the components.',
+	title: 'Study.app | Criar sua conta.',
+	description: 'Crie sua conta gratuitamente!',
 }
 
 export default function AuthenticationPage() {
