@@ -34,7 +34,7 @@ export function Header() {
 								</p>
 							</div>
 							<div className='flex gap-2 min-[400px]:flex-row'>
-								<Link href='/login'>
+								<Link href='/app'>
 									<Button size='lg'>Começe agora</Button>
 								</Link>
 								<Button variant='outline' size='lg'>
