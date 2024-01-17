@@ -5,7 +5,10 @@ export async function POST(request: Request) {
 	try {
 		const { data } = await request.json()
 
-		const { id, firstName, lastName, username, imageUrl, emailAddress } = data
+		const { id, first_name, last_name, username, image_url, email_addresses } =
+			data
+
+		const email_address = email_addresses[0].email_address
 
 		await sql`INSERT INTO users (
       id,
@@ -17,11 +20,11 @@ export async function POST(request: Request) {
       )
     VALUES (
       ${id},
-      ${firstName},
-      ${lastName},
+      ${first_name},
+      ${last_name},
       ${username},
-      ${imageUrl},
-      ${emailAddress},
+      ${image_url},
+      ${email_address},
       ) RETURNING *`
 
 		return NextResponse.json({ success: true })
