@@ -23,24 +23,28 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<Providers>
-				<html
-					lang='pt-BR'
-					style={{ colorScheme: 'light' }}
-					className={GeistSans.className}
-				>
-					<body>
-						<ThemeProvider
-							attribute='class'
-							defaultTheme='light'
-							disableTransitionOnChange
+				<ChallengeProvider>
+					<UserProvider>
+						<html
+							lang='pt-BR'
+							style={{ colorScheme: 'light' }}
+							className={GeistSans.className}
 						>
-							{children}
-							<SpeedInsights />
-							<AddButton />
-							<Toaster />
-						</ThemeProvider>
-					</body>
-				</html>
+							<body>
+								<ThemeProvider
+									attribute='class'
+									defaultTheme='light'
+									disableTransitionOnChange
+								>
+									{children}
+									<SpeedInsights />
+									<AddButton />
+									<Toaster />
+								</ThemeProvider>
+							</body>
+						</html>
+					</UserProvider>
+				</ChallengeProvider>
 			</Providers>
 		</ClerkProvider>
 	)
