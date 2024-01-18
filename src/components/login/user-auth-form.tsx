@@ -31,12 +31,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	const { isSignedIn } = useUser()
 	const router = useRouter()
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (isSignedIn) {
 			router.push('/app')
 		}
-	}, [isSignedIn])
+	}, [isSignedIn, router])
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),

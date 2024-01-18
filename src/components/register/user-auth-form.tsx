@@ -25,12 +25,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	const { isLoaded, signUp, setActive } = useSignUp()
 	const router = useRouter()
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (isSignedIn) {
 			router.push('/app')
 		}
-	}, [isSignedIn])
+	}, [isSignedIn, router])
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		setIsLoading(true)

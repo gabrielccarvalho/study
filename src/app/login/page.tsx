@@ -1,9 +1,9 @@
-import AuthenticationPage from '@/containers/login/authentication'
+import { LoginPage } from '@/containers/login/authentication'
 
-export default function LoginPage() {
+export default function Login() {
 	return (
 		<>
-			<AuthenticationPage />
+			<LoginPage />
 		</>
 	)
 }
