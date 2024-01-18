@@ -51,11 +51,8 @@ export async function POST(req: Request) {
 
 	console.log('Webhook body:', body)
 
-	const parsedBody = JSON.parse(body)
-	const { data } = parsedBody
-
 	const { id, first_name, last_name, username, image_url, email_addresses } =
-		data
+		payload.data
 
 	const email_address = email_addresses[0].email_address
 
