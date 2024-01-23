@@ -5,7 +5,7 @@ import { Sidebar } from '@/components/navigation/sidebar'
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<>
-			<div className='flex flex-col flex-1 h-screen'>
+			<div className='flex flex-col flex-1'>
 				<Nav />
 				<main className='flex flex-col-reverse flex-1 md:flex-row'>
 					<Sidebar />
