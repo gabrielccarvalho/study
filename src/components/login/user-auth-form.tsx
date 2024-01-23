@@ -29,13 +29,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const { isLoaded, signIn, setActive } = useSignIn()
 	const { isSignedIn } = useUser()
-	const router = useRouter()
+	const { push } = useRouter()
 
 	useEffect(() => {
 		if (isSignedIn) {
-			router.push('/app')
+			push('/app')
 		}
-	}, [isSignedIn, router])
+	}, [isSignedIn, push])
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -56,12 +56,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
 			if (result.status === 'complete') {
 				await setActive({ session: result.createdSessionId })
-				router.push('/app')
+				push('/app')
 			} else {
 				console.error(result)
 			}
 		} catch (error) {
-			console.log(error)
+			console.error(error)
 		}
 
 		setIsLoading(false)

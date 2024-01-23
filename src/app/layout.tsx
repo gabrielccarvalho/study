@@ -4,8 +4,6 @@ import type { Metadata } from 'next'
 
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
-import { ChallengeProvider } from '@/context/challenge-context'
-import { UserProvider } from '@/context/users-context'
 import { ClerkProvider } from '@clerk/nextjs'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
@@ -24,27 +22,23 @@ export default function RootLayout({
 	return (
 		<ClerkProvider>
 			<Providers>
-				<ChallengeProvider>
-					<UserProvider>
-						<html
-							lang='pt-BR'
-							style={{ colorScheme: 'light' }}
-							className={GeistSans.className}
+				<html
+					lang='pt-BR'
+					style={{ colorScheme: 'light' }}
+					className={GeistSans.className}
+				>
+					<body>
+						<ThemeProvider
+							attribute='class'
+							defaultTheme='light'
+							disableTransitionOnChange
 						>
-							<body>
-								<ThemeProvider
-									attribute='class'
-									defaultTheme='light'
-									disableTransitionOnChange
-								>
-									{children}
-									<SpeedInsights />
-									<Toaster />
-								</ThemeProvider>
-							</body>
-						</html>
-					</UserProvider>
-				</ChallengeProvider>
+							{children}
+							<SpeedInsights />
+							<Toaster />
+						</ThemeProvider>
+					</body>
+				</html>
 			</Providers>
 		</ClerkProvider>
 	)

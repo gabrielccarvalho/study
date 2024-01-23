@@ -23,13 +23,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	const [lastName, setLastName] = useState('')
 	const [pendingVerification, setPendingVerification] = useState<boolean>(false)
 	const { isLoaded, signUp, setActive } = useSignUp()
-	const router = useRouter()
+	const { push } = useRouter()
 
 	useEffect(() => {
 		if (isSignedIn) {
-			router.push('/app')
+			push('/app')
 		}
-	}, [isSignedIn, router])
+	}, [isSignedIn, push])
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		setIsLoading(true)
@@ -73,7 +73,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 			}
 			if (completeSignUp.status === 'complete') {
 				await setActive({ session: completeSignUp.createdSessionId })
-				router.push('/')
+				push('/app')
 			}
 		} catch (err) {
 			console.error(JSON.stringify(err, null, 2))
