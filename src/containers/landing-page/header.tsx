@@ -10,7 +10,7 @@ export function Header() {
 			<section className='w-full py-6 sm:py-6 md:py-12 lg:py-24 xl:py-32'>
 				<div className='container px-4 md:px-6'>
 					<div className='grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] mt-12 md:mt-0'>
-						<div className='flex-col hidden object-cover mx-auto overflow-hidden shadow-lg md:flex aspect-video rounded-xl sm:w-full lg:order-last lg:aspect-square'>
+						<div className='flex-col hidden object-cover mx-auto overflow-hidden md:flex aspect-video rounded-xl sm:w-full lg:order-last lg:aspect-square'>
 							<Image
 								src='loom.svg'
 								width={600}
