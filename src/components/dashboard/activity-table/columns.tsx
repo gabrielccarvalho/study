@@ -1,8 +1,18 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { ColumnDef } from '@tanstack/react-table'
+import { Ban, MoreHorizontal } from 'lucide-react'
 import { DataTableColumnHeader } from './header'
 
 export type RecentActivity = {
@@ -75,14 +85,50 @@ export const columns: ColumnDef<RecentActivity>[] = [
 	{
 		accessorKey: 'duration',
 		header: ({ column }) => (
-			<div className='flex justify-end'>
+			<div>
 				<DataTableColumnHeader column={column} title='Tempo' />
 			</div>
 		),
 		cell: ({ row }) => {
 			const duration: string = row.getValue('duration')
 
-			return <div className='font-medium text-right'>{duration} min</div>
+			return <div>{duration} min</div>
+		},
+	},
+	{
+		id: 'actions',
+		enableHiding: false,
+		cell: ({ row }) => {
+			const activity = row.original
+
+			return (
+				<div className='flex justify-end'>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant='ghost' className='w-8 h-8 p-0'>
+								<span className='sr-only'>Abrir menu</span>
+								<MoreHorizontal className='w-4 h-4' />
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align='end'>
+							<DropdownMenuLabel>Ações</DropdownMenuLabel>
+							<DropdownMenuItem
+								onClick={() => navigator.clipboard.writeText(activity.title)}
+							>
+								Copiar título
+							</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem disabled>Ver detalhes</DropdownMenuItem>
+							<DropdownMenuItem disabled>Editar informações</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem disabled className='text-red-500'>
+								<Ban className='w-4 h-4 mr-2' />
+								Deletar Estudo
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
+			)
 		},
 	},
 ]
