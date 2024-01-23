@@ -3,13 +3,14 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
 	try {
-		const { updatedEvents, challengeId } = await request.json()
+		const { updatedComments, eventId } = await request.json()
 
 		const { rows } =
-			await sql`UPDATE challenges SET events = ${updatedEvents} WHERE id = ${challengeId} RETURNING *;`
+			await sql`UPDATE events SET comments = ${updatedComments} WHERE id = ${eventId} RETURNING *;`
 
 		return NextResponse.json({ success: true, event: rows })
 	} catch (error) {
+		console.log(error)
 		return NextResponse.json({ error: 'Error adding a comment' })
 	}
 }

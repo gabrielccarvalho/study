@@ -8,16 +8,12 @@ import { columns } from './columns'
 import { DataTable } from './data-table'
 
 export function ActivityDataTable() {
-	const { challenges } = useChallenge()
+	const { challenges, events } = useChallenge()
 	const { user } = useUser()
 
-	const userEvents = challenges
-		.filter((challenge) => challenge.members.includes(user?.id as string))
-		.flatMap((challenge) =>
-			challenge.events
-				.filter((event) => event.user.id === user?.id)
-				.map((event) => ({ ...event, challengeName: challenge.title })),
-		)
+	const userEvents = events
+		.filter((event) => event.user.id === user?.id)
+		.map((event) => ({ ...event }))
 
 	const totalDuration = userEvents.reduce(
 		(acc, event) => acc + event.duration,
@@ -25,7 +21,9 @@ export function ActivityDataTable() {
 	)
 
 	const data = userEvents.map((event) => ({
-		challenge: event.challengeName,
+		challenge:
+			challenges.find((challenge) => challenge.id === event.challenge_id)
+				?.title || 'Sem desafio',
 		title: event.title,
 		tags: event.tag,
 		date: format(new Date(event.date), "dd 'de' LLL", { locale: ptBR }),

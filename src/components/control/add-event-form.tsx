@@ -28,7 +28,7 @@ const formSchema = z.object({
 	title: z.string(),
 	description: z.string().optional(),
 	duration: z.string(),
-	challenge: z.string(),
+	challenge: z.string().optional(),
 	tag: z.string().optional(),
 	file: z.any().optional(),
 })
@@ -65,7 +65,7 @@ export function AddEventForm() {
 				title,
 				description,
 				duration: parseInt(duration),
-				challenge,
+				challenge_id: challenge,
 				tag,
 				imageUrl: data?.image || null,
 			})

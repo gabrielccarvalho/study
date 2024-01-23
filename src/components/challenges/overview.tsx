@@ -67,7 +67,7 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeOverview({ id }: { id: string }) {
-	const { challenges, leaveChallenge } = useChallenge()
+	const { challenges, events, leaveChallenge } = useChallenge()
 	const { userList } = useUsers()
 	const router = useRouter()
 
@@ -81,11 +81,13 @@ export function ChallengeOverview({ id }: { id: string }) {
 
 	const challenge = challenges.find((challenge) => challenge.id === id)
 
-	if (!challenge || !user) {
+	const eventsData = events.filter((event) => event.challenge_id === id)
+
+	if (!eventsData || !user || !challenge) {
 		return <LoadingSkeleton />
 	}
 
-	const leaderboard = challenge.events.reduce(
+	const leaderboard = eventsData.reduce(
 		(
 			acc: {
 				duration: number

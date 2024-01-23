@@ -2,6 +2,24 @@ import { useChallenge } from '@/context/challenge-context'
 import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 
+const calculateUserAverageFromPastDays = (
+	events: Event[],
+	userId: string,
+	currentDate: Date,
+): number => {
+	const userEvents = events.filter(
+		(event) => event.user.id === userId && new Date(event.date) < currentDate,
+	)
+	const userTotalDuration = userEvents.reduce(
+		(acc, event) => acc + event.duration,
+		0,
+	)
+	const userAverageFromPastDays =
+		userEvents.length > 0 ? userTotalDuration / userEvents.length : 0
+
+	return userAverageFromPastDays
+}
+
 const calculateDailyAverage = (
 	events: Event[],
 	currentDate: Date,
@@ -19,58 +37,63 @@ const calculateDailyAverage = (
 		}
 	}
 
-	const totalDuration = eventsOnCurrentDay.reduce(
+	const userAverageFromPastDays = calculateUserAverageFromPastDays(
+		events,
+		userId,
+		currentDate,
+	)
+
+	const userEventsOnCurrentDay = eventsOnCurrentDay.filter(
+		(event) => event.user.id === userId,
+	)
+
+	const userDailyDuration = userEventsOnCurrentDay.reduce(
 		(acc, event) => acc + event.duration,
 		0,
 	)
 
-	const userDailyDuration = eventsOnCurrentDay.reduce((acc, event) => {
-		if (event.user.id === userId) {
-			return acc + event.duration
-		}
-		return acc
-	}, 0)
+	const userAverage =
+		userEventsOnCurrentDay.length > 0
+			? (userDailyDuration +
+					userEventsOnCurrentDay.length * userAverageFromPastDays) /
+			  (userEventsOnCurrentDay.length + 1)
+			: userAverageFromPastDays
 
 	return {
-		average: totalDuration / eventsOnCurrentDay.length,
 		today: userDailyDuration,
+		average: userAverage,
 	}
 }
 
 export function CalculateAverageDuration() {
-	const { challenges } = useChallenge()
+	const { events } = useChallenge()
 	const { user } = useUser()
 
 	if (!user) return
 
 	const result = []
 
-	for (const challenge of challenges) {
-		if (challenge.members.includes(user.id)) {
-			const { events, start_date, end_date } = challenge
-			const end = new Date(end_date)
+	const uniqueDates = new Set<string>()
 
-			for (
-				let currentDate = new Date(start_date);
-				currentDate <= end;
-				currentDate.setDate(currentDate.getDate() + 1)
-			) {
-				const { average, today } = calculateDailyAverage(
-					events,
-					currentDate,
-					user.id,
-				)
+	for (const event of events) {
+		const eventDate = new Date(event.date).toDateString()
 
-				if (average !== null) {
-					result.push({
-						date: new Date(currentDate),
-						average: average,
-						today: today,
-					})
-				}
-			}
+		if (!uniqueDates.has(eventDate)) {
+			const { average, today } = calculateDailyAverage(
+				events,
+				new Date(event.date),
+				user.id,
+			)
+
+			result.push({
+				date: new Date(event.date),
+				average: average || 0,
+				today: today || 0,
+			})
+
+			uniqueDates.add(eventDate)
 		}
 	}
 
-	return result
+	return result.reverse()
 }

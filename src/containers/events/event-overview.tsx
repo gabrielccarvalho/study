@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useUsers } from '@/context/users-context'
+import { Comment } from '@/utils/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { redirect } from 'next/navigation'
 import { useForm } from 'react-hook-form'
@@ -72,7 +73,7 @@ function LoadingSkeleton() {
 }
 
 export function EventOverview({ id, event }: { id: string; event: string }) {
-	const { challenges, addComment } = useChallenge()
+	const { events, addComment } = useChallenge()
 	const { user } = useUser()
 	const { userList } = useUsers()
 
@@ -83,18 +84,14 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		},
 	})
 
-	const challenge = challenges.find((challenge) => challenge?.id === id)
-
-	if (!challenge || !user) {
+	if (!events || !user) {
 		return <LoadingSkeleton />
 	}
 
-	const currentEvent = challenge.events.find(
-		(evt: Record<string, unknown>) => evt.id === event,
-	)
+	const currentEvent = events.find((evt) => evt.id === event)
 
 	if (!currentEvent) {
-		redirect(`/challenges/${id}`)
+		return <LoadingSkeleton />
 	}
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
@@ -111,7 +108,6 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		}
 
 		addComment({
-			challengeId: id,
 			eventId: event,
 			content: values.content,
 		})
@@ -128,6 +124,8 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 	}
 
 	const currentUser = userList.find((user) => user.id === currentEvent.user.id)
+
+	const eventComments = currentEvent.comments
 
 	return (
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto'>
@@ -180,38 +178,41 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 					</div>
 				</div>
 			</div>
-			{currentEvent.comments?.map((comment) => {
-				const commentUser = userList.find((user) => user.id === comment.user.id)
-				return (
-					<div
-						key={comment.id}
-						className='flex flex-row w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10'
-					>
-						<Avatar className='w-7 h-7'>
-							<AvatarImage
-								src={
-									commentUser?.publicMetadata?.imageUrl || comment.user.avatar
-								}
-							/>
-							<AvatarFallback>
-								<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
-							</AvatarFallback>
-						</Avatar>
-						<div className='flex flex-col justify-between'>
-							<span className='text-sm font-semibold'>
-								{commentUser?.username}
-							</span>
-							<span className='text-sm font-light'>{comment.content}</span>
-							<span className='mt-2 text-xs font-thin'>
-								{formatDistance(new Date(comment.created_at), new Date(), {
-									addSuffix: true,
-									locale: ptBR,
-								})}
-							</span>
+			{eventComments.length > 0 &&
+				eventComments?.map((comment) => {
+					const commentUser = userList.find((user) => {
+						return user.id === comment.user.id
+					})
+					return (
+						<div
+							key={comment.id}
+							className='flex flex-row w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10'
+						>
+							<Avatar className='w-7 h-7'>
+								<AvatarImage
+									src={
+										commentUser?.publicMetadata?.imageUrl || comment.user.avatar
+									}
+								/>
+								<AvatarFallback>
+									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
+								</AvatarFallback>
+							</Avatar>
+							<div className='flex flex-col justify-between'>
+								<span className='text-sm font-semibold'>
+									{commentUser?.username}
+								</span>
+								<span className='text-sm font-light'>{comment.content}</span>
+								<span className='mt-2 text-xs font-thin'>
+									{formatDistance(new Date(comment.created_at), new Date(), {
+										addSuffix: true,
+										locale: ptBR,
+									})}
+								</span>
+							</div>
 						</div>
-					</div>
-				)
-			})}
+					)
+				})}
 			<div className='flex flex-row justify-center w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10'>
 				<Avatar className='w-7 h-7'>
 					<AvatarImage src={user.publicMetadata.imageUrl as string} />

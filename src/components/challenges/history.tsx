@@ -75,12 +75,10 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeHistory({ id }: { id: string }) {
-	const { challenges } = useChallenge()
+	const { events } = useChallenge()
 	const { userList } = useUsers()
 
-	const challenge = challenges.find((challenge) => challenge.id === id)
-
-	if (!challenge) {
+	if (!events) {
 		return (
 			<main className='flex flex-col flex-1 p-4'>
 				<LoadingSkeleton />
@@ -92,8 +90,9 @@ export function ChallengeHistory({ id }: { id: string }) {
 		)
 	}
 
-	const events = challenge.events.reduce(
-		(acc: { [x: string]: Event[] }, event) => {
+	const challengeEvents = events
+		.filter((evt) => evt.challenge_id === id)
+		.reduce((acc: { [x: string]: Event[] }, event) => {
 			const eventDate = format(new Date(event.date), 'yyyy-MM-dd')
 
 			if (!acc[eventDate]) {
@@ -103,20 +102,17 @@ export function ChallengeHistory({ id }: { id: string }) {
 			acc[eventDate].push(event)
 
 			return acc
-		},
-		{},
-	)
+		}, {})
 
-	// Convert object to an array of key-value pairs, sort by keys in descending order, and convert back to an object
 	const sortedEvents = Object.fromEntries(
-		Object.entries(events).sort(([dateA], [dateB]) => {
+		Object.entries(challengeEvents).sort(([dateA], [dateB]) => {
 			const dateObjectA = new Date(dateA)
 			const dateObjectB = new Date(dateB)
-			return dateObjectB.getTime() - dateObjectA.getTime() // Sort in descending order based on date
+			return dateObjectB.getTime() - dateObjectA.getTime()
 		}),
 	)
 
-	const eventsLength = Object.entries(events).map((evt) => evt).length
+	const eventsLength = Object.entries(challengeEvents).map((evt) => evt).length
 
 	if (eventsLength === 0) {
 		return (

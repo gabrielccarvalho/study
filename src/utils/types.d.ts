@@ -17,10 +17,10 @@ export type Comment = {
 export type Event = {
 	id: string
 	title: string
+	challenge_id?: string
 	description?: string
 	image?: string
 	date: string
-	description: string
 	duration: number
 	comments: Comment[]
 	user: User
@@ -49,14 +49,13 @@ export type addEvent = {
 	title: string
 	description?: string
 	duration: number
-	challenge: string
+	challenge_id?: string
 	imageUrl?: string
 	tag?: string
 }
 
 export type addComment = {
 	content: string
-	challengeId: string
 	eventId: string
 }
 
