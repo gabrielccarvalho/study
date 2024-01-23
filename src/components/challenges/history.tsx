@@ -3,8 +3,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
-import { useUsers } from '@/context/users-context'
 import { Event } from '@/utils/types'
+import { useUser } from '@clerk/nextjs'
 import { addDays, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
@@ -76,7 +76,7 @@ function LoadingSkeleton() {
 
 export function ChallengeHistory({ id }: { id: string }) {
 	const { events } = useChallenge()
-	const { userList } = useUsers()
+	const { user } = useUser()
 
 	if (!events) {
 		return (
@@ -158,9 +158,6 @@ export function ChallengeHistory({ id }: { id: string }) {
 							(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 						)
 						.map((event) => {
-							const currentUser = userList.find(
-								(user) => user.id === event.user.id,
-							)
 							return (
 								<Link
 									key={event.id}
@@ -181,7 +178,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 													<Avatar className='absolute bottom-0 right-0 w-5 h-5'>
 														<AvatarImage
 															src={
-																currentUser?.publicMetadata?.imageUrl ||
+																(user?.publicMetadata?.imageUrl as string) ||
 																event.user.avatar
 															}
 														/>

@@ -1,9 +1,5 @@
 import { RegisterPage } from '@/containers/register/authentication'
 
-export default function LoginPage() {
-	return (
-		<>
-			<RegisterPage />
-		</>
-	)
+export default function Register() {
+	return <RegisterPage />
 }
