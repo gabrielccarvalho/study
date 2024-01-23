@@ -11,6 +11,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { EventModal } from '@/containers/events/event-modal'
 import { ColumnDef } from '@tanstack/react-table'
 import { Ban, MoreHorizontal } from 'lucide-react'
 import { DataTableColumnHeader } from './header'
@@ -20,6 +21,7 @@ export type RecentActivity = {
 	title: string
 	date: string
 	duration: number
+	id: string
 }
 
 export const columns: ColumnDef<RecentActivity>[] = [
@@ -118,7 +120,9 @@ export const columns: ColumnDef<RecentActivity>[] = [
 								Copiar título
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem disabled>Ver detalhes</DropdownMenuItem>
+							<DropdownMenuItem onClick={(e) => e.preventDefault()}>
+								<EventModal id={activity.id} />
+							</DropdownMenuItem>
 							<DropdownMenuItem disabled>Editar informações</DropdownMenuItem>
 							<DropdownMenuSeparator />
 							<DropdownMenuItem disabled className='text-red-500'>

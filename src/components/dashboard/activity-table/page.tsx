@@ -28,6 +28,7 @@ export function ActivityDataTable() {
 		tags: event.tag,
 		date: format(new Date(event.date), "dd 'de' LLL", { locale: ptBR }),
 		duration: event.duration,
+		id: event.id,
 	}))
 
 	return (
