@@ -33,7 +33,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { useChallenge } from '@/context/challenge-context'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -45,10 +44,6 @@ const formSchema = z.object({
 
 export function AddButton() {
 	const { challenges } = useChallenge()
-	const pathname = usePathname()
-
-	if (pathname === '/' || pathname === '/login' || pathname === '/register')
-		return
 
 	const { joinChallenge } = useChallenge()
 	const form = useForm<z.infer<typeof formSchema>>({

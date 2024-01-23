@@ -1,18 +1,19 @@
-import { AddButton } from '@/components/control/add-button'
+import '@/styles/globals.css'
+
+import type { Metadata } from 'next'
+
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { ChallengeProvider } from '@/context/challenge-context'
 import { UserProvider } from '@/context/users-context'
-import '@/styles/globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { GeistSans } from 'geist/font/sans'
-import type { Metadata } from 'next'
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
-	title: 'study',
-	description: 'Study with your friends!',
+	title: 'Study',
+	description: 'Acompanhe seus estudos de forma divertida!',
 }
 
 export default function RootLayout({
@@ -38,7 +39,6 @@ export default function RootLayout({
 								>
 									{children}
 									<SpeedInsights />
-									<AddButton />
 									<Toaster />
 								</ThemeProvider>
 							</body>
