@@ -1,6 +1,6 @@
 # study.app
 
-Accessible Study app with metrics, gamification and much more. Free. Open Source. **Use this to build your knowledge**.
+Accessible study app with metrics, gamification and much more. Free. Open Source. **Use this to improve your studies**.
 
 ![hero](/public/hero.png)
 
@@ -9,4 +9,4 @@ Accessible Study app with metrics, gamification and much more. Free. Open Source
 Visit https://study.app.br/docs to view the documentation.
 
 ## ⚠️ Disclaimer
-> This project still does not have any docs ready.
+> This project is still under development, be careful on using it as a production-ready software.
