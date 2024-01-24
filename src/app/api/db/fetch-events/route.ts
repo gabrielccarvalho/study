@@ -11,4 +11,4 @@ export async function GET() {
 	}
 }
 
-export const revalidate = 10
+export const revalidate = 0
