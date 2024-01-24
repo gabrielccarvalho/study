@@ -5,7 +5,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenge } from '@/context/challenge-context'
 import { useUsers } from '@/context/users-context'
 import { Event } from '@/utils/types'
-import { useUser } from '@clerk/nextjs'
 import { addDays, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
@@ -78,7 +77,6 @@ function LoadingSkeleton() {
 export function ChallengeHistory({ id }: { id: string }) {
 	const { events } = useChallenge()
 	const { userList } = useUsers()
-	const { user } = useUser()
 
 	if (!events) {
 		return (
