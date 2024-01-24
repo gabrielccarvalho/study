@@ -8,6 +8,7 @@ import {
 	FormField,
 	FormItem,
 	FormLabel,
+	FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
@@ -25,8 +26,15 @@ const formSchema = z.object({
 	password: z.string(),
 })
 
+type ClerkError = {
+	errors: {
+		message: string
+	}[]
+}
+
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
+	const [error, setError] = useState<string | null>(null)
 	const { isLoaded, signIn, setActive } = useSignIn()
 	const { isSignedIn } = useUser()
 	const { push } = useRouter()
@@ -61,6 +69,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 				console.error(result)
 			}
 		} catch (error) {
+			setError((error as ClerkError).errors[0].message)
 			console.error(error)
 		}
 
@@ -81,6 +90,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 									<FormControl>
 										<Input type='text' {...field} />
 									</FormControl>
+									<FormMessage />
 								</FormItem>
 							)}
 						/>
@@ -93,9 +103,13 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 									<FormControl>
 										<Input type='password' {...field} />
 									</FormControl>
+									<FormMessage />
 								</FormItem>
 							)}
 						/>
+						{error && (
+							<p className='text-sm font-medium text-red-500'>{error}</p>
+						)}
 						<Button disabled={isLoading} type='submit' form='login-form'>
 							{isLoading && (
 								<Icons.spinner className='w-4 h-4 mr-2 animate-spin' />

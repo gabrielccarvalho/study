@@ -11,9 +11,16 @@ import OtpInput from 'react-otp-input'
 import { Label } from '../ui/label'
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>
+type ClerkError = {
+	errors: {
+		message: string
+	}[]
+}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	const { isSignedIn } = useUser()
+
+	const [error, setError] = useState<string | null>(null)
 	const [code, setCode] = useState<string>('')
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [emailAddress, setEmailAddress] = useState('')
@@ -51,7 +58,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
 			setPendingVerification(true)
 		} catch (err) {
-			console.log(JSON.stringify(err, null, 2))
+			setError((err as ClerkError).errors[0].message)
 		}
 		setIsLoading(false)
 	}
@@ -91,12 +98,16 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								type='email'
 								onChange={(e) => setEmailAddress(e.target.value)}
 							/>
-							<Label>Nome de Usuário</Label>
-							<Input
-								placeholder='johndoe'
-								type='text'
-								onChange={(e) => setUsername(e.target.value)}
-							/>
+							<div className='flex flex-col gap-2'>
+								<Label>Nome de Usuário</Label>
+								<Input
+									type='text'
+									onChange={(e) => setUsername(e.target.value)}
+								/>
+								<span className='text-sm text-gray-500'>
+									É com ele que você fará o login na plataforma.
+								</span>
+							</div>
 							<div className='flex gap-2'>
 								<div className='flex flex-col gap-2'>
 									<Label>Primeiro Nome</Label>
@@ -118,6 +129,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								type='password'
 								onChange={(e) => setPassword(e.target.value)}
 							/>
+							{error && (
+								<p className='text-sm font-medium text-red-500'>{error}</p>
+							)}
 							<Button onClick={handleSubmit}>
 								{isLoading && (
 									<Icons.spinner className='w-4 h-4 mr-2 animate-spin' />
