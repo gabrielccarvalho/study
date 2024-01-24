@@ -26,7 +26,9 @@ export function ActivityDataTable() {
 				?.title || 'Sem desafio',
 		title: event.title,
 		tags: event.tag,
-		date: format(new Date(event.date), "dd 'de' LLL", { locale: ptBR }),
+		date: format(new Date(`${event.date.slice(0, 19)}`), "dd 'de' LLL", {
+			locale: ptBR,
+		}),
 		duration: event.duration,
 		id: event.id,
 	}))

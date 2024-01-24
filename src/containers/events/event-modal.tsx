@@ -65,7 +65,7 @@ export function EventModal({ id }: { id: string }) {
 								</div>
 								<span className='text-sm font-thin'>
 									{format(
-										new Date(event?.date as unknown as Date),
+										new Date(event?.date.slice(0, 19) as unknown as Date),
 										"hh:mm aaaaa'm'",
 									)}
 								</span>

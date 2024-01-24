@@ -156,7 +156,10 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 							<span className='ml-2 text-md'>{currentUser?.username}</span>
 						</div>
 						<span className='text-sm font-thin'>
-							{format(new Date(currentEvent.date), "hh:mm aaaaa'm'")}
+							{format(
+								new Date(`${currentEvent.date.slice(0, 19)}`),
+								"hh:mm aaaaa'm'",
+							)}
 						</span>
 					</div>
 					<Separator className='my-1' />
