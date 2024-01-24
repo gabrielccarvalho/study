@@ -7,6 +7,7 @@ import {
 	addChallenge,
 	addComment,
 	addEvent,
+	deleteEvent,
 	joinChallenge,
 	leaveChallenge,
 } from '@/utils/types'
@@ -23,6 +24,7 @@ const ChallengeContext = createContext({
 	joinChallenge: (_data: joinChallenge) => [] as unknown as Promise<Challenge>,
 	leaveChallenge: (_data: leaveChallenge) =>
 		[] as unknown as Promise<Challenge>,
+	deleteEvent: (_data: deleteEvent) => [] as unknown as Promise<Event[]>,
 })
 
 export function ChallengeProvider({ children }: { children: React.ReactNode }) {
@@ -108,6 +110,32 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 		setEvents((events) => [...events, newEvent])
 
 		return newEvent
+	}
+
+	async function deleteEvent(data: deleteEvent): Promise<Event[]> {
+		if (!user) {
+			throw new Error('User not logged in')
+		}
+
+		await fetch('/api/db/delete-event', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				id: data.id,
+			}),
+		})
+
+		const updatedEvents = events.filter((event) => event.id !== data.id)
+
+		setEvents((events) => {
+			const updatedEvents = events.filter((event) => event.id !== data.id)
+
+			return updatedEvents
+		})
+
+		return updatedEvents
 	}
 
 	async function addComment(data: addComment): Promise<Comment> {
@@ -363,6 +391,7 @@ export function ChallengeProvider({ children }: { children: React.ReactNode }) {
 				addChallenge,
 				joinChallenge,
 				leaveChallenge,
+				deleteEvent,
 			}}
 		>
 			{children}
@@ -379,6 +408,7 @@ export function useChallenge() {
 		addChallenge,
 		joinChallenge,
 		leaveChallenge,
+		deleteEvent,
 	} = useContext(ChallengeContext)
 
 	return {
@@ -389,5 +419,6 @@ export function useChallenge() {
 		addChallenge,
 		joinChallenge,
 		leaveChallenge,
+		deleteEvent,
 	}
 }

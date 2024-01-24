@@ -12,8 +12,10 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { EventModal } from '@/containers/events/event-modal'
+import { useChallenge } from '@/context/challenge-context'
 import { ColumnDef } from '@tanstack/react-table'
 import { Ban, MoreHorizontal } from 'lucide-react'
+import { DeleteConfirmation } from '../delete-confirmation'
 import { DataTableColumnHeader } from './header'
 
 export type RecentActivity = {
@@ -101,6 +103,7 @@ export const columns: ColumnDef<RecentActivity>[] = [
 		id: 'actions',
 		enableHiding: false,
 		cell: ({ row }) => {
+			const { deleteEvent } = useChallenge()
 			const activity = row.original
 
 			return (
@@ -125,9 +128,11 @@ export const columns: ColumnDef<RecentActivity>[] = [
 							</DropdownMenuItem>
 							<DropdownMenuItem disabled>Editar informações</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem disabled className='text-red-500'>
-								<Ban className='w-4 h-4 mr-2' />
-								Deletar Estudo
+							<DropdownMenuItem
+								className='text-red-500'
+								onClick={(e) => e.preventDefault()}
+							>
+								<DeleteConfirmation id={activity.id} />
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
