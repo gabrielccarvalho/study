@@ -5,8 +5,8 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useClerkUsers } from '@/hooks/use-clerk-users'
 import { useEvents } from '@/hooks/use-events'
 import { Event } from '@/utils/types'
-import { addDays } from 'date-fns'
-import { formatInTimeZone } from 'date-fns-tz'
+import { addDays, format } from 'date-fns'
+import { utcToZonedTime } from 'date-fns-tz'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
@@ -96,9 +96,8 @@ export function ChallengeHistory({ id }: { id: string }) {
 	const challengeEvents = events
 		.filter((evt) => evt.challenge_id === id)
 		.reduce((acc: { [x: string]: Event[] }, event) => {
-			const eventDate = formatInTimeZone(
-				new Date(event.date),
-				'America/Sao_Paulo',
+			const eventDate = format(
+				utcToZonedTime(new Date(event.date), 'America/Sao_Paulo'),
 				'yyyy-MM-dd',
 			)
 
@@ -156,9 +155,8 @@ export function ChallengeHistory({ id }: { id: string }) {
 					className='flex flex-col w-full max-w-lg gap-2 mx-auto my-2'
 				>
 					<h3 className='font-semibold text-md'>
-						{formatInTimeZone(
-							addDays(new Date(date), 1),
-							'America/Sao_Paulo',
+						{format(
+							utcToZonedTime(addDays(new Date(date), 1), 'America/Sao_Paulo'),
 							"eee, dd 'de' LLLL",
 							{
 								locale: ptBR,
@@ -213,9 +211,11 @@ export function ChallengeHistory({ id }: { id: string }) {
 											</div>
 											<div className='flex flex-row self-end'>
 												<span className='text-xs font-thin'>
-													{formatInTimeZone(
-														new Date(event.date),
-														'America/Sao_Paulo',
+													{format(
+														utcToZonedTime(
+															new Date(event.date),
+															'America/Sao_Paulo',
+														),
 														"hh:mm aaaaa'm",
 													)}
 												</span>
