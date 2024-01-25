@@ -44,7 +44,7 @@ export function CardsMetric() {
 				<div className='flex flex-col gap-1'>
 					<CardTitle>Minutos de estudo</CardTitle>
 					<CardDescription>
-						Seus minutos de estudo em comparação com a média dos últimos 7 dias
+						Seus minutos de estudo em comparação com sua média.
 					</CardDescription>
 				</div>
 				<div>
