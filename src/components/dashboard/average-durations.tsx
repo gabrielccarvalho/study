@@ -1,7 +1,6 @@
-import { fetchEvents } from '@/utils/fetch-events'
+import { useEvents } from '@/hooks/use-events'
 import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
-import { useQuery } from '@tanstack/react-query'
 
 const calculateUserAverageFromPastDays = (
 	events: Event[],
@@ -68,13 +67,9 @@ const calculateDailyAverage = (
 
 export function CalculateAverageDuration() {
 	const { user } = useUser()
+	const { events } = useEvents()
 
-	const { data: events, isSuccess: isEventsSuccess } = useQuery({
-		queryKey: ['events'],
-		queryFn: fetchEvents,
-	})
-
-	if (!user || !isEventsSuccess) return
+	if (!user || !events) return
 
 	const result = []
 

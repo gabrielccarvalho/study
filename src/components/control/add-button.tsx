@@ -31,12 +31,12 @@ import {
 	FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useChallenges } from '@/hooks/use-challenges'
 import { joinChallenge } from '@/utils/db-functions'
-import { fetchChallenges } from '@/utils/fetch-challenges'
 import { Challenge } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -49,11 +49,7 @@ const formSchema = z.object({
 export function AddButton() {
 	const queryClient = useQueryClient()
 	const { user } = useUser()
-
-	const { data: challenges } = useQuery({
-		queryKey: ['challenges'],
-		queryFn: fetchChallenges,
-	})
+	const { challenges } = useChallenges()
 
 	const { mutateAsync: joinChallengeFn } = useMutation({
 		mutationFn: joinChallenge,

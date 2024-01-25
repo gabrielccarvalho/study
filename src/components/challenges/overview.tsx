@@ -21,13 +21,13 @@ import {
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useChallenges } from '@/hooks/use-challenges'
+import { useClerkUsers } from '@/hooks/use-clerk-users'
+import { useEvents } from '@/hooks/use-events'
 import { leaveChallenge } from '@/utils/db-functions'
-import { fetchChallenges } from '@/utils/fetch-challenges'
-import { fetchEvents } from '@/utils/fetch-events'
-import { fetchUsers } from '@/utils/fetch-users'
 import { Challenge } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { differenceInDays } from 'date-fns'
 import { Calendar, UserRound } from 'lucide-react'
 import Image from 'next/image'
@@ -72,23 +72,12 @@ function LoadingSkeleton() {
 
 export function ChallengeOverview({ id }: { id: string }) {
 	const { user } = useUser()
+	const { events } = useEvents()
+	const { challenges } = useChallenges()
+	const { userList } = useClerkUsers()
+
 	const router = useRouter()
 	const queryClient = useQueryClient()
-
-	const { data: userList } = useQuery({
-		queryKey: ['users'],
-		queryFn: fetchUsers,
-	})
-
-	const { data: events } = useQuery({
-		queryKey: ['events'],
-		queryFn: fetchEvents,
-	})
-
-	const { data: challenges } = useQuery({
-		queryKey: ['challenges'],
-		queryFn: fetchChallenges,
-	})
 
 	const { mutateAsync: leaveChallengeFn } = useMutation({
 		mutationFn: leaveChallenge,

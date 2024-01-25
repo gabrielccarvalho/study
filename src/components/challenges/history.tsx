@@ -2,10 +2,9 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { fetchEvents } from '@/utils/fetch-events'
-import { fetchUsers } from '@/utils/fetch-users'
+import { useClerkUsers } from '@/hooks/use-clerk-users'
+import { useEvents } from '@/hooks/use-events'
 import { Event } from '@/utils/types'
-import { useQuery } from '@tanstack/react-query'
 import { addDays } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import ptBR from 'date-fns/locale/pt-BR'
@@ -77,19 +76,8 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeHistory({ id }: { id: string }) {
-	const { data: userList } = useQuery({
-		queryKey: ['users'],
-		queryFn: fetchUsers,
-	})
-
-	const {
-		data: events,
-		isSuccess: isEventsSuccess,
-		isLoading,
-	} = useQuery({
-		queryKey: ['events'],
-		queryFn: fetchEvents,
-	})
+	const { events, isLoading } = useEvents()
+	const { userList } = useClerkUsers()
 
 	if (isLoading) {
 		return (
@@ -103,7 +91,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 		)
 	}
 
-	if (!isEventsSuccess) return
+	if (!events) return
 
 	const challengeEvents = events
 		.filter((evt) => evt.challenge_id === id)

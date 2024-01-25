@@ -14,12 +14,12 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useClerkUsers } from '@/hooks/use-clerk-users'
+import { useEvents } from '@/hooks/use-events'
 import { addComment } from '@/utils/db-functions'
-import { fetchEvents } from '@/utils/fetch-events'
-import { fetchUsers } from '@/utils/fetch-users'
 import { Event } from '@/utils/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -76,17 +76,10 @@ function LoadingSkeleton() {
 
 export function EventOverview({ event }: { event: string }) {
 	const { user } = useUser()
+	const { events } = useEvents()
+	const { userList } = useClerkUsers()
+
 	const queryClient = useQueryClient()
-
-	const { data: userList } = useQuery({
-		queryKey: ['users'],
-		queryFn: fetchUsers,
-	})
-
-	const { data: events } = useQuery({
-		queryKey: ['events'],
-		queryFn: fetchEvents,
-	})
 
 	const { mutateAsync: addCommentFn } = useMutation({
 		mutationFn: addComment,

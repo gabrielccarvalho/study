@@ -1,28 +1,19 @@
 'use client'
 
-import { fetchChallenges } from '@/utils/fetch-challenges'
-import { fetchEvents } from '@/utils/fetch-events'
+import { useChallenges } from '@/hooks/use-challenges'
+import { useEvents } from '@/hooks/use-events'
 import { useUser } from '@clerk/nextjs'
-import { useQuery } from '@tanstack/react-query'
-import { format, formatInTimeZone } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { columns } from './columns'
 import { DataTable } from './data-table'
 
 export function ActivityDataTable() {
 	const { user } = useUser()
+	const { events } = useEvents()
+	const { challenges } = useChallenges()
 
-	const { data: events, isSuccess: isEventsSuccess } = useQuery({
-		queryKey: ['events'],
-		queryFn: fetchEvents,
-	})
-
-	const { data: challenges, isSuccess: isChallengesSuccess } = useQuery({
-		queryKey: ['challenges'],
-		queryFn: fetchChallenges,
-	})
-
-	if (!isEventsSuccess || !isChallengesSuccess) return
+	if (!events || !challenges) return
 
 	const userEvents = events
 		.filter((event) => event.user.id === user?.id)

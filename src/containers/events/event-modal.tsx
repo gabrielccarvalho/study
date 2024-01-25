@@ -15,10 +15,9 @@ import {
 	DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
+import { useEvents } from '@/hooks/use-events'
 import { useMediaQuery } from '@/hooks/use-media-query'
-import { fetchEvents } from '@/utils/fetch-events'
 import { useUser } from '@clerk/nextjs'
-import { useQuery } from '@tanstack/react-query'
 import { formatInTimeZone } from 'date-fns-tz'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -26,12 +25,8 @@ import { useState } from 'react'
 export function EventModal({ id }: { id: string }) {
 	const [open, setOpen] = useState(false)
 	const { user } = useUser()
+	const { events } = useEvents()
 	const isDesktop = useMediaQuery('(min-width: 768px)')
-
-	const { data: events } = useQuery({
-		queryKey: ['events'],
-		queryFn: fetchEvents,
-	})
 
 	const event = events?.find((event) => event.id === id)
 

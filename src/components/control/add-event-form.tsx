@@ -16,12 +16,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import { useChallenges } from '@/hooks/use-challenges'
 import { addEvent } from '@/utils/db-functions'
-import { fetchChallenges } from '@/utils/fetch-challenges'
 import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -39,12 +39,8 @@ const formSchema = z.object({
 export function AddEventForm() {
 	const [file, setFile] = useState<File | null>(null)
 	const { user } = useUser()
+	const { challenges } = useChallenges()
 	const queryClient = useQueryClient()
-
-	const { data: challenges } = useQuery({
-		queryKey: ['challenges'],
-		queryFn: fetchChallenges,
-	})
 
 	const { mutateAsync: addEventFn } = useMutation({
 		mutationFn: addEvent,
