@@ -46,7 +46,7 @@
     "embla-carousel-react": "^8.0.0-rc17",
     "geist": "^1.2.0",
     "lucide-react": "^0.294.0",
-    "next": "14.0.4",
+    "next": "v14.0.5-canary.60",
     "next-themes": "^0.2.1",
     "react": "^18",
     "react-day-picker": "^8.9.1",
