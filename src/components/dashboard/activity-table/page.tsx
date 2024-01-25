@@ -39,15 +39,9 @@ export function ActivityDataTable() {
 				?.title || 'Sem desafio',
 		title: event.title,
 		tags: event.tag,
-		date: format(
-			new Date(
-				new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-			),
-			"dd 'de' LLL",
-			{
-				locale: ptBR,
-			},
-		),
+		date: format(new Date(event.date), "dd 'de' LLL", {
+			locale: ptBR,
+		}),
 		duration: event.duration,
 		id: event.id,
 	}))

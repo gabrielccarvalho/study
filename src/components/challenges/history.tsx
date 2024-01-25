@@ -107,12 +107,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 	const challengeEvents = events
 		.filter((evt) => evt.challenge_id === id)
 		.reduce((acc: { [x: string]: Event[] }, event) => {
-			const eventDate = format(
-				new Date(
-					new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-				),
-				'yyyy-MM-dd',
-			)
+			const eventDate = format(new Date(event.date), 'yyyy-MM-dd')
 
 			if (!acc[eventDate]) {
 				acc[eventDate] = []
@@ -220,14 +215,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 											</div>
 											<div className='flex flex-row self-end'>
 												<span className='text-xs font-thin'>
-													{format(
-														new Date(
-															new Date(event.date).setHours(
-																new Date(event.date).getHours() - 3,
-															),
-														),
-														"hh:mm aaaaa'm",
-													)}
+													{format(new Date(event.date), "hh:mm aaaaa'm")}
 												</span>
 											</div>
 										</div>

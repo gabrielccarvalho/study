@@ -9,11 +9,7 @@ const calculateUserAverageFromPastDays = (
 	currentDate: Date,
 ): number => {
 	const userEvents = events.filter(
-		(event) =>
-			event.user.id === userId &&
-			new Date(
-				new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-			) < currentDate,
+		(event) => event.user.id === userId && new Date(event.date) < currentDate,
 	)
 	const userTotalDuration = userEvents.reduce(
 		(acc, event) => acc + event.duration,
@@ -32,9 +28,7 @@ const calculateDailyAverage = (
 ) => {
 	const eventsOnCurrentDay = events.filter(
 		(event) =>
-			new Date(
-				new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-			).toDateString() === currentDate.toDateString(),
+			new Date(event.date).toDateString() === currentDate.toDateString(),
 	)
 
 	if (eventsOnCurrentDay.length === 0) {
@@ -87,23 +81,17 @@ export function CalculateAverageDuration() {
 	const uniqueDates = new Set<string>()
 
 	for (const event of events) {
-		const eventDate = new Date(
-			new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-		).toDateString()
+		const eventDate = new Date(event.date).toDateString()
 
 		if (!uniqueDates.has(eventDate)) {
 			const { average, today } = calculateDailyAverage(
 				events,
-				new Date(
-					new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-				),
+				new Date(event.date),
 				user.id,
 			)
 
 			result.push({
-				date: new Date(
-					new Date(event.date).setHours(new Date(event.date).getHours() - 3),
-				),
+				date: new Date(event.date),
 				average: average || 0,
 				today: today || 0,
 			})
