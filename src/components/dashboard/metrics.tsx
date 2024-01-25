@@ -57,10 +57,10 @@ export function CardsMetric() {
 						<LineChart
 							data={filteredData}
 							margin={{
-								top: 5,
+								top: 10,
 								right: 10,
 								left: 10,
-								bottom: 0,
+								bottom: 10,
 							}}
 						>
 							<Tooltip
