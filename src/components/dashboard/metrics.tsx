@@ -8,7 +8,7 @@ import {
 	CardTitle,
 } from '@/components/ui/card'
 import { isToday, isYesterday, subDays } from 'date-fns'
-import { format } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
@@ -84,12 +84,12 @@ export function CardsMetric() {
 																? 'Hoje'
 																: isYesterday(payload[1].payload.date)
 																  ? 'Ontem'
-																  : format(
+																  : formatInTimeZone(
 																			payload[1].payload.date,
+																			'America/Sao_Paulo',
 																			"eee',' dd/MM",
 																			{
 																				locale: ptBR,
-																				timeZone: 'America/Sao_Paulo',
 																			},
 																	  )}
 														</span>

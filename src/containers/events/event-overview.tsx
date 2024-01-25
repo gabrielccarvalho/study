@@ -2,7 +2,7 @@
 
 import { useUser } from '@clerk/nextjs'
 import { formatDistance } from 'date-fns'
-import { format } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 import ptBR from 'date-fns/locale/pt-BR'
 import Image from 'next/image'
 
@@ -194,9 +194,11 @@ export function EventOverview({ event }: { event: string }) {
 							<span className='ml-2 text-md'>{currentUser?.username}</span>
 						</div>
 						<span className='text-sm font-thin'>
-							{format(new Date(currentEvent.date), "hh:mm aaaaa'm'", {
-								timeZone: 'America/Sao_Paulo',
-							})}
+							{formatInTimeZone(
+								new Date(currentEvent.date),
+								'America/Sao_Paulo',
+								"hh:mm aaaaa'm'",
+							)}
 						</span>
 					</div>
 					<Separator className='my-1' />

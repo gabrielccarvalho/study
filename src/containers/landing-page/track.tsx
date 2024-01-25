@@ -1,7 +1,7 @@
 'use client'
 
 import { isToday, isYesterday } from 'date-fns'
-import { format } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
 
@@ -89,12 +89,12 @@ export function StudyTrack() {
 																? 'Hoje'
 																: isYesterday(payload[1].payload.date)
 																  ? 'Ontem'
-																  : format(
+																  : formatInTimeZone(
 																			payload[1].payload.date,
 																			"eee',' dd/MM",
+																			'America/Sao_Paulo',
 																			{
 																				locale: ptBR,
-																				timeZone: 'America/Sao_Paulo',
 																			},
 																	  )}
 														</span>

@@ -19,7 +19,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 import { fetchEvents } from '@/utils/fetch-events'
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -69,12 +69,10 @@ export function EventModal({ id }: { id: string }) {
 									<span className='ml-2 text-md'>{user?.username}</span>
 								</div>
 								<span className='text-sm font-thin'>
-									{format(
+									{formatInTimeZone(
 										new Date(event?.date as unknown as Date),
+										'America/Sao_Paulo',
 										"hh:mm aaaaa'm'",
-										{
-											timeZone: 'America/Sao_Paulo',
-										},
 									)}
 								</span>
 							</div>

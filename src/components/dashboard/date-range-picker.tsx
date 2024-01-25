@@ -2,7 +2,7 @@
 
 import { CalendarIcon } from '@radix-ui/react-icons'
 import { subDays } from 'date-fns'
-import { format } from 'date-fns-tz'
+import { formatInTimeZone } from 'date-fns-tz'
 import * as React from 'react'
 import { DateRange } from 'react-day-picker'
 
@@ -43,20 +43,22 @@ export function CalendarDateRangePicker({ className, updateRange }: Props) {
 						{date?.from ? (
 							date.to ? (
 								<>
-									{format(date.from, 'LLL dd, y', {
-										locale: ptBR,
-										timeZone: 'America/Sao_Paulo',
-									})}{' '}
+									{formatInTimeZone(
+										date.from,
+										'America/Sao_Paulo',
+										'LLL dd, y',
+										{
+											locale: ptBR,
+										},
+									)}{' '}
 									-{' '}
-									{format(date.to, 'LLL dd, y', {
+									{formatInTimeZone(date.to, 'America/Sao_Paulo', 'LLL dd, y', {
 										locale: ptBR,
-										timeZone: 'America/Sao_Paulo',
 									})}
 								</>
 							) : (
-								format(date.from, 'LLL dd, y', {
+								formatInTimeZone(date.from, 'America/Sao_Paulo', 'LLL dd, y', {
 									locale: ptBR,
-									timeZone: 'America/Sao_Paulo',
 								})
 							)
 						) : (
