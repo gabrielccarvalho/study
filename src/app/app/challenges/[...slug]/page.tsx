@@ -11,7 +11,7 @@ export default function Challenge({ params }: { params: { slug: string[] } }) {
 			{event ? (
 				<>
 					<main className='flex flex-row flex-1'>
-						<EventOverview id={id} event={event} />
+						<EventOverview event={event} />
 					</main>
 				</>
 			) : (

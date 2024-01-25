@@ -6,7 +6,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useChallenge } from '@/context/challenge-context'
+import { fetchChallenges } from '@/utils/fetch-challenges'
+import { useQuery } from '@tanstack/react-query'
 import { differenceInDays } from 'date-fns'
 
 function LoadingSkeleton() {
@@ -29,9 +30,12 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeCard({ id }: { id: string }) {
-	const { challenges } = useChallenge()
+	const { data: challenges } = useQuery({
+		queryKey: ['challenges'],
+		queryFn: fetchChallenges,
+	})
 
-	const challenge = challenges.find((challenge) => challenge.id === id)
+	const challenge = challenges?.find((challenge) => challenge.id === id)
 
 	if (!challenge) {
 		return <LoadingSkeleton />

@@ -2,9 +2,10 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useChallenge } from '@/context/challenge-context'
-import { useUsers } from '@/context/users-context'
+import { fetchEvents } from '@/utils/fetch-events'
+import { fetchUsers } from '@/utils/fetch-users'
 import { Event } from '@/utils/types'
+import { useQuery } from '@tanstack/react-query'
 import { addDays, format } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
@@ -75,10 +76,21 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeHistory({ id }: { id: string }) {
-	const { events } = useChallenge()
-	const { userList } = useUsers()
+	const { data: userList } = useQuery({
+		queryKey: ['users'],
+		queryFn: fetchUsers,
+	})
 
-	if (!events) {
+	const {
+		data: events,
+		isSuccess: isEventsSuccess,
+		isLoading,
+	} = useQuery({
+		queryKey: ['events'],
+		queryFn: fetchEvents,
+	})
+
+	if (isLoading) {
 		return (
 			<main className='flex flex-col flex-1 p-4'>
 				<LoadingSkeleton />
@@ -90,11 +102,15 @@ export function ChallengeHistory({ id }: { id: string }) {
 		)
 	}
 
+	if (!isEventsSuccess) return
+
 	const challengeEvents = events
 		.filter((evt) => evt.challenge_id === id)
 		.reduce((acc: { [x: string]: Event[] }, event) => {
 			const eventDate = format(
-				new Date(`${event.date.slice(0, 19)}`),
+				new Date(
+					new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+				),
 				'yyyy-MM-dd',
 			)
 
@@ -161,7 +177,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 							(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
 						)
 						.map((event) => {
-							const currentUser = userList.find(
+							const currentUser = userList?.find(
 								(user) => user.id === event.user.id,
 							)
 							return (
@@ -205,7 +221,11 @@ export function ChallengeHistory({ id }: { id: string }) {
 											<div className='flex flex-row self-end'>
 												<span className='text-xs font-thin'>
 													{format(
-														new Date(`${event.date.slice(0, 19)}`),
+														new Date(
+															new Date(event.date).setHours(
+																new Date(event.date).getHours() - 3,
+															),
+														),
 														"hh:mm aaaaa'm",
 													)}
 												</span>

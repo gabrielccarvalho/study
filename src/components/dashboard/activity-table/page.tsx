@@ -1,15 +1,28 @@
 'use client'
 
-import { useChallenge } from '@/context/challenge-context'
+import { fetchChallenges } from '@/utils/fetch-challenges'
+import { fetchEvents } from '@/utils/fetch-events'
 import { useUser } from '@clerk/nextjs'
+import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { columns } from './columns'
 import { DataTable } from './data-table'
 
 export function ActivityDataTable() {
-	const { challenges, events } = useChallenge()
 	const { user } = useUser()
+
+	const { data: events, isSuccess: isEventsSuccess } = useQuery({
+		queryKey: ['events'],
+		queryFn: fetchEvents,
+	})
+
+	const { data: challenges, isSuccess: isChallengesSuccess } = useQuery({
+		queryKey: ['challenges'],
+		queryFn: fetchChallenges,
+	})
+
+	if (!isEventsSuccess || !isChallengesSuccess) return
 
 	const userEvents = events
 		.filter((event) => event.user.id === user?.id)
@@ -26,9 +39,15 @@ export function ActivityDataTable() {
 				?.title || 'Sem desafio',
 		title: event.title,
 		tags: event.tag,
-		date: format(new Date(`${event.date.slice(0, 19)}`), "dd 'de' LLL", {
-			locale: ptBR,
-		}),
+		date: format(
+			new Date(
+				new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+			),
+			"dd 'de' LLL",
+			{
+				locale: ptBR,
+			},
+		),
 		duration: event.duration,
 		id: event.id,
 	}))

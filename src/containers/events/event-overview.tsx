@@ -8,16 +8,17 @@ import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
-import { useChallenge } from '@/context/challenge-context'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useUsers } from '@/context/users-context'
-import { Comment } from '@/utils/types'
+import { addComment } from '@/utils/db-functions'
+import { fetchEvents } from '@/utils/fetch-events'
+import { fetchUsers } from '@/utils/fetch-users'
+import { Event } from '@/utils/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { redirect } from 'next/navigation'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -72,10 +73,39 @@ function LoadingSkeleton() {
 	)
 }
 
-export function EventOverview({ id, event }: { id: string; event: string }) {
-	const { events, addComment } = useChallenge()
+export function EventOverview({ event }: { event: string }) {
 	const { user } = useUser()
-	const { userList } = useUsers()
+	const queryClient = useQueryClient()
+
+	const { data: userList } = useQuery({
+		queryKey: ['users'],
+		queryFn: fetchUsers,
+	})
+
+	const { data: events } = useQuery({
+		queryKey: ['events'],
+		queryFn: fetchEvents,
+	})
+
+	const { mutateAsync: addCommentFn } = useMutation({
+		mutationFn: addComment,
+		onSuccess(data, variables) {
+			queryClient.setQueryData(['events'], (prevEvents: Event[]) => {
+				const updatedEvents = prevEvents.map((event) => {
+					if (event.id === variables.eventId) {
+						return {
+							...event,
+							comments: [...event.comments, data],
+						}
+					}
+
+					return event
+				})
+
+				return updatedEvents
+			})
+		},
+	})
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -94,7 +124,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		return <LoadingSkeleton />
 	}
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof formSchema>) {
 		if (values.content === '') {
 			toast('Oops! Ocorreu um erro.', {
 				description: 'Você precisa escrever algo para enviar o comentário.',
@@ -107,9 +137,16 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 			return
 		}
 
-		addComment({
+		if (!user) return
+
+		await addCommentFn({
 			eventId: event,
 			content: values.content,
+			user: {
+				id: user.id,
+				username: user.username as string,
+				avatar: (user.publicMetadata.imageUrl as string) || user.imageUrl,
+			},
 		})
 
 		form.reset()
@@ -123,7 +160,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 		})
 	}
 
-	const currentUser = userList.find((user) => user.id === currentEvent.user.id)
+	const currentUser = userList?.find((user) => user.id === currentEvent.user.id)
 
 	const eventComments = currentEvent.comments
 
@@ -157,7 +194,11 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 						</div>
 						<span className='text-sm font-thin'>
 							{format(
-								new Date(`${currentEvent.date.slice(0, 19)}`),
+								new Date(
+									new Date(currentEvent.date).setHours(
+										new Date(currentEvent.date).getHours() - 3,
+									),
+								),
 								"hh:mm aaaaa'm'",
 							)}
 						</span>
@@ -183,7 +224,7 @@ export function EventOverview({ id, event }: { id: string; event: string }) {
 			</div>
 			{eventComments.length > 0 &&
 				eventComments?.map((comment) => {
-					const commentUser = userList.find((user) => {
+					const commentUser = userList?.find((user) => {
 						return user.id === comment.user.id
 					})
 					return (

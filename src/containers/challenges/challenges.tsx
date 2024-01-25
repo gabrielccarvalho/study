@@ -2,8 +2,9 @@
 
 import { ChallengeCard } from '@/components/challenges/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useChallenge } from '@/context/challenge-context'
+import { fetchChallenges } from '@/utils/fetch-challenges'
 import { useUser } from '@clerk/nextjs'
+import { useQuery } from '@tanstack/react-query'
 
 function LoadingSkeleton() {
 	return (
@@ -25,10 +26,14 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeList() {
-	const { challenges } = useChallenge()
 	const { user } = useUser()
 
-	if (!user) {
+	const { data: challenges, isSuccess: isChallengesSuccess } = useQuery({
+		queryKey: ['challenges'],
+		queryFn: fetchChallenges,
+	})
+
+	if (!user || !isChallengesSuccess) {
 		return (
 			<>
 				<LoadingSkeleton />

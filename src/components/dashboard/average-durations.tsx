@@ -1,6 +1,7 @@
-import { useChallenge } from '@/context/challenge-context'
+import { fetchEvents } from '@/utils/fetch-events'
 import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
+import { useQuery } from '@tanstack/react-query'
 
 const calculateUserAverageFromPastDays = (
 	events: Event[],
@@ -10,7 +11,9 @@ const calculateUserAverageFromPastDays = (
 	const userEvents = events.filter(
 		(event) =>
 			event.user.id === userId &&
-			new Date(`${event.date.slice(0, 19)}`) < currentDate,
+			new Date(
+				new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+			) < currentDate,
 	)
 	const userTotalDuration = userEvents.reduce(
 		(acc, event) => acc + event.duration,
@@ -29,8 +32,9 @@ const calculateDailyAverage = (
 ) => {
 	const eventsOnCurrentDay = events.filter(
 		(event) =>
-			new Date(`${event.date.slice(0, 19)}`).toDateString() ===
-			currentDate.toDateString(),
+			new Date(
+				new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+			).toDateString() === currentDate.toDateString(),
 	)
 
 	if (eventsOnCurrentDay.length === 0) {
@@ -69,27 +73,37 @@ const calculateDailyAverage = (
 }
 
 export function CalculateAverageDuration() {
-	const { events } = useChallenge()
 	const { user } = useUser()
 
-	if (!user) return
+	const { data: events, isSuccess: isEventsSuccess } = useQuery({
+		queryKey: ['events'],
+		queryFn: fetchEvents,
+	})
+
+	if (!user || !isEventsSuccess) return
 
 	const result = []
 
 	const uniqueDates = new Set<string>()
 
 	for (const event of events) {
-		const eventDate = new Date(`${event.date.slice(0, 19)}`).toDateString()
+		const eventDate = new Date(
+			new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+		).toDateString()
 
 		if (!uniqueDates.has(eventDate)) {
 			const { average, today } = calculateDailyAverage(
 				events,
-				new Date(`${event.date.slice(0, 19)}`),
+				new Date(
+					new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+				),
 				user.id,
 			)
 
 			result.push({
-				date: new Date(`${event.date.slice(0, 19)}`),
+				date: new Date(
+					new Date(event.date).setHours(new Date(event.date).getHours() - 3),
+				),
 				average: average || 0,
 				today: today || 0,
 			})

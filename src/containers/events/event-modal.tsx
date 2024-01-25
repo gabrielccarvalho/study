@@ -15,9 +15,10 @@ import {
 	DrawerTrigger,
 } from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
-import { useChallenge } from '@/context/challenge-context'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { fetchEvents } from '@/utils/fetch-events'
 import { useUser } from '@clerk/nextjs'
+import { useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -25,10 +26,14 @@ import { useState } from 'react'
 export function EventModal({ id }: { id: string }) {
 	const [open, setOpen] = useState(false)
 	const { user } = useUser()
-	const { events } = useChallenge()
 	const isDesktop = useMediaQuery('(min-width: 768px)')
 
-	const event = events.find((event) => event.id === id)
+	const { data: events } = useQuery({
+		queryKey: ['events'],
+		queryFn: fetchEvents,
+	})
+
+	const event = events?.find((event) => event.id === id)
 
 	if (isDesktop) {
 		return (
@@ -65,7 +70,7 @@ export function EventModal({ id }: { id: string }) {
 								</div>
 								<span className='text-sm font-thin'>
 									{format(
-										new Date(event?.date.slice(0, 19) as unknown as Date),
+										new Date(event?.date as unknown as Date),
 										"hh:mm aaaaa'm'",
 									)}
 								</span>

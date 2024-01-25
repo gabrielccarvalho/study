@@ -21,11 +21,15 @@ import {
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useChallenge } from '@/context/challenge-context'
-import { useUsers } from '@/context/users-context'
+import { leaveChallenge } from '@/utils/db-functions'
+import { fetchChallenges } from '@/utils/fetch-challenges'
+import { fetchEvents } from '@/utils/fetch-events'
+import { fetchUsers } from '@/utils/fetch-users'
+import { Challenge } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { differenceInDays } from 'date-fns'
-import { Calendar, LogOut, MoreHorizontal, UserRound } from 'lucide-react'
+import { Calendar, UserRound } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Button } from '../ui/button'
@@ -67,24 +71,69 @@ function LoadingSkeleton() {
 }
 
 export function ChallengeOverview({ id }: { id: string }) {
-	const { challenges, events, leaveChallenge } = useChallenge()
-	const { userList } = useUsers()
-	const router = useRouter()
-
 	const { user } = useUser()
+	const router = useRouter()
+	const queryClient = useQueryClient()
 
-	async function handleLeaveChallenge() {
-		await leaveChallenge({ challengeId: id })
+	const { data: userList } = useQuery({
+		queryKey: ['users'],
+		queryFn: fetchUsers,
+	})
 
-		router.push('/app/challenges')
-	}
+	const { data: events } = useQuery({
+		queryKey: ['events'],
+		queryFn: fetchEvents,
+	})
 
-	const challenge = challenges.find((challenge) => challenge.id === id)
+	const { data: challenges } = useQuery({
+		queryKey: ['challenges'],
+		queryFn: fetchChallenges,
+	})
 
-	const eventsData = events.filter((event) => event.challenge_id === id)
+	const { mutateAsync: leaveChallengeFn } = useMutation({
+		mutationFn: leaveChallenge,
+		onSuccess(_, variables) {
+			queryClient.setQueryData(['challenges'], (data: Challenge[]) => {
+				const challenges = data.filter(
+					(challenge) => challenge.id !== variables.challengeId,
+				)
+
+				const updatedChallenge = data.find(
+					(challenge) => challenge.id === variables.challengeId,
+				)
+
+				if (updatedChallenge) {
+					updatedChallenge.members = updatedChallenge.members.filter(
+						(member) => member !== user?.id,
+					)
+				}
+
+				return [...challenges, updatedChallenge]
+			})
+		},
+	})
+
+	const challenge = challenges?.find((challenge) => challenge.id === id)
+
+	const eventsData = events?.filter((event) => event.challenge_id === id)
 
 	if (!eventsData || !user || !challenge) {
 		return <LoadingSkeleton />
+	}
+
+	async function handleLeaveChallenge() {
+		if (!user) return
+
+		try {
+			await leaveChallengeFn({
+				challengeId: id,
+				userId: user.id,
+			})
+
+			router.push('/app/challenges')
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	const leaderboard = eventsData.reduce(
@@ -130,7 +179,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 
 	const leaderPoints = leaderChallengeData?.duration || 0
 
-	const currentLeader = userList.find(
+	const currentLeader = userList?.find(
 		(user) => user.id === leaderChallengeData?.user.id,
 	)
 
@@ -230,7 +279,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 						{leaderboard
 							.sort((a, b) => b.duration - a.duration)
 							.map((item, index) => {
-								const currentUser = userList.find(
+								const currentUser = userList?.find(
 									(user) => user.id === item.user.id,
 								)
 

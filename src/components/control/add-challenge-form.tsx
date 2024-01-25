@@ -22,9 +22,11 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import { useChallenge } from '@/context/challenge-context'
 import { cn } from '@/lib/utils'
+import { addChallenge } from '@/utils/db-functions'
+import { Challenge } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -37,11 +39,23 @@ const formSchema = z.object({
 
 export function AddChallengeForm() {
 	const { user } = useUser()
+	const queryClient = useQueryClient()
 	const [file, setFile] = useState<File | null>(null)
-	const { addChallenge } = useChallenge()
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
+	})
+
+	const { mutateAsync: addChallengeFn } = useMutation({
+		mutationFn: addChallenge,
+		onSuccess(data) {
+			queryClient.setQueryData(
+				['challenges'],
+				(prevChallenges: Challenge[]) => {
+					return [...prevChallenges, data]
+				},
+			)
+		},
 	})
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -58,13 +72,12 @@ export function AddChallengeForm() {
 
 			const data = await response.json()
 
-			addChallenge({
+			addChallengeFn({
 				title: values.title,
 				description: values.description,
 				thumbnail: data.image,
 				startDate: new Date(),
 				endDate: new Date(values.endDate),
-				events: [],
 				members: [user.id],
 			})
 		} catch (error) {

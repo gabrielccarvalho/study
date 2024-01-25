@@ -16,9 +16,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
-import { useChallenge } from '@/context/challenge-context'
+import { addEvent } from '@/utils/db-functions'
+import { fetchChallenges } from '@/utils/fetch-challenges'
+import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -35,8 +38,22 @@ const formSchema = z.object({
 
 export function AddEventForm() {
 	const [file, setFile] = useState<File | null>(null)
-	const { challenges, addEvent } = useChallenge()
 	const { user } = useUser()
+	const queryClient = useQueryClient()
+
+	const { data: challenges } = useQuery({
+		queryKey: ['challenges'],
+		queryFn: fetchChallenges,
+	})
+
+	const { mutateAsync: addEventFn } = useMutation({
+		mutationFn: addEvent,
+		onSuccess(data) {
+			queryClient.setQueryData(['events'], (prevEvents: Event[]) => {
+				return [...prevEvents, data]
+			})
+		},
+	})
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -61,13 +78,20 @@ export function AddEventForm() {
 
 			const { title, description, duration, challenge, tag } = values
 
-			addEvent({
+			if (!user) return
+
+			addEventFn({
 				title,
 				description,
 				duration: parseInt(duration),
 				challenge_id: challenge,
 				tag,
 				imageUrl: data?.image || null,
+				user: {
+					id: user.id,
+					username: user.username as string,
+					avatar: (user.publicMetadata.imageUrl as string) || user.imageUrl,
+				},
 			})
 		} catch (error) {
 			console.log(error)
@@ -96,7 +120,7 @@ export function AddEventForm() {
 	}, [form.formState.errors])
 
 	const challengesInfo = challenges
-		.filter((challenge) => challenge.members.includes(user?.id as string))
+		?.filter((challenge) => challenge.members.includes(user?.id as string))
 		.map((challenge) => {
 			return {
 				id: challenge.id,
@@ -185,7 +209,7 @@ export function AddEventForm() {
 									</SelectTrigger>
 								</FormControl>
 								<SelectContent>
-									{challengesInfo.map((challenge) => (
+									{challengesInfo?.map((challenge) => (
 										<SelectItem key={challenge.id} value={challenge.id}>
 											{challenge.title}
 										</SelectItem>

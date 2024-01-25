@@ -11,12 +11,24 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import { useChallenge } from '@/context/challenge-context'
+import { deleteEvent } from '@/utils/db-functions'
+import { Event } from '@/utils/types'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { Ban } from 'lucide-react'
 
 export function DeleteConfirmation({ id }: { id: string }) {
-	const { deleteEvent } = useChallenge()
+	const queryClient = useQueryClient()
+
+	const { mutateAsync: deleteEventFn } = useMutation({
+		mutationFn: deleteEvent,
+		onSuccess() {
+			queryClient.setQueryData(['events'], (prevEvents: Event[]) => {
+				return prevEvents.filter((event) => event.id !== id)
+			})
+		},
+	})
+
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
@@ -37,7 +49,7 @@ export function DeleteConfirmation({ id }: { id: string }) {
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
-					<AlertDialogAction onClick={() => deleteEvent({ id })}>
+					<AlertDialogAction onClick={() => deleteEventFn({ id })}>
 						Deletar
 					</AlertDialogAction>
 				</AlertDialogFooter>

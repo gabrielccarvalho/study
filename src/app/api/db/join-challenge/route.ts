@@ -8,8 +8,9 @@ export async function POST(request: Request) {
 		const { rows } =
 			await sql`UPDATE challenges SET members = array_append(members, ${userId})  WHERE id = ${challengeId} RETURNING *;`
 
-		return NextResponse.json({ success: true, event: rows })
+		return NextResponse.json({ success: true, challenge: rows })
 	} catch (error) {
+		console.log(error)
 		return NextResponse.json({ error: 'Error entering the challenge' })
 	}
 }

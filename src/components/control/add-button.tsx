@@ -31,8 +31,12 @@ import {
 	FormLabel,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useChallenge } from '@/context/challenge-context'
+import { joinChallenge } from '@/utils/db-functions'
+import { fetchChallenges } from '@/utils/fetch-challenges'
+import { Challenge } from '@/utils/types'
+import { useUser } from '@clerk/nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -43,17 +47,41 @@ const formSchema = z.object({
 })
 
 export function AddButton() {
-	const { challenges } = useChallenge()
+	const queryClient = useQueryClient()
+	const { user } = useUser()
 
-	const { joinChallenge } = useChallenge()
+	const { data: challenges } = useQuery({
+		queryKey: ['challenges'],
+		queryFn: fetchChallenges,
+	})
+
+	const { mutateAsync: joinChallengeFn } = useMutation({
+		mutationFn: joinChallenge,
+		onSuccess(data) {
+			queryClient.setQueryData(
+				['challenges'],
+				(prevChallenges: Challenge[]) => {
+					return [...prevChallenges, ...data]
+				},
+			)
+		},
+	})
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 	})
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		await joinChallenge({ challengeId: values.id })
+		try {
+			if (!user) return
+			await joinChallengeFn({ challengeId: values.id, userId: user.id })
+		} catch (err) {
+			console.error(err)
+		}
 
-		const challenge = challenges.find((challenge) => challenge.id === values.id)
+		const challenge = challenges?.find(
+			(challenge) => challenge.id === values.id,
+		)
 
 		toast('Sucesso!', {
 			description: `Você entrou no desafio ${challenge?.title} 🎉`,
