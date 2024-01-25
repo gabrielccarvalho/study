@@ -4,7 +4,7 @@ import { fetchChallenges } from '@/utils/fetch-challenges'
 import { fetchEvents } from '@/utils/fetch-events'
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { columns } from './columns'
 import { DataTable } from './data-table'
@@ -41,6 +41,7 @@ export function ActivityDataTable() {
 		tags: event.tag,
 		date: format(new Date(event.date), "dd 'de' LLL", {
 			locale: ptBR,
+			timeZone: 'America/Sao_Paulo',
 		}),
 		duration: event.duration,
 		id: event.id,

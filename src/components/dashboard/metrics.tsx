@@ -7,7 +7,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
-import { format, isToday, isYesterday, subDays } from 'date-fns'
+import { isToday, isYesterday, subDays } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { useState } from 'react'
 import { DateRange } from 'react-day-picker'
@@ -88,6 +89,7 @@ export function CardsMetric() {
 																			"eee',' dd/MM",
 																			{
 																				locale: ptBR,
+																				timeZone: 'America/Sao_Paulo',
 																			},
 																	  )}
 														</span>

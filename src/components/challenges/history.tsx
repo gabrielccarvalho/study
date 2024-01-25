@@ -6,7 +6,8 @@ import { fetchEvents } from '@/utils/fetch-events'
 import { fetchUsers } from '@/utils/fetch-users'
 import { Event } from '@/utils/types'
 import { useQuery } from '@tanstack/react-query'
-import { addDays, format } from 'date-fns'
+import { addDays } from 'date-fns'
+import { format } from 'date-fns-tz'
 import ptBR from 'date-fns/locale/pt-BR'
 import { BookOpen } from 'lucide-react'
 import Link from 'next/link'
@@ -107,7 +108,9 @@ export function ChallengeHistory({ id }: { id: string }) {
 	const challengeEvents = events
 		.filter((evt) => evt.challenge_id === id)
 		.reduce((acc: { [x: string]: Event[] }, event) => {
-			const eventDate = format(new Date(event.date), 'yyyy-MM-dd')
+			const eventDate = format(new Date(event.date), 'yyyy-MM-dd', {
+				timeZone: 'America/Sao_Paulo',
+			})
 
 			if (!acc[eventDate]) {
 				acc[eventDate] = []
@@ -165,6 +168,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 					<h3 className='font-semibold text-md'>
 						{format(addDays(new Date(date), 1), "eee, dd 'de' LLLL", {
 							locale: ptBR,
+							timeZone: 'America/Sao_Paulo',
 						}).replace(/^\w/, (c) => c.toUpperCase())}
 					</h3>
 					{events
@@ -215,7 +219,9 @@ export function ChallengeHistory({ id }: { id: string }) {
 											</div>
 											<div className='flex flex-row self-end'>
 												<span className='text-xs font-thin'>
-													{format(new Date(event.date), "hh:mm aaaaa'm")}
+													{format(new Date(event.date), "hh:mm aaaaa'm", {
+														timeZone: 'America/Sao_Paulo',
+													})}
 												</span>
 											</div>
 										</div>

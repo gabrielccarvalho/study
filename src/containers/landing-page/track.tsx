@@ -1,6 +1,7 @@
 'use client'
 
-import { format, isToday, isYesterday } from 'date-fns'
+import { isToday, isYesterday } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { Line, LineChart, ResponsiveContainer, Tooltip } from 'recharts'
 
@@ -93,6 +94,7 @@ export function StudyTrack() {
 																			"eee',' dd/MM",
 																			{
 																				locale: ptBR,
+																				timeZone: 'America/Sao_Paulo',
 																			},
 																	  )}
 														</span>

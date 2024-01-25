@@ -19,7 +19,7 @@ import { useMediaQuery } from '@/hooks/use-media-query'
 import { fetchEvents } from '@/utils/fetch-events'
 import { useUser } from '@clerk/nextjs'
 import { useQuery } from '@tanstack/react-query'
-import { format } from 'date-fns'
+import { format } from 'date-fns-tz'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -72,6 +72,9 @@ export function EventModal({ id }: { id: string }) {
 									{format(
 										new Date(event?.date as unknown as Date),
 										"hh:mm aaaaa'm'",
+										{
+											timeZone: 'America/Sao_Paulo',
+										},
 									)}
 								</span>
 							</div>

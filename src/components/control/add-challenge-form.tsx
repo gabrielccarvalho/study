@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CalendarIcon } from '@radix-ui/react-icons'
-import { format } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -177,7 +177,10 @@ export function AddChallengeForm() {
 											)}
 										>
 											{field.value ? (
-												format(field.value, 'PPP', { locale: ptBR })
+												format(field.value, 'PPP', {
+													locale: ptBR,
+													timeZone: 'America/Sao_Paulo',
+												})
 											) : (
 												<span>Selecione uma data</span>
 											)}
