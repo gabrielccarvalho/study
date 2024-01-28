@@ -39,7 +39,7 @@ export function CardsMetric() {
 	})
 
 	return (
-		<Card className='flex-1 w-full'>
+		<Card className='flex-1 w-1/2'>
 			<CardHeader className='flex flex-col items-start justify-between flex-1 w-full gap-2 md:gap-0 md:flex-row'>
 				<div className='flex flex-col gap-1'>
 					<CardTitle>Minutos de estudo</CardTitle>
