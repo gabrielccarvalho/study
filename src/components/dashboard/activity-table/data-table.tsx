@@ -29,13 +29,11 @@ import { DataTableViewOptions } from './visibility'
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
 	data: TData[]
-	total: number
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
-	total,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
