@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 
-import { UserAuthForm } from '@/components/login/user-auth-form'
+import { LoginAuthForm } from '@/components/login/user-auth-form'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -60,7 +60,7 @@ export function LoginPage() {
 								Insira seu email e senha para entrar na sua conta
 							</p>
 						</div>
-						<UserAuthForm />
+						<LoginAuthForm />
 					</div>
 				</div>
 			</div>

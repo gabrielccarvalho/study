@@ -32,7 +32,7 @@ type ClerkError = {
 	}[]
 }
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function LoginAuthForm({ className, ...props }: UserAuthFormProps) {
 	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [error, setError] = useState<string | null>(null)
 	const { isLoaded, signIn, setActive } = useSignIn()
@@ -47,6 +47,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
+		defaultValues: {
+			username: '',
+			password: '',
+		},
 	})
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
