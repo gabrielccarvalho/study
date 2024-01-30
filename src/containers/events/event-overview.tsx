@@ -13,7 +13,6 @@ import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { Skeleton } from '@/components/ui/skeleton'
 import { useClerkUsers } from '@/hooks/use-clerk-users'
 import { useEvents } from '@/hooks/use-events'
 import { addComment } from '@/utils/db-functions'
@@ -23,60 +22,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+import { LoadingSkeleton } from './loading'
 
 const formSchema = z.object({
 	content: z.string(),
 })
 
-function LoadingSkeleton() {
-	return (
-		<main className='flex flex-col flex-1 w-full max-w-4xl p-4 mx-auto'>
-			<div className='flex flex-col items-center w-full max-w-md mx-auto mt-2'>
-				<Skeleton className='w-[450px] h-[450px] shadow-md rounded-b-none' />
-				<div className='flex flex-col w-full max-w-md px-4 py-2 bg-muted rounded-b-md'>
-					<div className='flex flex-row items-center justify-between'>
-						<div className='flex flex-row items-center'>
-							<Skeleton className='w-8 h-8 rounded-full' />
-							<Skeleton className='w-12 h-3 my-1 ml-2' />
-						</div>
-						<Skeleton className='w-8 h-2' />
-					</div>
-					<Separator className='my-1' />
-					<div className='flex flex-col'>
-						<Skeleton className='w-32 h-3 my-1' />
-						<Skeleton className='w-24 h-2' />
-						<Skeleton className='w-24 h-2' />
-					</div>
-				</div>
-			</div>
-			<div className='flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 rounded-md shadow-md bg-muted'>
-				<Skeleton className='w-8 h-8 rounded-full' />
-				<div className='flex justify-between flex-1 gap-2'>
-					<div className='flex flex-col flex-1 gap-1'>
-						<Skeleton className='w-16 h-4 mb-2' />
-						<Skeleton className='w-1/2 h-3' />
-						<Skeleton className='w-1/3 h-3' />
-						<Skeleton className='w-8 h-2 mt-3' />
-					</div>
-				</div>
-			</div>
-			<div className='flex flex-row items-center w-full max-w-md gap-2 p-2 mx-auto mt-2 rounded-md shadow-md bg-muted'>
-				<Skeleton className='w-8 h-8 rounded-full' />
-				<div className='flex justify-between flex-1 gap-2'>
-					<div className='flex flex-1'>
-						<Input placeholder='adicione um comentario' />
-					</div>
-
-					<Button type='submit'>Enviar</Button>
-				</div>
-			</div>
-		</main>
-	)
-}
-
 export function EventOverview({ event }: { event: string }) {
 	const { user } = useUser()
-	const { events } = useEvents()
+	const { events, isLoading } = useEvents()
 	const { userList } = useClerkUsers()
 
 	const queryClient = useQueryClient()
@@ -108,15 +62,11 @@ export function EventOverview({ event }: { event: string }) {
 		},
 	})
 
-	if (!events || !user) {
+	if (isLoading) {
 		return <LoadingSkeleton />
 	}
 
-	const currentEvent = events.find((evt) => evt.id === event)
-
-	if (!currentEvent) {
-		return <LoadingSkeleton />
-	}
+	const currentEvent = events?.find((evt) => evt.id === event)
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		if (values.content === '') {
@@ -154,9 +104,11 @@ export function EventOverview({ event }: { event: string }) {
 		})
 	}
 
-	const currentUser = userList?.find((user) => user.id === currentEvent.user.id)
+	const currentUser = userList?.find(
+		(user) => user.id === currentEvent?.user.id,
+	)
 
-	const eventComments = currentEvent.comments
+	const eventComments = currentEvent?.comments
 
 	return (
 		<main className='flex flex-col flex-1 w-full max-w-4xl p-2 mx-auto'>
@@ -177,7 +129,7 @@ export function EventOverview({ event }: { event: string }) {
 								<AvatarImage
 									src={
 										currentUser?.publicMetadata?.imageUrl ||
-										currentEvent.user.avatar
+										currentEvent?.user.avatar
 									}
 								/>
 								<AvatarFallback>
@@ -187,34 +139,36 @@ export function EventOverview({ event }: { event: string }) {
 							<span className='ml-2 text-md'>{currentUser?.username}</span>
 						</div>
 						<span className='text-sm font-thin'>
-							{formatInTimeZone(
-								new Date(currentEvent.date),
-								'America/Sao_Paulo',
-								"hh:mm aaaaa'm'",
-							)}
+							{currentEvent &&
+								formatInTimeZone(
+									new Date(currentEvent.date),
+									'America/Sao_Paulo',
+									"hh:mm aaaaa'm'",
+								)}
 						</span>
 					</div>
 					<Separator className='my-1' />
 					<div className='flex flex-col'>
 						<div className='flex flex-row items-center justify-between flex-1 pr-2'>
 							<span className='text-lg font-semibold'>
-								{currentEvent.title}
+								{currentEvent?.title}
 							</span>
-							{currentEvent.tag && <Badge>{currentEvent.tag}</Badge>}
+							{currentEvent?.tag && <Badge>{currentEvent?.tag}</Badge>}
 						</div>
-						{currentEvent.description && (
+						{currentEvent?.description && (
 							<span className='font-thin text-md'>
-								{currentEvent.description}
+								{currentEvent?.description}
 							</span>
 						)}
 						<span className='mt-2 text-xs font-thin'>
-							Ativo por {currentEvent.duration} minutos
+							Ativo por {currentEvent?.duration} minutos
 						</span>
 					</div>
 				</div>
 			</div>
-			{eventComments.length > 0 &&
-				eventComments?.map((comment) => {
+			{eventComments &&
+				eventComments.length > 0 &&
+				eventComments.map((comment) => {
 					const commentUser = userList?.find((user) => {
 						return user.id === comment.user.id
 					})
@@ -250,7 +204,7 @@ export function EventOverview({ event }: { event: string }) {
 				})}
 			<div className='flex flex-row justify-center w-3/4 max-w-md gap-2 p-2 mx-auto mt-2 border rounded-md shadow-md md:w-full bg-muted border-muted-foreground/10'>
 				<Avatar className='w-7 h-7'>
-					<AvatarImage src={user.publicMetadata.imageUrl as string} />
+					<AvatarImage src={user?.publicMetadata.imageUrl as string} />
 					<AvatarFallback>
 						<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-br from-black to-indigo-700' />
 					</AvatarFallback>

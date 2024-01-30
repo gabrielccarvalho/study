@@ -12,6 +12,7 @@ import {
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 import {
 	Dialog,
 	DialogContent,
@@ -20,7 +21,6 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog'
 import { Separator } from '@/components/ui/separator'
-import { Skeleton } from '@/components/ui/skeleton'
 import { useChallenges } from '@/hooks/use-challenges'
 import { useClerkUsers } from '@/hooks/use-clerk-users'
 import { useEvents } from '@/hooks/use-events'
@@ -32,48 +32,12 @@ import { differenceInDays } from 'date-fns'
 import { Calendar, UserRound } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Button } from '../ui/button'
-
-function LoadingSkeleton() {
-	return (
-		<main className='flex flex-col items-center'>
-			<div className='flex flex-col items-center justify-center w-full overflow-hidden max-h-96'>
-				<Skeleton className='w-full mb-2 rounded-none aspect-[16/9]' />
-			</div>
-			<div className='flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto'>
-				<div className='flex flex-row items-center gap-2'>
-					<Skeleton className='w-10 h-10 rounded-full' />
-					<div className='flex flex-col justify-between'>
-						<Skeleton className='w-12 h-3 my-1' />
-						<Skeleton className='w-8 h-2' />
-					</div>
-				</div>
-
-				<div className='flex flex-row items-center gap-2'>
-					<Skeleton className='w-10 h-10 rounded-full' />
-					<div className='flex flex-col justify-between'>
-						<Skeleton className='w-12 h-3 my-1' />
-						<Skeleton className='w-8 h-2' />
-					</div>
-				</div>
-
-				<div className='flex flex-row items-center gap-2'>
-					<Skeleton className='w-10 h-10 rounded-full' />
-					<div className='flex flex-col justify-between'>
-						<Skeleton className='w-12 h-3 my-1' />
-						<Skeleton className='w-8 h-2' />
-					</div>
-				</div>
-			</div>
-			<Separator />
-		</main>
-	)
-}
+import { LoadingSkeleton } from './loading'
 
 export function ChallengeOverview({ id }: { id: string }) {
 	const { user } = useUser()
-	const { events } = useEvents()
-	const { challenges } = useChallenges()
+	const { events, isLoading: isLoadingEvents } = useEvents()
+	const { challenges, isLoading: isLoadingChallenges } = useChallenges()
 	const { userList } = useClerkUsers()
 
 	const router = useRouter()
@@ -102,13 +66,13 @@ export function ChallengeOverview({ id }: { id: string }) {
 		},
 	})
 
+	if (isLoadingEvents || isLoadingChallenges) {
+		return <LoadingSkeleton />
+	}
+
 	const challenge = challenges?.find((challenge) => challenge.id === id)
 
 	const eventsData = events?.filter((event) => event.challenge_id === id)
-
-	if (!eventsData || !user || !challenge) {
-		return <LoadingSkeleton />
-	}
 
 	async function handleLeaveChallenge() {
 		if (!user) return
@@ -125,7 +89,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 		}
 	}
 
-	const leaderboard = eventsData.reduce(
+	const leaderboard = eventsData?.reduce(
 		(
 			acc: {
 				duration: number
@@ -157,11 +121,13 @@ export function ChallengeOverview({ id }: { id: string }) {
 		[],
 	)
 
-	const userChallengeData = leaderboard.find((item) => item.user.id === user.id)
+	const userChallengeData = leaderboard?.find(
+		(item) => item.user.id === user?.id,
+	)
 
 	const userPoints = userChallengeData?.duration || 0
 
-	const leaderChallengeData = leaderboard.find(
+	const leaderChallengeData = leaderboard?.find(
 		(item) =>
 			item.duration === Math.max(...leaderboard.map((item) => item.duration)),
 	)
@@ -200,7 +166,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 					</AlertDialogContent>
 				</AlertDialog>
 				<Image
-					src={challenge.thumbnail}
+					src={challenge?.thumbnail || ''}
 					alt='challenge image'
 					width={1920}
 					height={1080}
@@ -234,7 +200,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 							<Avatar>
 								<AvatarImage
 									src={
-										(user.publicMetadata.imageUrl as string) || user.imageUrl
+										(user?.publicMetadata.imageUrl as string) || user?.imageUrl
 									}
 								/>
 								<AvatarFallback>
@@ -253,7 +219,8 @@ export function ChallengeOverview({ id }: { id: string }) {
 							<Calendar className='w-6 h-6 text-gray-500' />
 							<div className='flex flex-col justify-between'>
 								<span className='text-xs'>
-									{differenceInDays(new Date(challenge.end_date), new Date())}
+									{challenge &&
+										differenceInDays(new Date(challenge.end_date), new Date())}
 								</span>
 								<span className='text-xs'>dias restantes</span>
 							</div>
@@ -266,7 +233,7 @@ export function ChallengeOverview({ id }: { id: string }) {
 					</DialogHeader>
 					<div className='flex flex-col'>
 						{leaderboard
-							.sort((a, b) => b.duration - a.duration)
+							?.sort((a, b) => b.duration - a.duration)
 							.map((item, index) => {
 								const currentUser = userList?.find(
 									(user) => user.id === item.user.id,
