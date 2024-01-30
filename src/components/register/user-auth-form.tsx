@@ -17,7 +17,7 @@ type ClerkError = {
 	}[]
 }
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function RegisterAuthForm({ className, ...props }: UserAuthFormProps) {
 	const { isSignedIn } = useUser()
 
 	const [error, setError] = useState<string | null>(null)

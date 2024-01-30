@@ -1,8 +1,7 @@
 import { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 
-import { UserAuthForm } from '@/components/register/user-auth-form'
+import { RegisterAuthForm } from '@/components/register/user-auth-form'
 import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -61,7 +60,7 @@ export function RegisterPage() {
 								Insira seu email para criar sua conta
 							</p>
 						</div>
-						<UserAuthForm />
+						<RegisterAuthForm />
 						<p className='px-8 text-sm text-center text-muted-foreground'>
 							Clicando em continuar você aceita nossos{' '}
 							<Link
