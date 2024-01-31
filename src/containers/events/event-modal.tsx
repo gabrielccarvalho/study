@@ -17,6 +17,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { useEvents } from '@/hooks/use-events'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { formatWithOffset } from '@/utils/format-timezone'
 import { useUser } from '@clerk/nextjs'
 import { formatInTimeZone } from 'date-fns-tz'
 import Image from 'next/image'
@@ -65,7 +66,9 @@ export function EventModal({ id }: { id: string }) {
 								</div>
 								<span className='text-sm font-thin'>
 									{formatInTimeZone(
-										new Date(event?.date as unknown as Date),
+										new Date(
+											formatWithOffset(event?.date as unknown as Date, -3),
+										),
 										'America/Sao_Paulo',
 										"hh:mm aaaaa'm'",
 									)}

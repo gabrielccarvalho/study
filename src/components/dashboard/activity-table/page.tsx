@@ -2,6 +2,7 @@
 
 import { useChallenges } from '@/hooks/use-challenges'
 import { useEvents } from '@/hooks/use-events'
+import { formatWithOffset } from '@/utils/format-timezone'
 import { useUser } from '@clerk/nextjs'
 import { formatInTimeZone } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
@@ -29,7 +30,7 @@ export function ActivityDataTable() {
 		title: event.title,
 		tags: event.tag,
 		date: formatInTimeZone(
-			new Date(event.date),
+			new Date(formatWithOffset(event.date, -3)),
 			'America/Sao_Paulo',
 			"dd 'de' LLL",
 			{

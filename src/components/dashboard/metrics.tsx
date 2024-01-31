@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from '@/components/ui/card'
+import { formatWithOffset } from '@/utils/format-timezone'
 import { isToday, isYesterday, subDays } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
@@ -27,7 +28,7 @@ export function CardsMetric() {
 		return {
 			average: Math.round(Number(item.average)),
 			today: item.today,
-			date: item.date,
+			date: formatWithOffset(item.date, -3),
 		}
 	})
 

@@ -3,6 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useClerkUsers } from '@/hooks/use-clerk-users'
 import { useEvents } from '@/hooks/use-events'
+import { formatWithOffset } from '@/utils/format-timezone'
 import { Event } from '@/utils/types'
 import { addDays, format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
@@ -24,7 +25,10 @@ export function ChallengeHistory({ id }: { id: string }) {
 			?.filter((evt) => evt.challenge_id === id)
 			.reduce((acc: { [x: string]: Event[] }, event) => {
 				const eventDate = format(
-					utcToZonedTime(new Date(event.date), 'America/Sao_Paulo'),
+					utcToZonedTime(
+						new Date(formatWithOffset(event.date, -3)),
+						'America/Sao_Paulo',
+					),
 					'yyyy-MM-dd',
 				)
 
@@ -92,7 +96,9 @@ export function ChallengeHistory({ id }: { id: string }) {
 					</h3>
 					{events
 						.sort(
-							(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+							(a, b) =>
+								new Date(formatWithOffset(b.date, -3)).getTime() -
+								new Date(formatWithOffset(a.date, -3)).getTime(),
 						)
 						.map((event) => {
 							const currentUser = userList?.find(
@@ -140,7 +146,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 												<span className='text-xs font-thin'>
 													{format(
 														utcToZonedTime(
-															new Date(event.date),
+															new Date(formatWithOffset(event.date, -3)),
 															'America/Sao_Paulo',
 														),
 														"hh:mm aaaaa'm",

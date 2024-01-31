@@ -16,6 +16,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { useClerkUsers } from '@/hooks/use-clerk-users'
 import { useEvents } from '@/hooks/use-events'
 import { addComment } from '@/utils/db-functions'
+import { formatWithOffset } from '@/utils/format-timezone'
 import { Event } from '@/utils/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -141,7 +142,7 @@ export function EventOverview({ event }: { event: string }) {
 						<span className='text-sm font-thin'>
 							{currentEvent &&
 								formatInTimeZone(
-									new Date(currentEvent.date),
+									new Date(formatWithOffset(currentEvent.date, -3)),
 									'America/Sao_Paulo',
 									"hh:mm aaaaa'm'",
 								)}

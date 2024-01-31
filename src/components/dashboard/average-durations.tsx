@@ -1,4 +1,5 @@
 import { useEvents } from '@/hooks/use-events'
+import { formatWithOffset } from '@/utils/format-timezone'
 import { Event } from '@/utils/types'
 import { useUser } from '@clerk/nextjs'
 
@@ -8,7 +9,9 @@ const calculateUserAverageFromPastDays = (
 	currentDate: Date,
 ): number => {
 	const userEvents = events.filter(
-		(event) => event.user.id === userId && new Date(event.date) < currentDate,
+		(event) =>
+			event.user.id === userId &&
+			new Date(formatWithOffset(event.date, -3)) < currentDate,
 	)
 	const userTotalDuration = userEvents.reduce(
 		(acc, event) => acc + event.duration,
@@ -27,7 +30,8 @@ const calculateDailyAverage = (
 ) => {
 	const eventsOnCurrentDay = events.filter(
 		(event) =>
-			new Date(event.date).toDateString() === currentDate.toDateString(),
+			new Date(formatWithOffset(event.date, -3)).toDateString() ===
+			currentDate.toDateString(),
 	)
 
 	if (eventsOnCurrentDay.length === 0) {
@@ -76,17 +80,17 @@ export function CalculateAverageDuration() {
 	const uniqueDates = new Set<string>()
 
 	for (const event of events) {
-		const eventDate = new Date(event.date).toDateString()
+		const eventDate = new Date(formatWithOffset(event.date, -3)).toDateString()
 
 		if (!uniqueDates.has(eventDate)) {
 			const { average, today } = calculateDailyAverage(
 				events,
-				new Date(event.date),
+				new Date(formatWithOffset(event.date, -3)),
 				user.id,
 			)
 
 			result.push({
-				date: new Date(event.date),
+				date: new Date(formatWithOffset(event.date, -3)),
 				average: average || 0,
 				today: today || 0,
 			})
