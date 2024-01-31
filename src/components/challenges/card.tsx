@@ -27,6 +27,7 @@ function LoadingSkeleton() {
 		</div>
 	)
 }
+// Move this to another component file.
 
 export function ChallengeCard({ id }: { id: string }) {
 	const { challenges } = useChallenges()
