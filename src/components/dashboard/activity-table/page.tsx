@@ -30,7 +30,7 @@ export function ActivityDataTable() {
 		title: event.title,
 		tags: event.tag,
 		date: formatInTimeZone(
-			new Date(formatWithOffset(event.date, -3)),
+			new Date(formatWithOffset(event.date, 3)),
 			'America/Sao_Paulo',
 			"dd 'de' LLL",
 			{

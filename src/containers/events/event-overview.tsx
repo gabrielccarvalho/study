@@ -142,7 +142,7 @@ export function EventOverview({ event }: { event: string }) {
 						<span className='text-sm font-thin'>
 							{currentEvent &&
 								formatInTimeZone(
-									new Date(formatWithOffset(currentEvent.date, -3)),
+									new Date(formatWithOffset(currentEvent.date, 3)),
 									'America/Sao_Paulo',
 									"hh:mm aaaaa'm'",
 								)}

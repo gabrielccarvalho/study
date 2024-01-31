@@ -67,7 +67,7 @@ export function EventModal({ id }: { id: string }) {
 								<span className='text-sm font-thin'>
 									{formatInTimeZone(
 										new Date(
-											formatWithOffset(event?.date as unknown as Date, -3),
+											formatWithOffset(event?.date as unknown as Date, 3),
 										),
 										'America/Sao_Paulo',
 										"hh:mm aaaaa'm'",

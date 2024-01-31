@@ -26,7 +26,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 			.reduce((acc: { [x: string]: Event[] }, event) => {
 				const eventDate = format(
 					utcToZonedTime(
-						new Date(formatWithOffset(event.date, -3)),
+						new Date(formatWithOffset(event.date, 3)),
 						'America/Sao_Paulo',
 					),
 					'yyyy-MM-dd',
@@ -146,7 +146,7 @@ export function ChallengeHistory({ id }: { id: string }) {
 												<span className='text-xs font-thin'>
 													{format(
 														utcToZonedTime(
-															new Date(formatWithOffset(event.date, -3)),
+															new Date(formatWithOffset(event.date, 3)),
 															'America/Sao_Paulo',
 														),
 														"hh:mm aaaaa'm",

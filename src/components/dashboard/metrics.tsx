@@ -28,7 +28,7 @@ export function CardsMetric() {
 		return {
 			average: Math.round(Number(item.average)),
 			today: item.today,
-			date: formatWithOffset(item.date, -3),
+			date: formatWithOffset(item.date, 3),
 		}
 	})
 
