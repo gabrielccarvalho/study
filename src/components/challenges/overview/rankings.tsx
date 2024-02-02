@@ -146,7 +146,7 @@ export function Rankings({ id }: { id: string }) {
 					<DialogHeader>
 						<DialogTitle className='self-center text-xl'>Ranking</DialogTitle>
 					</DialogHeader>
-					<div className='flex flex-col px-64'>
+					<div className='flex flex-col px-6'>
 						{leaderboard
 							?.sort((a, b) => b.duration - a.duration)
 							.map((item, index) => {
