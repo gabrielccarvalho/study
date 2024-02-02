@@ -21,14 +21,14 @@ const testimonials = [
 		title: 'CTO - Fundador',
 	},
 	{
-		quote: 'deu muito trabalho né',
+		quote: 'Deu muito trabalho né',
 		name: 'Larissa Cavalcanti',
 		title: 'Namorada do CTO',
 	},
 	{
-		quote: 'All that we see or seem is but a dream within a dream.',
-		name: 'Edgar Allan Poe',
-		title: 'A Dream Within a Dream',
+		quote: 'Faria isso de boa',
+		name: 'Medpeps',
+		title: 'A PORRA DO MEDPEPS',
 	},
 	{
 		quote:
