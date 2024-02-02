@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
+import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { LandingNav } from './landing-nav'
 
@@ -7,44 +7,26 @@ export function Header() {
 	return (
 		<>
 			<LandingNav />
-			<section className='w-full py-6 sm:py-6 md:py-12 lg:py-24 xl:py-32'>
-				<div className='container px-4 md:px-6'>
-					<div className='grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px] mt-12 md:mt-0'>
-						<div className='flex-col hidden object-cover mx-auto overflow-hidden md:flex aspect-video rounded-xl sm:w-full lg:order-last lg:aspect-square'>
-							<Image
-								src='loom.svg'
-								width={600}
-								height={600}
-								alt='Landing illustration'
-							/>
-						</div>
-						<div className='flex flex-col justify-center space-y-4'>
-							<div className='space-y-2'>
-								<h1 className='text-3xl font-bold tracking-tighter text-transparent bg-black sm:text-5xl xl:text-6xl/none bg-clip-text bg-gradient-to-r dark:from-gray-400 dark:to-white'>
-									Deixe seus estudos mais{' '}
-									<span className='px-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-500'>
-										divertidos
-									</span>{' '}
-									sem perder o foco.
-								</h1>
-								<p className='max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400'>
-									Estude de forma leve e divertida, com métricas e gráficos para
-									te auxiliar a identificar onde melhorar. Junte-se a nós e leve
-									seus estudos para o próximo nível.
-								</p>
-							</div>
-							<div className='flex gap-2 min-[400px]:flex-row'>
-								<Link href='/app'>
-									<Button size='lg'>Começe agora</Button>
-								</Link>
-								<Button variant='outline' size='lg'>
-									Saiba mais
-								</Button>
-							</div>
-						</div>
+			<div className='h-[25rem] md:h-[40rem] w-full dark:bg-black bg-white  dark:bg-dot-white/[0.2] bg-dot-black/[0.2] relative flex items-center justify-center'>
+				<div className='absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]' />
+				<div className='relative z-10 w-full p-4 pt-20 mx-auto max-w-7xl md:pt-0'>
+					<h1 className='text-4xl font-bold text-center text-transparent bg-opacity-50 md:text-7xl bg-clip-text bg-gradient-to-b dark:from-neutral-50 dark:to-neutral-400 from-neutral-950 to-neutral-600'>
+						Deixe seus estudos mais{' '}
+						<span className=' bg-clip-text animate-gradient-swap'>
+							divertidos
+						</span>{' '}
+						sem perder o foco.
+					</h1>
+					<div className='flex justify-center gap-2 mt-12'>
+						<Link href='/app'>
+							<Button className='px-8 py-5 text-md'>Começe agora</Button>
+						</Link>
+						<Button className='px-8 py-5 text-md' variant='outline'>
+							Saiba mais
+						</Button>
 					</div>
 				</div>
-			</section>
+			</div>
 		</>
 	)
 }
