@@ -8,15 +8,25 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+	Drawer,
+	DrawerContent,
+	DrawerHeader,
+	DrawerTrigger,
+} from '@/components/ui/drawer'
 import { Separator } from '@/components/ui/separator'
 import { useChallenges } from '@/hooks/use-challenges'
 import { useClerkUsers } from '@/hooks/use-clerk-users'
 import { useEvents } from '@/hooks/use-events'
+import { useMediaQuery } from '@/hooks/use-media-query'
 import { useUser } from '@clerk/nextjs'
 import { differenceInDays } from 'date-fns'
 import { Calendar, UserRound } from 'lucide-react'
+import { useState } from 'react'
 
 export function Rankings({ id }: { id: string }) {
+	const [open, setOpen] = useState(false)
+	const isDesktop = useMediaQuery('(min-width: 768px)')
 	const { user } = useUser()
 	const { events, isLoading: isLoadingEvents } = useEvents()
 	const { challenges, isLoading: isLoadingChallenges } = useChallenges()
@@ -76,9 +86,113 @@ export function Rankings({ id }: { id: string }) {
 		(user) => user.id === leaderChallengeData?.user.id,
 	)
 
+	if (isDesktop) {
+		return (
+			<Dialog open={open} onOpenChange={setOpen}>
+				<DialogTrigger asChild>
+					<div className='flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto hover:cursor-pointer'>
+						<div className='flex flex-row items-center gap-2'>
+							<Avatar>
+								<AvatarImage
+									src={
+										currentLeader?.publicMetadata?.imageUrl ||
+										leaderChallengeData?.user.avatar
+									}
+								/>
+								<AvatarFallback>
+									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
+										<UserRound className='w-6 h-6 text-white' />
+									</div>
+								</AvatarFallback>
+							</Avatar>
+							<div className='flex flex-col justify-between'>
+								<span className='text-sm'>{leaderPoints}</span>
+								<span className='text-xs'>Líder</span>
+							</div>
+						</div>
+
+						<div className='flex flex-row items-center gap-2'>
+							<Avatar>
+								<AvatarImage
+									src={
+										(user?.publicMetadata.imageUrl as string) || user?.imageUrl
+									}
+								/>
+								<AvatarFallback>
+									<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
+										<UserRound className='w-6 h-6 text-white' />
+									</div>
+								</AvatarFallback>
+							</Avatar>
+							<div className='flex flex-col justify-between'>
+								<span className='text-xs'>{userPoints}</span>
+								<span className='text-xs'>Você</span>
+							</div>
+						</div>
+
+						<div className='flex flex-row items-center gap-2'>
+							<Calendar className='w-6 h-6 text-gray-500' />
+							<div className='flex flex-col justify-between'>
+								<span className='text-xs'>
+									{challenge &&
+										differenceInDays(new Date(challenge.end_date), new Date())}
+								</span>
+								<span className='text-xs'>dias restantes</span>
+							</div>
+						</div>
+					</div>
+				</DialogTrigger>
+				<DialogContent className='sm:max-w-[425px]'>
+					<DialogHeader>
+						<DialogTitle className='self-center text-xl'>Ranking</DialogTitle>
+					</DialogHeader>
+					<div className='flex flex-col px-64'>
+						{leaderboard
+							?.sort((a, b) => b.duration - a.duration)
+							.map((item, index) => {
+								const currentUser = userList?.find(
+									(user) => user.id === item.user.id,
+								)
+
+								return (
+									<div key={item.user.id}>
+										<div className='flex flex-row items-center justify-between w-full py-2'>
+											<div className='flex flex-row items-center gap-2'>
+												<Avatar>
+													<AvatarImage
+														src={
+															currentUser?.publicMetadata?.imageUrl ||
+															currentUser?.avatar
+														}
+													/>
+													<AvatarFallback>
+														<div className='flex items-center justify-center w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500'>
+															<UserRound className='w-6 h-6 text-white' />
+														</div>
+													</AvatarFallback>
+												</Avatar>
+												<div className='flex flex-col justify-between'>
+													<span className='text-sm'>
+														{currentUser?.username}
+													</span>
+													<span className='text-xs'>{item.duration} min</span>
+												</div>
+											</div>
+											<span className='text-sm'>{index + 1}º lugar</span>
+										</div>
+										<Separator />
+									</div>
+								)
+							})}
+					</div>
+				</DialogContent>
+			</Dialog>
+		)
+	}
+
 	return (
-		<Dialog>
-			<DialogTrigger asChild>
+		<Drawer open={open} onOpenChange={setOpen}>
+			<DrawerTrigger asChild>
 				<div className='flex flex-row items-center justify-around w-full max-w-md py-4 mx-auto hover:cursor-pointer'>
 					<div className='flex flex-row items-center gap-2'>
 						<Avatar>
@@ -130,12 +244,10 @@ export function Rankings({ id }: { id: string }) {
 						</div>
 					</div>
 				</div>
-			</DialogTrigger>
-			<DialogContent className='sm:max-w-[425px]'>
-				<DialogHeader>
-					<DialogTitle className='self-center text-xl'>Ranking</DialogTitle>
-				</DialogHeader>
-				<div className='flex flex-col'>
+			</DrawerTrigger>
+			<DrawerContent>
+				<DrawerHeader>Rankings</DrawerHeader>
+				<div className='flex flex-col px-6'>
 					{leaderboard
 						?.sort((a, b) => b.duration - a.duration)
 						.map((item, index) => {
@@ -172,7 +284,7 @@ export function Rankings({ id }: { id: string }) {
 							)
 						})}
 				</div>
-			</DialogContent>
-		</Dialog>
+			</DrawerContent>
+		</Drawer>
 	)
 }
